@@ -29,25 +29,24 @@ class TelcoFeatureEngineer(BaseEstimator, TransformerMixin):
                     
         if all(col in X.columns for col in self.services):
             # Sumar la cantidad de servicios adicionales activos
-            X['Total_Internet_Addons'] = X[self.services].apply(lambda row: (row == 'Yes').sum(), axis=1)
+            X['Total_Servicios_Extra'] = X[self.services].apply(lambda row: (row == 'Yes').sum(), axis=1)
             
         # Fricción de Pago
         if 'PaymentMethod' in X.columns:
-            X['Is_AutoPay'] = X['PaymentMethod'].str.contains('automatic', case=False, na=False).astype(int)
+            X['Pago_Automatico'] = X['PaymentMethod'].str.contains('automatic', case=False, na=False).astype(int)
             
         # Apoyo familiar
         if 'Partner' in X.columns and 'Dependents' in X.columns:
-            X['Solo_Resident'] = ((X['Partner'] == 'No') & (X['Dependents'] == 'No')).astype(int)
+            X['Vive_Solo'] = ((X['Partner'] == 'No') & (X['Dependents'] == 'No')).astype(int)
             
         # Evolución de tarifa
         if 'MonthlyCharges' in X.columns and 'TotalCharges' in X.columns and 'tenure' in X.columns:
-            # np.where evita la división por cero cuando tenure es 0
             avg_historical = np.where(X['tenure'] == 0, X['MonthlyCharges'], X['TotalCharges'] / X['tenure'])
-            X['Price_Shock'] = X['MonthlyCharges'] - avg_historical
+            X['Aumento_Tarifa'] = X['MonthlyCharges'] - avg_historical
             
         # Interacción de riesgo máximo
         if 'Contract' in X.columns and 'InternetService' in X.columns:
-            X['High_Risk_Profile'] = ((X['Contract'] == 'Month-to-month') & 
+            X['Perfil_Alto_Riesgo'] = ((X['Contract'] == 'Month-to-month') & 
                                       (X['InternetService'] == 'Fiber optic')).astype(int)
                                       
         # descarte de columnas
