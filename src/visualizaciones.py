@@ -252,7 +252,7 @@ def graficar_grupo_categorico_churn(df, nombre_grupo):
     return figura_grupo
 
 
-def plot_matriz_confusion(y_true, y_pred, nombre_modelo="", clases=['No Abandona', 'Sí Abandona'], cmap='Blues'):
+def plot_matriz_confusion(y_true, y_pred, nombre_modelo="", clases=['No Abandona', 'Sí Abandona'], cmap='Reds'):
     """
     Genera y grafica una matriz de confusión
     """
@@ -279,15 +279,14 @@ def plot_curva_roc(y_true, y_proba, nombre_modelo=""):
     auc_score = roc_auc_score(y_true, y_proba)
     
     plt.figure(figsize=(7, 6))
-    plt.plot(fpr, tpr, color='#ff7f0e', lw=2.5, label=f'Curva ROC (AUC = {auc_score:.3f})')
-    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--', label='Modelo Aleatorio (0.5)')
+    plt.plot(fpr, tpr, color="#ff0e0e", lw=2.5, label=f'Curva ROC (AUC = {auc_score:.3f})')
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--')
     
     plt.xlim([-0.01, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('Tasa de Falsos Positivos (FPR)', fontsize=12)
     plt.ylabel('Tasa de Verdaderos Positivos (TPR)', fontsize=12)
     
-    # Adaptación dinámica del título
     titulo = f'Curva ROC - {nombre_modelo}' if nombre_modelo else 'Curva ROC'
     plt.title(titulo, fontsize=15, pad=15, fontweight='bold')
     
