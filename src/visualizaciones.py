@@ -1,21 +1,18 @@
-from pathlib import Path
-import unicodedata
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 
-"""Funciones para crear y guardar visualizaciones del análisis exploratorio.
+"""Funciones para crear visualizaciones del análisis exploratorio y evaluación.
 
 Las funciones de este módulo reciben un DataFrame con la estructura del dataset
 de clientes y generan gráficos relacionados con la variable objetivo "Churn".
-Las figuras se guardan como archivos PNG y también se devuelven para poder
-mostrarlas desde el notebook.
+Las figuras se devuelven para poder mostrarlas desde el notebook, permitiendo 
+su guardado manual posterior si se desea.
 """
 
 
-def graficar_distribucion_churn(df, ruta_salida="../resultados/plots/distribucion_variable_objetivo.png"):
+def graficar_distribucion_churn(df):
     """Crea un gráfico de barras con la distribución de clientes según Churn.
 
     Parameters
@@ -23,8 +20,6 @@ def graficar_distribucion_churn(df, ruta_salida="../resultados/plots/distribucio
     df : pandas.DataFrame
         DataFrame que contiene la columna "Churn" con los valores "Yes" y
         "No".
-    ruta_salida : str or pathlib.Path, optional
-        Ruta del archivo PNG donde se guardará la figura.
 
     Returns
     -------
@@ -54,18 +49,11 @@ def graficar_distribucion_churn(df, ruta_salida="../resultados/plots/distribucio
     ax.set_ylabel("Cantidad de clientes")
     ax.set_ylim(0, datos["Churn"].value_counts().max() * 1.1)
 
-    ruta = Path(ruta_salida)
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(ruta, dpi=300, bbox_inches="tight")
-
     return fig, ax
 
 
-def graficar_curvas_densidad_churn(
-    df,
-    ruta_salida="../resultados/plots/curvas_densidad_churn.png"
-):
-    """Crea y guarda curvas KDE para variables numéricas según Churn.
+def graficar_curvas_densidad_churn(df):
+    """Crea curvas KDE para variables numéricas según Churn.
 
     La figura contiene las distribuciones de ``tenure``, ``MonthlyCharges`` y
     ``TotalCharges`` organizadas en una cuadrícula de dos columnas. Las curvas
@@ -75,13 +63,11 @@ def graficar_curvas_densidad_churn(
     ----------
     df : pandas.DataFrame
         DataFrame que contiene las variables numéricas y la columna ``Churn``.
-    ruta_salida : str or pathlib.Path, optional
-        Ruta del archivo PNG donde se guardará la figura completa.
 
     Returns
     -------
     tuple
-        La figura de Matplotlib y el arreglo de ejes utilizados.
+        La figura de Matplotlib (cuadrícula) y el arreglo de ejes utilizados.
     """
     datos = df.copy()
     datos["Churn"] = datos["Churn"].map({"Yes": "Sí", "No": "No"})
@@ -116,35 +102,8 @@ def graficar_curvas_densidad_churn(
         axes[indice].set_xlabel(etiqueta_x)
         axes[indice].set_ylabel("Densidad")
 
-        figura_individual, eje_individual = plt.subplots(figsize=(8, 6))
-        sns.kdeplot(
-            data=datos,
-            x=variable,
-            hue="Churn",
-            fill=True,
-            palette=["#4C72B0", "#C44E52"],
-            common_norm=False,
-            multiple="layer",
-            alpha=0.45,
-            ax=eje_individual
-        )
-        eje_individual.set_title(titulo)
-        eje_individual.set_xlabel(etiqueta_x)
-        eje_individual.set_ylabel("Densidad")
-        nombre_individual = f"curva_densidad_{variable}.png"
-        figura_individual.savefig(
-            Path(ruta_salida).parent / nombre_individual,
-            dpi=300,
-            bbox_inches="tight"
-        )
-        plt.close(figura_individual)
-
     axes[3].set_visible(False)
     fig.subplots_adjust(wspace=0.3, hspace=0.35, top=0.88)
-
-    ruta = Path(ruta_salida)
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(ruta, dpi=300, bbox_inches="tight")
 
     return fig, axes
 
@@ -193,12 +152,6 @@ TRADUCCIONES_CATEGORIAS = {
 }
 
 
-def _nombre_archivo(texto):
-    """Convierte un texto en un nombre de archivo simple y portable."""
-    texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
-    return texto.lower().replace(" ", "_")
-
-
 def _crear_countplot(datos, variable, ax):
     """Dibuja un countplot categórico con formato y etiquetas consistentes.
 
@@ -236,17 +189,12 @@ def _crear_countplot(datos, variable, ax):
         ax.bar_label(container, fmt="%d", padding=3, fontsize=9)
 
 
-def graficar_grupo_categorico_churn(
-    df,
-    nombre_grupo,
-    ruta_salida="../resultados/plots"
-):
+def graficar_grupo_categorico_churn(df, nombre_grupo):
     """Genera visualizaciones categóricas para un grupo específico según el abandono.
 
     Crea una sábana con dos gráficos por fila para las variables del grupo solicitado.
-    Además, se guarda un PNG individual por variable. Los títulos y categorías
-    se traducen al español, se muestran los conteos sobre las barras y solo el
-    gráfico de ``PaymentMethod`` se presenta sin leyenda.
+    Los títulos y categorías se traducen al español, se muestran los conteos sobre 
+    las barras y solo el gráfico de ``PaymentMethod`` se presenta sin leyenda.
 
     Parameters
     ----------
@@ -254,8 +202,6 @@ def graficar_grupo_categorico_churn(
         DataFrame que contiene las variables categóricas y la columna ``Churn``.
     nombre_grupo : str
         Nombre del grupo específico a graficar (debe coincidir con una llave de GRUPOS_CATEGORICOS).
-    ruta_salida : str or pathlib.Path, optional
-        Directorio donde se guardarán las sábanas y los gráficos individuales.
 
     Returns
     -------
@@ -269,8 +215,6 @@ def graficar_grupo_categorico_churn(
     
     datos = df.copy()
     datos["Churn"] = datos["Churn"].map({"Yes": "Sí", "No": "No"})
-    ruta = Path(ruta_salida)
-    ruta.mkdir(parents=True, exist_ok=True)
 
     cantidad_filas = (len(variables) + 1) // 2
     figura_grupo, ejes = plt.subplots(
@@ -289,27 +233,11 @@ def graficar_grupo_categorico_churn(
     for indice, variable in enumerate(variables):
         _crear_countplot(datos, variable, ejes[indice])
         
-        # Lógica original para ocultar la leyenda únicamente en PaymentMethod
+        # Ocultar la leyenda únicamente en PaymentMethod
         if variable == "PaymentMethod":
             ejes[indice].get_legend().remove()
         else:
             ejes[indice].legend(title="Abandono")
-
-        figura_individual, eje_individual = plt.subplots(figsize=(9, 7))
-        _crear_countplot(datos, variable, eje_individual)
-        
-        if variable == "PaymentMethod":
-            eje_individual.get_legend().remove()
-        else:
-            eje_individual.legend(title="Abandono")
-
-        nombre_individual = f"{_nombre_archivo(nombre_grupo)}_{variable}.png"
-        figura_individual.savefig(
-            ruta / nombre_individual,
-            dpi=300,
-            bbox_inches="tight"
-        )
-        plt.close(figura_individual)
 
     for eje in ejes[len(variables):]:
         eje.set_visible(False)
@@ -320,14 +248,9 @@ def graficar_grupo_categorico_churn(
         top=0.88,
         bottom=0.1
     )
-    nombre_grupo_archivo = f"grupo_{_nombre_archivo(nombre_grupo)}.png"
-    figura_grupo.savefig(
-        ruta / nombre_grupo_archivo,
-        dpi=300,
-        bbox_inches="tight"
-    )
     
     return figura_grupo
+
 
 def plot_matriz_confusion(y_true, y_pred, nombre_modelo="", clases=['No Abandona', 'Sí Abandona'], cmap='Blues'):
     """
@@ -346,6 +269,7 @@ def plot_matriz_confusion(y_true, y_pred, nombre_modelo="", clases=['No Abandona
     plt.xlabel('Predicción', fontsize=12, fontweight='bold')
     plt.tight_layout()
     plt.show()
+
 
 def plot_curva_roc(y_true, y_proba, nombre_modelo=""):
     """
