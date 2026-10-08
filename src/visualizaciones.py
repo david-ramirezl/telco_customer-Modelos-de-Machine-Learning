@@ -4,11 +4,12 @@ import unicodedata
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from sklearn.metrics import confusion_matrix, roc_curve, roc_auc_score
 
 """Funciones para crear y guardar visualizaciones del análisis exploratorio.
 
 Las funciones de este módulo reciben un DataFrame con la estructura del dataset
-de clientes y generan gráficos relacionados con la variable objetivo ``Churn``.
+de clientes y generan gráficos relacionados con la variable objetivo "Churn".
 Las figuras se guardan como archivos PNG y también se devuelven para poder
 mostrarlas desde el notebook.
 """
@@ -20,8 +21,8 @@ def graficar_distribucion_churn(df, ruta_salida="../resultados/plots/distribucio
     Parameters
     ----------
     df : pandas.DataFrame
-        DataFrame que contiene la columna ``Churn`` con los valores ``Yes`` y
-        ``No``.
+        DataFrame que contiene la columna "Churn" con los valores "Yes" y
+        "No".
     ruta_salida : str or pathlib.Path, optional
         Ruta del archivo PNG donde se guardará la figura.
 
@@ -261,11 +262,9 @@ def graficar_grupo_categorico_churn(
     matplotlib.figure.Figure
         La figura que agrupa los gráficos generados para el grupo indicado.
     """
-    # Validación para evitar errores de tipeo al llamar la función en el notebook
     if nombre_grupo not in GRUPOS_CATEGORICOS:
         raise ValueError(f"El grupo '{nombre_grupo}' no es válido. Opciones: {list(GRUPOS_CATEGORICOS.keys())}")
 
-    # Extraemos solo las variables del grupo solicitado
     variables = GRUPOS_CATEGORICOS[nombre_grupo]
     
     datos = df.copy()
@@ -312,7 +311,6 @@ def graficar_grupo_categorico_churn(
         )
         plt.close(figura_individual)
 
-    # Ocultar los ejes sobrantes si la cantidad de variables es impar
     for eje in ejes[len(variables):]:
         eje.set_visible(False)
 
@@ -329,5 +327,47 @@ def graficar_grupo_categorico_churn(
         bbox_inches="tight"
     )
     
-    # Retorna solo la figura generada, en lugar de una lista
     return figura_grupo
+
+def plot_matriz_confusion(y_true, y_pred, nombre_modelo="", clases=['No Abandona', 'Sí Abandona'], cmap='Blues'):
+    """
+    Genera y grafica una matriz de confusión
+    """
+    cm = confusion_matrix(y_true, y_pred)
+    
+    plt.figure(figsize=(6, 5))
+    sns.heatmap(cm, annot=True, fmt='d', cmap=cmap, cbar=True, 
+                xticklabels=clases, yticklabels=clases, annot_kws={"size": 14})
+    
+    titulo = f'Matriz de Confusión - {nombre_modelo}' if nombre_modelo else 'Matriz de Confusión'
+    plt.title(titulo, fontsize=15, pad=15, fontweight='bold')
+    
+    plt.ylabel('Valor Real', fontsize=12, fontweight='bold')
+    plt.xlabel('Predicción', fontsize=12, fontweight='bold')
+    plt.tight_layout()
+    plt.show()
+
+def plot_curva_roc(y_true, y_proba, nombre_modelo=""):
+    """
+    Grafica la curva ROC y calcula el AUC
+    """
+    fpr, tpr, thresholds = roc_curve(y_true, y_proba)
+    auc_score = roc_auc_score(y_true, y_proba)
+    
+    plt.figure(figsize=(7, 6))
+    plt.plot(fpr, tpr, color='#ff7f0e', lw=2.5, label=f'Curva ROC (AUC = {auc_score:.3f})')
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--', label='Modelo Aleatorio (0.5)')
+    
+    plt.xlim([-0.01, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('Tasa de Falsos Positivos (FPR)', fontsize=12)
+    plt.ylabel('Tasa de Verdaderos Positivos (TPR)', fontsize=12)
+    
+    # Adaptación dinámica del título
+    titulo = f'Curva ROC - {nombre_modelo}' if nombre_modelo else 'Curva ROC'
+    plt.title(titulo, fontsize=15, pad=15, fontweight='bold')
+    
+    plt.legend(loc="lower right", frameon=True, fontsize=11)
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+    plt.show()
