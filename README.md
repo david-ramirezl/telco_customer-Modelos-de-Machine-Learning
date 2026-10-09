@@ -1,9 +1,9 @@
 # Informe Técnico: Implementación de Modelos de Machine Learning en Telecomunicaciones
 
-- Equipo de Trabajo: Felipe Huincaman, David  Ramírez Luna y Octavio Chávez
-- Asignatura: Machine Learning
-- Docente: Profesora Jazna Meza Hidalgo
-- Fecha de elaboración:
+    - Equipo de Trabajo: Felipe Huincaman, David  Ramírez Luna y Octavio Chávez
+    - Asignatura: Machine Learning
+    - Docente: Profesora Jazna Meza Hidalgo
+    - Fecha de elaboración:
 
 # 1. Problema de negocio
 Para las empresas de telecomunicaciones, la retención de clientes es un desafío empresarial crítico. En un mercado donde los usuarios dependen de la conectividad diaria y pueden migrar fácilmente hacia la competencia ante la más mínima interrupción, mala experiencia o una oferta más atractiva, la tasa de abandono (churn) representa uno de los mayores riesgos financieros del sector. Considerando que adquirir un nuevo usuario cuesta hasta cinco veces más que retener a uno actual, no controlar el abandono se traduce en una pérdida directa de ingresos que amenaza la rentabilidad de la compañía.
@@ -14,7 +14,7 @@ Al comprender la diversidad de perfiles mediante la segmentación de la cartera,
 
 # 2. Objetivos del proyecto
 ### Objetivo general del proyecto:
-- Diseñar una estrategia integral basada en datos para mitigar el impacto financiero del abandono de clientes en la empresa de telecomunicaciones, sustentada en la segmentación de los usuarios según sus patrones de comportamiento y consumo, la detección anticipada de futuras cancelaciones y la estimación del tiempo de permanencia esperado para cada cliente, con el fin de diseñar campañas de fidelización personalizadas y optimizar la inversión del equipo de retención.
+Diseñar una estrategia integral basada en datos para mitigar el impacto financiero del abandono de clientes en la empresa de telecomunicaciones, sustentada en la segmentación de los usuarios según sus patrones de comportamiento y consumo, la detección anticipada de futuras cancelaciones y la estimación del tiempo de permanencia esperado para cada cliente, con el fin de diseñar campañas de fidelización personalizadas y optimizar la inversión del equipo de retención.
 
 ### Objetivos específicos de etapa de Implementación de Modelos de Machine Learning:
 1. Comprensión de la base de clientes: Analizar el comportamiento histórico y las características de los usuarios para identificar los factores clave y los motivos que impulsan las cancelaciones de servicio, asegurando información confiable para la toma de decisiones.
@@ -29,67 +29,86 @@ Para asegurar que los modelos de Machine Learning desarrollados generen un impac
 
 ### Tasa de Retención Predictiva
 Mide el porcentaje de clientes identificados correctamente con alto riesgo de abandono que logran ser retenidos tras la intervención proactiva de la empresa.
+
 - Se obtiene dividiendo la cantidad de clientes que aceptaron la oferta de retención entre el total de usuarios que el modelo predictivo clasificó previamente como propensos a abandonar, expresando el resultado como un porcentaje.
 - Valida la efectividad directa del modelo de clasificación, demostrando si la detección anticipada se traduce en una reducción real de la pérdida de clientes.
 
 ### Proyección de Ingresos Recuperados
 Cuantifica el impacto financiero de retener a un usuario en riesgo, estimando el dinero que ingresará a la compañía gracias a su permanencia.
+
 - Se determina multiplicando la cuota mensual del cliente por la cantidad de meses que el modelo de regresión estima que permanecerá en la compañía (variable Tenure). Luego, se suman estos valores individuales para obtener el total de ingresos asegurados por todos los clientes retenidos.
 - Conecta el modelo de regresión con los objetivos financieros, permitiendo a la gerencia priorizar los esfuerzos comerciales hacia los clientes que representan una mayor rentabilidad proyectada a largo plazo.
 
 ### Retorno de Inversión (ROI) de la Retención
 Evalúa la rentabilidad de las campañas de fidelización al dirigir las ofertas exclusivamente a los clientes que el modelo identifica con riesgo real, comparando lo gastado en descuentos versus lo recuperado.
+
 - Se calcula restando los costos totales de la campaña de retención a los ingresos futuros recuperados. Ese beneficio neto se divide por el costo inicial de la campaña para revelar el porcentaje de ganancia sobre la inversión.
 - Demuestra la eficiencia del algoritmo al minimizar los falsos positivos. Al evitar dar descuentos a usuarios que no tenían intención de cancelar el servicio, se optimiza el presupuesto de marketing.
 
 ### Índice de Fuga por Clúster
 Calcula la proporción de cancelaciones que ocurren dentro de cada segmento específico de clientes, agrupados previamente por sus similitudes de consumo.
+
 - Se obtiene dividiendo la cantidad de clientes que efectivamente abandonaron el servicio dentro de un segmento determinado (Clúster) entre el número total de usuarios que conforman ese mismo grupo, para identificar qué porcentaje de ese nicho específico representa una fuga.
 - Valida el modelo de clustering, entregando insights estratégicos para identificar si el problema del abandono afecta a la base completa de manera uniforme o si es una falla estructural de un perfil específico de usuarios.
 
 # 4. Metodología utilizada (CRISP-DM)
-Para estructurar y ejecutar este proyecto de Machine Learning, se ha adoptado el marco de trabajo estándar de la industria CRISP-DM (Cross-Industry Standard Process for Data Mining), garantizando un desarrollo coherente y alineado con los objetivos de negocio.
+Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, garantizando un desarrollo coherente y alineado con los objetivos de negocio.
 
-1. Comprensión del Negocio (Business Understanding): Tal como se documenta en las secciones iniciales del presente informe, se diagnosticó el impacto financiero del abandono de clientes en la industria de telecomunicaciones. Se establecieron objetivos analíticos que combinan clasificación, regresión y segmentación, cuyo éxito será evaluado mediante KPIs estratégicos de retención y rentabilidad.
+1. Comprensión del Negocio: Se diagnosticó el impacto financiero del abandono de clientes en las telecomunicaciones. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá mediante KPIs estratégicos de retención y rentabilidad.
 
-2. Comprensión de los Datos (Data Understanding): Se importó un conjunto de datos base de 7043 registros y 21 características. El Análisis Exploratorio de Datos determinó que la variable objetivo presenta un desbalance, con una tasa de abandono del 26,5%. Adicionalmente, el cruce descriptivo y la matriz de correlación evidenciaron factores críticos: los clientes que desertan poseen una permanencia drásticamente menor, con una media de 17,98 meses frente a los 37,57 meses de los activos, y enfrentan cargos mensuales más elevados.
+2. Comprensión de los Datos: Se importó un conjunto de 7.043 registros y 21 características. La exploración inicial reveló un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se evidenció que los clientes que desertan tienen una permanencia media de solo 17,98 meses frente a los 37,57 meses de los activos, y asumen cargos mensuales más elevados.   
 
-3. Preparación de los Datos (Data Preparation): Se diseñó y ejecutó un proceso de auditoría y transformación de datos en Python que abarcó:
-    - Anonimización Ética: Transformación criptográfica de la variable sensible de identificación mediante el algoritmo hash SHA-256, asegurando el cumplimiento normativo en la protección de la privacidad de los usuarios.
-    - Tratamiento de Nulos y Tipos: Conversión de los cargos totales a formato numérico e imputación de valor cero a los 11 registros nulos detectados, justificado técnicamente al corresponder a clientes de reciente ingreso con una antigüedad igual a cero.
-    - Auditoría de Calidad: Análisis mediante el método de Rango Intercuartílico, confirmando la ausencia de valores atípicos en las variables numéricas y verificando un 0% de registros duplicados en el conjunto de datos.
+3. Preparación de los Datos: La limpieza y transformación en Python incluyó:
 
-4. Modelado (Modeling): Con una base de datos limpia y procesada mediante pipelines de transformación de Scikit-Learn, el desarrollo algorítmico se dividirá en tres enfoques:  
-    - Clasificación: Entrenamiento de algoritmos supervisados, como Regresión Logística o Máquinas de Vectores de Soporte, para predecir la probabilidad de fuga.
-    - Regresión: Construcción de estimadores supervisados para proyectar el ciclo de vida del usuario a través de su tiempo de permanencia.
-    - Clustering: Aplicación de técnicas no supervisadas para descubrir segmentos poblacionales y detectar anomalías en la base de clientes.
+    - Anonimización: Se aplicó un cifrado irreversible SHA-256 a las identificaciones para proteger la privacidad de los usuarios de forma normativa.   
+    - Tratamiento de Nulos: Se imputaron con cero los 11 valores nulos encontrados en los cargos totales, ya que correspondían estrictamente a clientes nuevos sin antigüedad.   
+    - Auditoría de Calidad: Se verificó la ausencia total de registros duplicados y de valores atípicos en las variables numéricas mediante el método de rango intercuartil.   
 
-5. Evaluación (Evaluation): Los modelos resultantes serán sometidos a métricas de desempeño puramente matemáticas, tales como la exactitud y la exhaustividad (Recall), para posteriormente traducir dicho rendimiento algorítmico a los KPIs de negocio definidos, evaluando la eficiencia de las predicciones en el contexto comercial real.
+4. Modelado: Con la base procesada mediante tuberías de Scikit-Learn, el desarrollo se divide en tres enfoques:
 
-6. Despliegue (Deployment): El entorno de trabajo se consolidó en una arquitectura de proyecto reproducible y profesional, organizada en subdirectorios específicos de datos, notebooks y código fuente. La solución técnica se entrega mediante Jupyter Notebooks documentados y este informe ejecutivo estructurado en formato Markdown.
+    - Clasificación: Entrenamiento de algoritmos supervisados para predecir la probabilidad de fuga.
+    - Regresión: Modelos supervisados para proyectar el ciclo de vida y el tiempo de permanencia del usuario.
+    - Segmentación: Técnicas no supervisadas para descubrir grupos poblacionales y detectar anomalías en la base de clientes.
+
+5. Evaluación: El desempeño de los modelos se medirá inicialmente con métricas matemáticas de exactitud y exhaustividad. Luego, este rendimiento se traducirá a los KPIs de negocio para evaluar su eficiencia en el contexto comercial real.   
+
+6. Despliegue: La solución se consolida en una arquitectura reproducible con subdirectorios para datos, cuadernos de experimentación y código fuente. El entregable final consta de los cuadernos de Jupyter debidamente documentados y este informe técnico en formato Markdown.   
 
 # 5. Descripción General y Calidad del Conjunto de Datos
-El conjunto de datos contiene información sobre los clientes de una empresa de telecomunicaciones y si se dieron de baja (cancelaron su servicio) o no. Cada fila representa a un cliente, cada columna contiene los atributos del cliente descritos. El conjunto de datos original está compuesto por 7043 registros y 21 características.
+El proyecto utiliza el conjunto de datos "Telco Customer Churn", que registra el historial y la retención de clientes de una empresa de telecomunicaciones. El archivo contiene 7.043 registros (un cliente por fila) y 21 características.
 
-#### El conjunto de datos incluye información sobre:
-* Clientes que se dieron de baja en el último mes – la columna se llama Churn (tasa de abandono).
-* Servicios a los que cada cliente se ha suscrito – teléfono, múltiples líneas, internet, seguridad en línea, respaldo en línea, protección de dispositivos, soporte técnico y streaming de TV y películas.
-* Información de la cuenta del cliente – cuánto tiempo llevan como clientes, contrato, método de pago, facturación electrónica, cargos mensuales y cargos totales.
-* Información demográfica sobre los clientes – género, rango de edad, y si tienen pareja y dependientes.
+La información se agrupa en cuatro dimensiones principales:   
 
-#### Calidad de Datos:
-
-* Variables Categóricas: Alta presencia de datos cualitativos estructurados como texto.
-* Duplicidad: No se han detectado registros duplicados en el conjunto de datos.
-* Completitud: La integridad de los datos es excelente. El único hallazgo de valores nulos se
-presentó en la variable TotalCharges (11 registros faltantes), los cuales corresponden
-estrictamente a clientes con una antiguedad (tenure) de 0 meses.
-* Análisis de Valores Atípicos (Outliers): Se evaluaron las variables numéricas continuas
-mediante el método de Rango Intercuartil (IQR). Los resultados indicaron una ausencia
-total de valores atípicos en las características tenure, MonthlyCharges y
-TotalCharges.
+- Variable de abandono: Indicador que señala si el cliente se dio de baja o canceló su servicio durante el último mes, representado en la columna objetivo Churn.
+- Servicios suscritos: Detalle de de productos contratados por cada cliente, lo que incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y transmisión (streaming) de TV y películas.
+- Información de la cuenta: Atributos relacionados con el estado comercial e historial del cliente, tales como la cantidad de meses que llevan en la compañía (tenure), el tipo de contrato, el método de pago, la adopción de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
+- Información demográfica: Características del perfil del cliente, abarcando su género, si es considerado adulto mayor (SeniorCitizen), y su situación familiar respecto a si conviven con pareja o tienen dependientes.
 
 # 6. Preparación y análisis exploratorio de los datos (EDA)
+Como paso previo al modelamiento, se auditó y exploró la base de datos para garantizar su calidad y comprender el comportamiento comercial de los clientes.
+
+## 6.1 Auditoría y Calidad del Conjunto de Datos
+La revisión técnica de los 7.043 registros confirmó una alta integridad estructural:
+- Anonimización: Se aplicó la función criptográfica SHA-256 a la identificación del cliente para proteger la privacidad de los usuarios desde el inicio.
+- Completitud e Imputación: La calidad es excelente. Solo se encontraron 11 valores nulos en los cargos totales. Al tratarse de clientes nuevos con cero meses de antigüedad, la decisión técnica fue imputarlos directamente con el valor cero.
+- Valores Atípicos: La evaluación mediante el método de Rango Intercuartil descartó la presencia de valores atípicos en la antigüedad y en los cargos mensuales y totales.
+- Duplicidad: No se detectaron registros duplicados.   
+
+## 6.2 Análisis Descriptivo y Comportamiento del Cliente
+La exploración de los datos permitió identificar patrones claros en el perfil, el consumo y las tendencias de cancelación que servirán como base para los futuros modelos.
+
+### Perfil Demográfico y Distribución de Servicios:
+La base está equilibrada por género, con 3.555 hombres y 3.488 mujeres, y orientada a un público joven, ya que el 83,8% no pertenece al segmento de adultos mayores. El teléfono es el servicio básico indispensable, adoptado por el 90,3% de los usuarios. Comercialmente, el 55% de la cartera prefiere la flexibilidad de los contratos mensuales.
+
+#### Ciclo de Vida y Costos:
+- La antigüedad global promedia los 32,37 meses. Los clientes activos alcanzan los 37,57 meses, mientras que las deserciones ocurren tempranamente a los 17,98 meses en promedio.    
+- Quienes cancelan asumen tarifas mensuales más altas de $74,44 frente a los $61,27 de los activos. A largo plazo, los usuarios retenidos acumulan un gasto muy superior de $2.549 frente a $1.531.
+
+#### Factores de Fricción y Retención:
+A nivel global, el 26,5% de los usuarios decide cancelar el servicio. El análisis detectó las siguientes correlaciones clave para este abandono:   
+- Contratos Cortos: El formato mensual presenta un 42,7% de abandono. En contraste, los compromisos a uno o dos años casi no registran salidas.
+- Fricción en Pagos: La facturación electrónica duplica las cancelaciones frente a la tradicional, alcanzando un 33,5%. Asimismo, el pago por cheque electrónico es el riesgo principal con un 45,2% de abandonos.
+- Complementos: Añadir seguridad en línea o soporte técnico reduce las cancelaciones del 42% a un 15%. De igual forma, la protección de equipos las baja del 40% al 22%.
 
 # 7. Implementación de modelos de aprendizaje supervisado
 
