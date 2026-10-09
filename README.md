@@ -56,7 +56,7 @@ Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, g
 
 1. Comprensión del Negocio: Se diagnosticó el impacto financiero del abandono de clientes en las telecomunicaciones. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá mediante KPIs estratégicos de retención y rentabilidad.
 
-2. Comprensión de los Datos: Se importó un conjunto de 7.043 registros y 21 características. La exploración inicial reveló un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se evidenció que los clientes que desertan tienen una permanencia media de solo 17,98 meses frente a los 37,57 meses de los activos, y asumen cargos mensuales más elevados.   
+2. Comprensión de los Datos: Se importó un conjunto de 7043 registros y 21 características. La exploración inicial reveló un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se evidenció que los clientes que desertan tienen una permanencia media de solo 17,98 meses frente a los 37,57 meses de los activos, y asumen cargos mensuales más elevados.   
 
 3. Preparación de los Datos: La limpieza y transformación en Python incluyó:
 
@@ -88,7 +88,7 @@ La información se agrupa en cuatro dimensiones principales:
 Como paso previo al modelamiento, se auditó y exploró la base de datos para garantizar su calidad y comprender el comportamiento comercial de los clientes.
 
 ## 6.1 Auditoría y Calidad del Conjunto de Datos
-La revisión técnica de los 7.043 registros confirmó una alta integridad estructural:
+La revisión técnica de los 7043 registros confirmó una alta integridad estructural:
 - Anonimización: Se aplicó la función criptográfica SHA-256 a la identificación del cliente para proteger la privacidad de los usuarios desde el inicio.
 - Completitud e Imputación: La calidad es excelente. Solo se encontraron 11 valores nulos en los cargos totales. Al tratarse de clientes nuevos con cero meses de antigüedad, la decisión técnica fue imputarlos directamente con el valor cero.
 - Valores Atípicos: La evaluación mediante el método de Rango Intercuartil descartó la presencia de valores atípicos en la antigüedad y en los cargos mensuales y totales.
@@ -97,12 +97,12 @@ La revisión técnica de los 7.043 registros confirmó una alta integridad estru
 ## 6.2 Análisis Descriptivo y Comportamiento del Cliente
 La exploración de los datos permitió identificar patrones claros en el perfil, el consumo y las tendencias de cancelación que servirán como base para los futuros modelos.
 
-### Perfil Demográfico y Distribución de Servicios:
-La base está equilibrada por género, con 3.555 hombres y 3.488 mujeres, y orientada a un público joven, ya que el 83,8% no pertenece al segmento de adultos mayores. El teléfono es el servicio básico indispensable, adoptado por el 90,3% de los usuarios. Comercialmente, el 55% de la cartera prefiere la flexibilidad de los contratos mensuales.
+#### Perfil Demográfico y Distribución de Servicios:
+La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y orientada a un público joven, ya que el 83,8% no pertenece al segmento de adultos mayores. El teléfono es el servicio básico indispensable, adoptado por el 90,3% de los usuarios. Comercialmente, el 55% de la cartera prefiere la flexibilidad de los contratos mensuales.
 
 #### Ciclo de Vida y Costos:
 - La antigüedad global promedia los 32,37 meses. Los clientes activos alcanzan los 37,57 meses, mientras que las deserciones ocurren tempranamente a los 17,98 meses en promedio.    
-- Quienes cancelan asumen tarifas mensuales más altas de $74,44 frente a los $61,27 de los activos. A largo plazo, los usuarios retenidos acumulan un gasto muy superior de $2.549 frente a $1.531.
+- Quienes cancelan asumen tarifas mensuales más altas de $74,44 frente a los $61,27 de los activos. A largo plazo, los usuarios retenidos acumulan un gasto muy superior de $2549 frente a $1531.
 
 #### Factores de Fricción y Retención:
 A nivel global, el 26,5% de los usuarios decide cancelar el servicio. El análisis detectó las siguientes correlaciones clave para este abandono:   
@@ -111,5 +111,39 @@ A nivel global, el 26,5% de los usuarios decide cancelar el servicio. El anális
 - Complementos: Añadir seguridad en línea o soporte técnico reduce las cancelaciones del 42% a un 15%. De igual forma, la protección de equipos las baja del 40% al 22%.
 
 # 7. Implementación de modelos de aprendizaje supervisado
+## 7.1 Clasificación
+### 7.1.1 Preparación para el modelado
+#### Criterios de selección de características
+La selección de las variables predictoras se basó en una validación matemática y otra visual. Para las variables categóricas, usamos la métrica V de Cramér, considerando que un valor sobre 0.3 es un buen indicador de que la característica realmente afecta la decisión de abandono del cliente. Estos niveles de asociación estadística se detallan en el siguiente gráfico:
+
+![Matriz de Correlación](./resultados/clasificacion/plots/cramers_churn_categoricas.png)
+
+Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antigüedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
+
+![Matriz de Correlación](./resultados/clasificacion/plots/corr_pearson.png)
+
+La limpieza final de los datos no se hizo solo con cortes estadísticos estrictos; al revisar los gráficos, decidimos dejar variables como la facturación electrónica (PaperlessBilling), ya que mostraban tendencias muy claras sobre la fuga de clientes, a pesar de que su correlación matemática fuera más baja.
+
+#### Ingeniería de características
+Para representar mejor el comportamiento del usuario, creamos un transformador personalizado (TelcoFeatureEngineer) que se integra directamente al flujo del modelo. Este código de Python generó cinco variables nuevas:
+
+- Total_Servicios_Extra: Suma de hasta seis servicios adicionales contratados, para medir qué tan "amarrado" está el cliente a la empresa.
+
+- Pago_Automatico: Variable binaria que indica si el cliente usa pago automático, lo que ayuda a evaluar si hay trabas o problemas en el cobro mensual.
+
+- Vive_Solo: Medida de apoyo familiar generada al revisar si el cliente no tiene pareja ni dependientes.
+
+- Aumento_Tarifa: Diferencia calculada entre el cargo mensual actual y el promedio histórico que ha pagado el usuario.
+
+- Perfil_Alto_Riesgo: Variable binaria que marca a los clientes que tienen contrato mes a mes y además usan fibra óptica.
+
+Al mismo tiempo, este paso descartó columnas que no aportaban valor (como el género o el servicio telefónico) y eliminó las variables originales que ya estaban resumidas en las nuevas, dejando el dataset más limpio.
+
+#### Partición del conjunto de datos
+La variable objetivo Churn se pasó a formato binario (1 y 0) para que los modelos la puedan procesar sin problemas. Luego, los datos se dividieron dejando un 80% para entrenar y un 20% para probar. Aquí aplicamos un muestreo estratificado (stratify=y) para asegurar que la tasa de abandono real del dataset (26.5%) se mantuviera igual en ambos grupos, evitando que el modelo aprenda de forma desbalanceada, y fijamos una semilla aleatoria (random_state=42) para poder replicar los resultados exactos en el futuro.
+
+#### Pipelines de transformación
+Para estandarizar el procesamiento, usamos un ColumnTransformer que aplica reglas específicas según el tipo de dato. A las variables categóricas nominales se les rellenaron los datos faltantes usando el valor más frecuente y se codificaron con OneHotEncoder, separando las categorías sin inventarles un orden numérico. Las variables binarias y las categóricas que sí tienen un orden lógico (como el tipo de contrato) se trabajaron con OrdinalEncoder para mantener esa estructura. Finalmente, todo esto se unió en un Pipeline final para cada modelo evaluado. Hacerlo así asegura que la creación de variables, la imputación y las transformaciones matemáticas se ejecuten en un solo bloque ordenado, evitando que se filtre información desde los datos de prueba hacia el entrenamiento.
 
 # 8. Implementación de modelos de aprendizaje no supervisado
+
