@@ -48,12 +48,30 @@ Calcula la proporción de cancelaciones que ocurren dentro de cada segmento espe
 - Valida el modelo de clustering, entregando insights estratégicos para identificar si el problema del abandono afecta a la base completa de manera uniforme o si es una falla estructural de un perfil específico de usuarios.
 
 # 4. Metodología utilizada (CRISP-DM)
+Para estructurar y ejecutar este proyecto de Machine Learning, se ha adoptado el marco de trabajo estándar de la industria CRISP-DM (Cross-Industry Standard Process for Data Mining), garantizando un desarrollo coherente y alineado con los objetivos de negocio.
+
+1. Comprensión del Negocio (Business Understanding): Tal como se documenta en las secciones iniciales del presente informe, se diagnosticó el impacto financiero del abandono de clientes en la industria de telecomunicaciones. Se establecieron objetivos analíticos que combinan clasificación, regresión y segmentación, cuyo éxito será evaluado mediante KPIs estratégicos de retención y rentabilidad.
+
+2. Comprensión de los Datos (Data Understanding): Se importó un conjunto de datos base de 7043 registros y 21 características. El Análisis Exploratorio de Datos determinó que la variable objetivo presenta un desbalance, con una tasa de abandono del 26,5%. Adicionalmente, el cruce descriptivo y la matriz de correlación evidenciaron factores críticos: los clientes que desertan poseen una permanencia drásticamente menor, con una media de 17,98 meses frente a los 37,57 meses de los activos, y enfrentan cargos mensuales más elevados.
+
+3. Preparación de los Datos (Data Preparation): Se diseñó y ejecutó un proceso de auditoría y transformación de datos en Python que abarcó:
+    - Anonimización Ética: Transformación criptográfica de la variable sensible de identificación mediante el algoritmo hash SHA-256, asegurando el cumplimiento normativo en la protección de la privacidad de los usuarios.
+    - Tratamiento de Nulos y Tipos: Conversión de los cargos totales a formato numérico e imputación de valor cero a los 11 registros nulos detectados, justificado técnicamente al corresponder a clientes de reciente ingreso con una antigüedad igual a cero.
+    - Auditoría de Calidad: Análisis mediante el método de Rango Intercuartílico, confirmando la ausencia de valores atípicos en las variables numéricas y verificando un 0% de registros duplicados en el conjunto de datos.
+
+4. Modelado (Modeling): Con una base de datos limpia y procesada mediante pipelines de transformación de Scikit-Learn, el desarrollo algorítmico se dividirá en tres enfoques:  
+    - Clasificación: Entrenamiento de algoritmos supervisados, como Regresión Logística o Máquinas de Vectores de Soporte, para predecir la probabilidad de fuga.
+    - Regresión: Construcción de estimadores supervisados para proyectar el ciclo de vida del usuario a través de su tiempo de permanencia.
+    - Clustering: Aplicación de técnicas no supervisadas para descubrir segmentos poblacionales y detectar anomalías en la base de clientes.
+
+5. Evaluación (Evaluation): Los modelos resultantes serán sometidos a métricas de desempeño puramente matemáticas, tales como la exactitud y la exhaustividad (Recall), para posteriormente traducir dicho rendimiento algorítmico a los KPIs de negocio definidos, evaluando la eficiencia de las predicciones en el contexto comercial real.
+
+6. Despliegue (Deployment): El entorno de trabajo se consolidó en una arquitectura de proyecto reproducible y profesional, organizada en subdirectorios específicos de datos, notebooks y código fuente. La solución técnica se entrega mediante Jupyter Notebooks documentados y este informe ejecutivo estructurado en formato Markdown.
 
 # 5. Descripción General y Calidad del Conjunto de Datos
 El conjunto de datos contiene información sobre los clientes de una empresa de telecomunicaciones y si se dieron de baja (cancelaron su servicio) o no. Cada fila representa a un cliente, cada columna contiene los atributos del cliente descritos. El conjunto de datos original está compuesto por 7043 registros y 21 características.
 
 #### El conjunto de datos incluye información sobre:
-
 * Clientes que se dieron de baja en el último mes – la columna se llama Churn (tasa de abandono).
 * Servicios a los que cada cliente se ha suscrito – teléfono, múltiples líneas, internet, seguridad en línea, respaldo en línea, protección de dispositivos, soporte técnico y streaming de TV y películas.
 * Información de la cuenta del cliente – cuánto tiempo llevan como clientes, contrato, método de pago, facturación electrónica, cargos mensuales y cargos totales.
