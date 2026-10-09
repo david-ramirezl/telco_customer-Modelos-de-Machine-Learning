@@ -116,7 +116,7 @@ A nivel global, el 26,5% de los usuarios decide cancelar el servicio. El anális
 #### Criterios de selección de características
 La selección de las variables predictoras se basó en una validación matemática y otra visual. Para las variables categóricas, usamos la métrica V de Cramér, considerando que un valor sobre 0.3 es un buen indicador de que la característica realmente afecta la decisión de abandono del cliente. Estos niveles de asociación estadística se detallan en el siguiente gráfico:
 
-![Matriz de Correlación](./resultados/clasificacion/plots/cramers_churn_categoricas.png)
+![Matriz de Correlación](./resultados/clasificacion/plots/cramers _churn_categoricas.png)
 
 Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antigüedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
 
