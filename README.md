@@ -145,13 +145,12 @@ La variable objetivo Churn se pasó a formato binario (1 y 0) para que los model
 Para estandarizar el procesamiento, usamos un ColumnTransformer que aplica reglas específicas según el tipo de dato. A las variables categóricas nominales se les rellenaron los datos faltantes usando el valor más frecuente y se codificaron con OneHotEncoder, separando las categorías sin inventarles un orden numérico. Las variables binarias y las categóricas que sí tienen un orden lógico (como el tipo de contrato) se trabajaron con OrdinalEncoder para mantener esa estructura. Finalmente, todo esto se unió en un Pipeline final para cada modelo evaluado. Hacerlo así asegura que la creación de variables, la imputación y las transformaciones matemáticas se ejecuten en un solo bloque ordenado, evitando que se filtre información desde los datos de prueba hacia el entrenamiento.
 
 ### 7.1.2 Entrenamiento de modelos
-En esta etapa se implementaron tres modelos de clasificación distintos. Para cada uno, se adaptó el preprocesamiento según la naturaleza matemática del algoritmo y se evaluó su rendimiento en el conjunto de prueba, prestando especial atención a la clase 1 (clientes que abandonan el servicio).
-#### Modelo de Regresión Logística
-- Transformaciones específicas: Para este modelo se utilizó el pipeline numérico base, el cual incluye el tratamiento de valores atípicos con Winsorizer y el escalamiento de los datos mediante MinMaxScaler. Esto es fundamental, ya que la regresión logística es sensible a las diferentes magnitudes de las variables y a los valores extremos.
-- Configuración del modelo: Se utilizó el algoritmo LogisticRegression configurando un máximo de 1000 iteraciones (max_iter=1000) para asegurar que el modelo converja correctamente. Además, se aplicó el parámetro class_weight='balanced' para que el algoritmo preste más atención a la clase minoritaria (fuga de clientes).
-- Métricas de rendimiento: En el conjunto de prueba, el modelo alcanzó una Exactitud del 72.2%. Sin embargo, al enfocarnos en la clase de clientes que abandonan, obtuvo una Precisión de 0.486 y un Recall de 0.791, resultando en un F1-Score de 0.602. 
+En esta etapa probamos tres modelos de clasificación distintos. Para cada uno, adaptamos el procesamiento previo de los datos según cómo funciona el algoritmo y evaluamos sus resultados, fijándonos principalmente en la clase 1 (clientes que abandonan el servicio).
 
-El detalle de sus predicciones y su capacidad de discriminación (AUC) se observan en los siguientes gráficos:
+#### Modelo de Regresión Logística
+- Transformaciones específicas: Usamos el pipeline numérico base, que incluye el manejo de valores atípicos con Winsorizer y el escalamiento de los datos con MinMaxScaler. Esto es necesario porque la regresión logística es muy sensible a los valores extremos y a la diferencia de escalas entre las variables.
+- Configuración del modelo: Aplicamos el algoritmo LogisticRegression con un límite de 1000 iteraciones (max_iter=1000) para asegurar que el entrenamiento termine correctamente. Además, usamos class_weight='balanced' para que el modelo le preste más atención a la clase minoritaria (las fugas) y fijamos la semilla 42 (random_state=42).
+- Métricas de rendimiento: En los datos de prueba, logramos una Exactitud (Accuracy) del 72.2%. Al enfocarnos solo en los clientes que se van, obtuvimos una Precisión de 0.486, un Recall de 0.791 y un F1-Score de 0.602. El detalle de sus predicciones y su capacidad para discriminar (AUC) se ven en los siguientes gráficos:
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/cm_lr.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -159,9 +158,9 @@ El detalle de sus predicciones y su capacidad de discriminación (AUC) se observ
   <em>Matriz de Confusión - Regresión Logística</em>
 </p>
 
-Como se observa en la matriz de confusión, el modelo logró identificar correctamente 296 fugas (Verdaderos Positivos), minimizando el riesgo de Falsos Negativos a solo 78 clientes no detectados. Esto conlleva un compromiso (trade-off) manifestado en 313 Falsos Positivos, es decir, clientes retenidos clasificados erróneamente como en riesgo de fuga.
+Como muestra la matriz de confusión, el modelo logró identificar correctamente 296 fugas (Verdaderos Positivos), reduciendo el riesgo de Falsos Negativos a solo 78 clientes no detectados. El costo de esto fueron 313 Falsos Positivos, es decir, clientes que no se iban a ir pero el modelo los marcó en riesgo.
 
-La curva ROC respalda el rendimiento general con un AUC de 0.831, evidenciando una sólida capacidad discriminatoria para separar ambas clases, más allá de la precisión puntual.   
+La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena capacidad general para separar a los clientes que se quedan de los que se van.
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/rocauc_lr.png" alt="Curva ROC - Regresión Logística" width="600"/>
@@ -170,11 +169,9 @@ La curva ROC respalda el rendimiento general con un AUC de 0.831, evidenciando u
 </p>
 
 #### Modelo de Máquinas de Vectores de Soporte (SVM)
-- Transformaciones específicas: Al igual que en la regresión logística, el pipeline incluyó el escalamiento de variables numéricas (MinMaxScaler), un paso obligatorio para SVM, dado que este algoritmo se basa en el cálculo de distancias para separar las clases.   
-- Configuración del modelo: Se implementó SVC utilizando un kernel radial (kernel='rbf') para poder capturar relaciones no lineales entre los datos. Se activó el cálculo de probabilidades (probability=True) para poder generar la curva ROC, y se mantuvo la configuración de clases balanceadas (class_weight='balanced').
-- Métricas de rendimiento: Este modelo obtuvo la Exactitud más alta de los tres, con un 73.4%. Para la detección de fugas (clase 1), logró una Precisión de 0.499 y un Recall de 0.767, alcanzando un F1-Score de 0.605.
-
-El rendimiento y el valor AUC asociado se detallan a continuación:
+- Transformaciones específicas: Igual que con la regresión logística, el pipeline incluyó el escalamiento numérico (MinMaxScaler). Este paso es obligatorio para SVM, ya que el algoritmo se basa en calcular distancias para separar las clases.
+- Configuración del modelo: Usamos SVC con un kernel radial (kernel='rbf') para poder encontrar relaciones no lineales en los datos. Activamos el cálculo de probabilidades (probability=True) para poder generar la curva ROC, y mantuvimos la configuración de clases balanceadas (class_weight='balanced') y la semilla 42.
+- Métricas de rendimiento: Este modelo obtuvo la Exactitud más alta, con un 73.4%. Para la detección de fugas (clase 1), logró una Precisión de 0.499 y un Recall de 0.767, alcanzando un F1-Score de 0.605. Su rendimiento y el valor AUC se ven a continuación:
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/cm_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -182,9 +179,9 @@ El rendimiento y el valor AUC asociado se detallan a continuación:
   <em>Matriz de Confusión - SVM</em>
 </p>
 
-La matriz de confusión revela que el modelo SVM identificó correctamente 287 fugas (Verdaderos Positivos). Aunque la Exactitud general es ligeramente superior, este modelo penaliza la retención al dejar escapar 87 Falsos Negativos (clientes que se fugan sin ser clasificados como tal), junto con 288 Falsos Positivos.   
+La matriz de confusión indica que el modelo SVM identificó correctamente 287 fugas (Verdaderos Positivos). Aunque su Exactitud general es mayor, este modelo es peor para la retención porque dejó escapar 87 Falsos Negativos (clientes que se fugan sin ser detectados), sumado a 288 Falsos Positivos.
 
-La curva ROC muestra un AUC de 0.813, confirmando una capacidad predictiva global consistente, aunque ligeramente inferior a la Regresión Logística en términos de separación de clases.   
+La curva ROC muestra un AUC de 0.813, confirmando que es bueno prediciendo en general, aunque un poco inferior a la Regresión Logística a la hora de separar las clases.
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/rocauc_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -193,13 +190,9 @@ La curva ROC muestra un AUC de 0.813, confirmando una capacidad predictiva globa
 </p>
 
 #### Modelo de Árbol de Decisión (DecisionTreeClassifier)
-- Transformaciones específicas: A diferencia de los modelos anteriores, para el árbol de decisión se creó un pipeline numérico independiente (pipeline_numerico_arbol) que únicamente rellena los valores faltantes (SimpleImputer). Se omitió intencionalmente el escalamiento y el manejo de atípicos, ya que los modelos basados en árboles dividen los datos mediante reglas lógicas y no se ven afectados por la escala de las variables.
-- Configuración del modelo: Se utilizó DecisionTreeClassifier limitando su crecimiento a una profundidad máxima de 5 niveles (max_depth=5). Esta restricción es clave para evitar el sobreajuste (que el modelo memorice los datos de entrenamiento). Se conservó el peso balanceado para las clases.
-- Métricas de rendimiento: El árbol logró una Exactitud general del 71.3%. En la predicción específica de la fuga, registró la Precisión más baja (0.476), pero destacó notablemente al obtener el Recall más alto de todos los modelos (0.824), con un F1-Score de 0.603.
-
-La visualización de estos resultados y su métrica AUC se presentan aquí:
-
-El análisis de la matriz de confusión indica que el Árbol de Decisión detectó correctamente 308 fugas de clientes (Verdaderos Positivos), y redujo drásticamente los Falsos Negativos a tan solo 66 casos. El costo de esta alta sensibilidad es un incremento en los Falsos Positivos, ascendiendo a 339 predicciones erróneas de fuga.   
+- Transformaciones específicas: A diferencia de los otros modelos, para el árbol de decisión armamos un pipeline numérico aparte (pipeline_numerico_arbol) que solo rellena los valores faltantes (SimpleImputer). No hicimos escalamiento ni tratamos los valores atípicos, porque los modelos de árboles dividen los datos usando reglas lógicas y no les afecta la escala de las variables.
+- Configuración del modelo: Usamos DecisionTreeClassifier limitando su profundidad a 5 niveles (max_depth=5). Esta regla es clave para que el modelo no se sobreajuste (que no memorice los datos de entrenamiento). Mantuvimos el peso balanceado para las clases y la semilla 42.
+- Métricas de rendimiento: El árbol logró una Exactitud general del 71.3%. Al predecir las fugas, tuvo la Precisión más baja (0.476), pero destacó consiguiendo el Recall más alto de todos los modelos (0.824), con un F1-Score de 0.603. Sus gráficos y el AUC están aquí:
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/cm_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
@@ -207,7 +200,9 @@ El análisis de la matriz de confusión indica que el Árbol de Decisión detect
   <em>Matriz de Confusión - Árbol de Decisión</em>
 </p>
 
-La curva ROC respalda este comportamiento con un AUC de 0.827, reflejando una capacidad de clasificación general robusta y muy competitiva frente a los modelos paramétricos evaluados.
+Revisando la matriz de confusión, el Árbol de Decisión detectó correctamente 308 fugas (Verdaderos Positivos), y bajó los Falsos Negativos a solo 66 casos. El lado negativo de ser tan sensible es que subieron los Falsos Positivos, llegando a 339 predicciones erróneas de fuga.
+
+La curva ROC confirma esto con un AUC de 0.827, mostrando que clasifica bastante bien y compite de cerca con los otros modelos que probamos.
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/rocauc_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
@@ -216,28 +211,27 @@ La curva ROC respalda este comportamiento con un AUC de 0.827, reflejando una ca
 </p>
 
 ### 7.1.3 Comparación de Desempeño
-Para evaluar la efectividad de los modelos en el contexto de negocio de una empresa de telecomunicaciones, la Exactitud (Accuracy) resulta insuficiente debido al desbalance natural de las clases. El impacto comercial de un Falso Negativo (un cliente que abandona el servicio sin ser detectado y, por ende, sin recibir una oferta de retención) es sustancialmente mayor que el de un Falso Positivo (ofrecer un incentivo de retención a un cliente que no tenía intención de irse).
+Para evaluar qué tan buenos son los modelos para el negocio, guiarnos solo por la Exactitud (Accuracy) no sirve porque las clases están desbalanceadas. En la práctica, al negocio duele mucho más un Falso Negativo (un cliente que se va sin que nos demos cuenta y sin ofrecerle nada para retenerlo) que un Falso Positivo (darle un descuento o beneficio a alguien que igual se iba a quedar).
 
-La siguiente tabla consolida los resultados obtenidos en el conjunto de prueba para la clase objetivo (fuga):
-
+La siguiente tabla resume los resultados que obtuvimos en los datos de prueba, enfocándonos en la clase objetivo (fuga):
 | Modelo | Exactitud | Precisión (Fuga) | Recall (Fuga) | F1-Score | Falsos Negativos | Falsos Positivos | AUC |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | Regresión Logística | 72.2% | 0.486 | 0.791 | 0.602 | 78 | 313 | 0.831 |
 | SVM (RBF) | 73.4% | 0.499 | 0.767 | 0.605 | 87 | 288 | 0.813 |
 | Árbol de Decisión | 71.3% | 0.476 | **0.824** | 0.603 | **66** | 339 | 0.827 |
 
-Los valores de Precisión, Recall y F1-Score corresponden específicamente a la predicción de la clase 1 (Churn = Yes)
+Los valores de Precisión, Recall y F1-Score corresponden específicamente a la predicción de la clase 1 (Churn = Yes).
 
-Al analizar los resultados, observamos que SVM logra la mayor Exactitud (73.4%) y Precisión (0.499), lo que minimiza los Falsos Positivos (288). Sin embargo, falla en detectar 87 fugas reales (Falsos Negativos). Por el contrario, el Árbol de Decisión presenta la Exactitud más baja (71.3%), pero maximiza la captura de clientes en riesgo, reduciendo los Falsos Negativos a su nivel mínimo (66), a costa de aumentar los Falsos Positivos (339). La Regresión Logística ofrece un punto intermedio muy equilibrado y el AUC más alto (0.831).
+Al revisar los datos, vemos que SVM tiene la Exactitud (73.4%) y Precisión (0.499) más altas, lo que ayuda a tener menos Falsos Positivos (288). El problema es que se le escapan 87 fugas reales (Falsos Negativos). Por otro lado, el Árbol de Decisión tiene la Exactitud más baja (71.3%), pero es el mejor atrapando a los clientes en riesgo: baja los Falsos Negativos a su nivel mínimo (66), aunque a cambio dispara los Falsos Positivos (339). La Regresión Logística se queda en un punto medio muy equilibrado y consigue el AUC más alto (0.831).
 
 ### 7.1.4 Recomendación de modelo
-La selección del modelo definitivo debe alinearse directamente con los objetivos estratégicos del proyecto: identificar proactivamente a los clientes con intención de abandonar el servicio para accionar campañas de retención temprana. En este escenario, la métrica crítica a optimizar es la Exhaustividad (Recall). 
+Para elegir el modelo final, nos basamos en el objetivo principal del proyecto: detectar a tiempo a los clientes que están a punto de abandonar el servicio para lanzar campañas de retención. En este escenario, la métrica clave que debemos optimizar es el Recall (Exhaustividad).
 
-Bajo este criterio de negocio, se selecciona el Árbol de Decisión (DecisionTreeClassifier) como el modelo ganador.
+Con esto en mente, seleccionamos el Árbol de Decisión (DecisionTreeClassifier) como el modelo ganador.
 
-La justificación técnica de esta elección radica en su Recall de 0.824, el más alto entre los algoritmos evaluados, lo que se traduce operativamente en la minimización de los Falsos Negativos (solo 66 fugas no detectadas). Aunque este enfoque genera una mayor cantidad de Falsos Positivos (339), el costo asociado a una campaña de retención mal dirigida (como enviar un descuento a un cliente estable) es marginal en comparación con la pérdida total de ingresos (LTV - Lifetime Value) de los 21 clientes adicionales que el Árbol de Decisión logra salvar en comparación con el modelo SVM.
+Lo elegimos porque alcanzó un Recall de 0.824, el más alto de los tres algoritmos, lo que en la práctica reduce los Falsos Negativos a solo 66 fugas no detectadas. Es cierto que este enfoque genera más Falsos Positivos (339), pero el costo de equivocarnos y enviarle un descuento a un cliente que no se iba a ir es mínimo si lo comparamos con perder todos los ingresos futuros (LTV - Lifetime Value) de los 21 clientes extra que el árbol logra salvar frente al modelo SVM.
 
-El Árbol de Decisión traduce eficazmente su rendimiento matemático en la capacidad real de proteger la cartera de clientes, cumpliendo a cabalidad con el objetivo predictivo del proyecto.
+En resumen, el Árbol de Decisión es el que mejor convierte los resultados matemáticos en una herramienta real para proteger la cartera de clientes, cumpliendo exactamente con lo que buscaba el proyecto.
 
 # 8. Implementación de modelos de aprendizaje no supervisado
 
