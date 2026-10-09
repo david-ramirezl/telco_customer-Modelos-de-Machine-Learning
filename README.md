@@ -6,100 +6,98 @@
     - Fecha de elaboración:
 
 # 1. Problema de negocio
-Para las empresas de telecomunicaciones, la retención de clientes es un desafío empresarial crítico. En un mercado donde los usuarios dependen de la conectividad diaria y pueden migrar fácilmente hacia la competencia ante la más mínima interrupción, mala experiencia o una oferta más atractiva, la tasa de abandono (churn) representa uno de los mayores riesgos financieros del sector. Considerando que adquirir un nuevo usuario cuesta hasta cinco veces más que retener a uno actual, no controlar el abandono se traduce en una pérdida directa de ingresos que amenaza la rentabilidad de la compañía.
+Para las empresas de telecomunicaciones, retener clientes es un desafío enorme. En un mercado donde los usuarios necesitan conectividad a diario, es muy fácil que se vayan a la competencia por un corte, una mala experiencia o una mejor oferta. Por esto, la tasa de abandono (churn) es uno de los mayores riesgos económicos del sector. Si consideramos que conseguir un cliente nuevo cuesta hasta cinco veces más que mantener a uno actual, no controlar la fuga se convierte en una pérdida directa de ingresos que golpea las ganancias de la empresa.
 
-Para mitigar este impacto, adoptar una gestión preventiva e integral del ciclo de vida del cliente. El principal desafío analítico para el negocio requiere responder a tres preguntas estratégicas fundamentales: ¿Cómo se agrupan nuestros clientes según sus hábitos de consumo y facturación?, ¿Cuáles de ellos están en riesgo inminente de cancelar su servicio?, y ¿Cuánto tiempo de permanencia esperado le queda a cada usuario en la compañía?
+Para reducir este problema, es necesario actuar antes de que el usuario decida irse. Desde el análisis de datos, el desafío consiste en responder a tres preguntas clave: ¿Cómo se agrupan nuestros clientes según sus hábitos de consumo y facturación?, ¿Cuáles de ellos están a punto de cancelar su servicio?, y ¿Cuánto tiempo extra estimamos que cada usuario se quedará con nosotros?
 
-Al comprender la diversidad de perfiles mediante la segmentación de la cartera, anticipar de forma precisa las bajas y proyectar el tiempo de vida del cliente, la empresa de telecomunicaciones puede optimizar sus presupuestos de retención. Esto permite a los equipos comerciales priorizar esfuerzos en los usuarios más rentables, diseñar campañas de fidelización personalizadas a las necesidades de cada nicho y mejorar proactivamente la experiencia del servicio, convirtiendo la retención en un pilar estratégico de crecimiento sostenible.
+Al entender los distintos perfiles mediante la segmentación, predecir con precisión quiénes se van a ir y calcular su tiempo de permanencia, la empresa puede gastar mejor su presupuesto. Esto le permite al equipo comercial enfocarse en los usuarios que generan más valor, armar campañas a la medida de cada grupo y mejorar el servicio antes de que aparezcan reclamos, haciendo que retener clientes sea la base para que la empresa siga creciendo.
 
 # 2. Objetivos del proyecto
 ## Objetivo general del proyecto:
-Diseñar una estrategia integral basada en datos para mitigar el impacto financiero del abandono de clientes en la empresa de telecomunicaciones, sustentada en la segmentación de los usuarios según sus patrones de comportamiento y consumo, la detección anticipada de futuras cancelaciones y la estimación del tiempo de permanencia esperado para cada cliente, con el fin de diseñar campañas de fidelización personalizadas y optimizar la inversión del equipo de retención.
+Crear una estrategia basada en datos para reducir la pérdida de dinero por el abandono de clientes en la empresa de telecomunicaciones. Esto se apoya en agrupar a los usuarios según cómo se comportan y consumen, detectar a tiempo quiénes van a cancelar, y calcular cuánto tiempo se espera que se quede cada cliente. El fin de esto es armar campañas de fidelización a la medida y gastar mejor el presupuesto del equipo de retención.
 
 ## Objetivos específicos de etapa de Implementación de Modelos de Machine Learning:
-1. Comprensión de la base de clientes: Analizar el comportamiento histórico y las características de los usuarios para identificar los factores clave y los motivos que impulsan las cancelaciones de servicio, asegurando información confiable para la toma de decisiones.
-2. Segmentación del mercado: Descubrir y definir perfiles de clientes con comportamientos de consumo y facturación similares, permitiendo a los equipos de marketing diseñar campañas de fidelización específicas y adaptadas a las necesidades de cada arquetipo.
-3. Detección de fugas: Identificar de forma anticipada a los clientes que presentan una alta probabilidad de abandonar la compañía, proporcionando al negocio alertas tempranas para intervenir de manera proactiva antes de que se concrete la baja.
-4. Proyección de valor y permanencia: Estimar el tiempo de permanencia esperado de los usuarios activos, con el fin de priorizar los presupuestos de retención hacia aquellos clientes que representan una mayor rentabilidad a largo plazo para la empresa.
-5. Validación de confiabilidad de la solución: Asegurar la precisión y fiabilidad de las herramientas predictivas desarrolladas, garantizando que las estrategias comerciales y las inversiones en retención se basen en proyecciones certeras que minimicen los costos por falsas alarmas o fugas no detectadas.
-6. Garantía de responsabilidad ética: Evaluar el impacto comercial y social de las estrategias propuestas, garantizando el respeto a la privacidad de los clientes, la transparencia en el uso de su información y la ausencia de tratos discriminatorios o sesgados en las campañas de fidelización.
+1. Comprensión de la base de clientes: Analizar el historial y las características de los usuarios para encontrar los factores y motivos reales que provocan la cancelación del servicio, entregando datos confiables para tomar decisiones.
+2. Segmentación del mercado: Identificar y definir perfiles de clientes que consumen y pagan de forma similar, para que el equipo de marketing pueda armar campañas de fidelización pensadas y adaptadas para cada grupo.
+3. Detección de fugas: Identificar con anticipación a los clientes que tienen una alta probabilidad de abandonar la compañía, entregando alertas tempranas para poder actuar antes de que el usuario cierre su cuenta.
+4. Proyección de valor y permanencia: Calcular cuánto tiempo más se espera que se queden los usuarios activos, para enfocar la plata de retención en aquellos clientes que dejen más ganancias a largo plazo para la empresa.
+5. Validación de la solución: Asegurar que los modelos predictivos sean precisos y confiables, garantizando que las estrategias comerciales y la inversión en retención se basen en cálculos reales que reduzcan los gastos por falsas alarmas o fugas que no vimos venir.
+6. Responsabilidad ética: Revisar el impacto comercial y social del proyecto, asegurando que se respete la privacidad de los clientes, que sus datos se usen de forma transparente y que no haya sesgos ni discriminación al armar las campañas de fidelización.
 
 # 3. Definición de KPIs que resolverán el problema de negocio
-Para asegurar que los modelos de Machine Learning desarrollados generen un impacto cuantificable en la empresa de telecomunicaciones, el desempeño del proyecto se evaluará mediante los siguientes Indicadores Clave de Desempeño:
+Para asegurar que los modelos de Machine Learning generen resultados medibles en la empresa, el desempeño del proyecto se evaluará utilizando los siguientes Indicadores Clave de Desempeño (KPIs):
 
 ## Tasa de Retención Predictiva
-Mide el porcentaje de clientes identificados correctamente con alto riesgo de abandono que logran ser retenidos tras la intervención proactiva de la empresa.
-- Se obtiene dividiendo la cantidad de clientes que aceptaron la oferta de retención entre el total de usuarios que el modelo predictivo clasificó previamente como propensos a abandonar, expresando el resultado como un porcentaje.
-- Valida la efectividad directa del modelo de clasificación, demostrando si la detección anticipada se traduce en una reducción real de la pérdida de clientes.
+Mide el porcentaje de clientes en riesgo de fuga que logran ser retenidos tras ser contactados por la empresa.
+- Se calcula dividiendo la cantidad de clientes que aceptaron la oferta de retención por el total de usuarios que el modelo clasificó como propensos a irse, expresando el resultado como un porcentaje.
+- Valida si el modelo de clasificación funciona en la práctica, comprobando si la detección anticipada se traduce en una reducción real de la pérdida de clientes.
 
 ## Proyección de Ingresos Recuperados
-Cuantifica el impacto financiero de retener a un usuario en riesgo, estimando el dinero que ingresará a la compañía gracias a su permanencia.
-- Se determina multiplicando la cuota mensual del cliente por la cantidad de meses que el modelo de regresión estima que permanecerá en la compañía (variable Tenure). Luego, se suman estos valores individuales para obtener el total de ingresos asegurados por todos los clientes retenidos.
-- Conecta el modelo de regresión con los objetivos financieros, permitiendo a la gerencia priorizar los esfuerzos comerciales hacia los clientes que representan una mayor rentabilidad proyectada a largo plazo.
+Cuantifica el impacto financiero de retener a un usuario en riesgo, calculando los ingresos que asegura su permanencia en la compañía.
+- Se obtiene multiplicando la cuota mensual del cliente por los meses que el modelo de regresión predice que se quedará (variable Tenure). Al sumar estos valores individuales, se obtiene el total de ingresos recuperados.
+- Conecta el modelo de regresión con los resultados financieros, permitiendo enfocar los esfuerzos comerciales en retener a los clientes que dejarán mayor rentabilidad a largo plazo.
 
 ## Retorno de Inversión (ROI) de la Retención
-Evalúa la rentabilidad de las campañas de fidelización al dirigir las ofertas exclusivamente a los clientes que el modelo identifica con riesgo real, comparando lo gastado en descuentos versus lo recuperado.
-
-- Se calcula restando los costos totales de la campaña de retención a los ingresos futuros recuperados. Ese beneficio neto se divide por el costo inicial de la campaña para revelar el porcentaje de ganancia sobre la inversión.
-- Demuestra la eficiencia del algoritmo al minimizar los falsos positivos. Al evitar dar descuentos a usuarios que no tenían intención de cancelar el servicio, se optimiza el presupuesto de marketing.
+Evalúa la rentabilidad de las campañas de retención al dirigir las ofertas solo a los clientes marcados en riesgo real, comparando lo gastado en descuentos contra los ingresos recuperados.
+- Se calcula restando el costo total de la campaña a los ingresos futuros recuperados. Este beneficio neto se divide por el costo de la campaña para revelar el porcentaje de ganancia sobre la inversión.
+- Demuestra la eficiencia del algoritmo al reducir los Falsos Positivos. Al evitar entregar descuentos a clientes que no tenían intención de cancelar el servicio, se optimiza el presupuesto.
 
 ## Índice de Fuga por Clúster
-Calcula la proporción de cancelaciones que ocurren dentro de cada segmento específico de clientes, agrupados previamente por sus similitudes de consumo.
-
-- Se obtiene dividiendo la cantidad de clientes que efectivamente abandonaron el servicio dentro de un segmento determinado (Clúster) entre el número total de usuarios que conforman ese mismo grupo, para identificar qué porcentaje de ese nicho específico representa una fuga.
-- Valida el modelo de clustering, entregando insights estratégicos para identificar si el problema del abandono afecta a la base completa de manera uniforme o si es una falla estructural de un perfil específico de usuarios.
+Calcula la proporción de cancelaciones que ocurren dentro de cada segmento de clientes, agrupados previamente según sus patrones de consumo.
+- Se obtiene dividiendo la cantidad de clientes que abandonaron el servicio dentro de un segmento (Clúster) por el número total de usuarios en ese mismo grupo, identificando el porcentaje de fuga en ese nicho específico.
+- Valida el modelo de clustering y proporciona datos precisos para identificar si el abandono afecta a la base completa de manera uniforme, o si se concentra en un perfil particular de usuarios.
 
 # 4. Metodología utilizada (CRISP-DM)
-Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, garantizando un desarrollo coherente y alineado con los objetivos de negocio.
+Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, asegurando un desarrollo ordenado y enfocado en resolver el problema del negocio.
 
-1. Comprensión del Negocio: Se diagnosticó el impacto financiero del abandono de clientes en las telecomunicaciones. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá mediante KPIs estratégicos de retención y rentabilidad.
-2. Comprensión de los Datos: Se importó un conjunto de 7043 registros y 21 características. La exploración inicial reveló un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se evidenció que los clientes que desertan tienen una permanencia media de solo 17,98 meses frente a los 37,57 meses de los activos, y asumen cargos mensuales más elevados.   
-3. Preparación de los Datos: La limpieza y transformación en Python incluyó:
-    - Anonimización: Se aplicó un cifrado irreversible SHA-256 a las identificaciones para proteger la privacidad de los usuarios de forma normativa.   
-    - Tratamiento de Nulos: Se imputaron con cero los 11 valores nulos encontrados en los cargos totales, ya que correspondían estrictamente a clientes nuevos sin antigüedad.   
-    - Auditoría de Calidad: Se verificó la ausencia total de registros duplicados y de valores atípicos en las variables numéricas mediante el método de rango intercuartil.   
-4. Modelado: Con la base procesada mediante tuberías de Scikit-Learn, el desarrollo se divide en tres enfoques:
-    - Clasificación: Entrenamiento de algoritmos supervisados para predecir la probabilidad de fuga.
-    - Regresión: Modelos supervisados para proyectar el ciclo de vida y el tiempo de permanencia del usuario.
-    - Segmentación: Técnicas no supervisadas para descubrir grupos poblacionales y detectar anomalías en la base de clientes.
-5. Evaluación: El desempeño de los modelos se medirá inicialmente con métricas matemáticas de exactitud y exhaustividad. Luego, este rendimiento se traducirá a los KPIs de negocio para evaluar su eficiencia en el contexto comercial real.   
-6. Despliegue: La solución se consolida en una arquitectura reproducible con subdirectorios para datos, cuadernos de experimentación y código fuente. El entregable final consta de los cuadernos de Jupyter debidamente documentados y este informe técnico en formato Markdown.   
+1. Comprensión del Negocio: Se evaluó el impacto financiero del abandono de clientes en la empresa. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá utilizando los KPIs de retención y rentabilidad definidos previamente.
+2. Comprensión de los Datos: Se cargó un dataset de 7043 registros y 21 variables. La exploración inicial mostró un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se observó que los clientes que abandonan tienen una permanencia media de 17,98 meses frente a los 37,57 meses de los usuarios activos, y pagan cargos mensuales más altos.
+3. Preparación de los Datos: El proceso de limpieza y transformación en Python incluyó:
+    - Anonimización: Se aplicó la función hash SHA-256 (cifrado irreversible) a los identificadores para proteger la privacidad de los usuarios cumpliendo con la normativa. 
+    - Tratamiento de Nulos: Se imputaron con cero los 11 valores nulos detectados en los cargos totales, ya que correspondían a clientes nuevos con cero meses de antigüedad.
+    - Revisión de Calidad: Se verificó que no existían registros duplicados ni valores atípicos extremos en las variables numéricas utilizando el método del Rango Intercuartil (IQR). 
+4. Modelado: Con los datos procesados mediante pipelines de Scikit-Learn, el desarrollo se dividió en tres enfoques:
+    - Clasificación: Modelos supervisados para predecir la probabilidad de que un cliente abandone el servicio.
+    - Regresión: Algoritmos supervisados para estimar la cantidad de meses que el usuario permanecerá activo en la empresa.
+    - Segmentación (Clustering): Algoritmos no supervisados para agrupar clientes con comportamientos similares y detectar anomalías.
+5. Evaluación: El desempeño de los modelos se evaluó primero mediante métricas matemáticas (como Exactitud, Precisión y Recall). Luego, esos resultados se conectaron con los KPIs de negocio para medir su utilidad real para la empresa. 
+6. Despliegue: El proyecto se estructuró de forma reproducible, separando los directorios para datos, notebooks de experimentación y código fuente. El entregable final se compone de los notebooks de Jupyter documentados y este informe técnico en formato Markdown.
 
 # 5. Descripción General y Calidad del Conjunto de Datos
-El proyecto utiliza el conjunto de datos "Telco Customer Churn", que registra el historial y la retención de clientes de una empresa de telecomunicaciones. El archivo contiene 7.043 registros (un cliente por fila) y 21 características.
+El proyecto utiliza el dataset "Telco Customer Churn", que contiene el historial y estado de retención de los clientes de una empresa de telecomunicaciones. El archivo está compuesto por 7.043 registros (un cliente por fila) y 21 características (columnas).
 
-La información se agrupa en cuatro dimensiones principales:   
+La información se agrupa en cuatro categorías principales:
 
-- Variable de abandono: Indicador que señala si el cliente se dio de baja o canceló su servicio durante el último mes, representado en la columna objetivo Churn.
-- Servicios suscritos: Detalle de de productos contratados por cada cliente, lo que incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y transmisión (streaming) de TV y películas.
-- Información de la cuenta: Atributos relacionados con el estado comercial e historial del cliente, tales como la cantidad de meses que llevan en la compañía (tenure), el tipo de contrato, el método de pago, la adopción de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
-- Información demográfica: Características del perfil del cliente, abarcando su género, si es considerado adulto mayor (SeniorCitizen), y su situación familiar respecto a si conviven con pareja o tienen dependientes.
+- Variable de abandono: Indica si el cliente se dio de baja o canceló su servicio durante el último mes. Está representada en la variable objetivo Churn.
+- Servicios suscritos: Detalla los productos contratados por cada cliente. Esto incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y streaming de TV y películas.
+- Información de la cuenta: Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
+- Información demográfica: Características del perfil del cliente. Incluye su género, un indicador de si es adulto mayor (SeniorCitizen), y su situación familiar para saber si convive con pareja o tiene dependientes.
 
 # 6. Preparación y análisis exploratorio de los datos (EDA)
-Como paso previo al modelamiento, se auditó y exploró la base de datos para garantizar su calidad y comprender el comportamiento comercial de los clientes.
+Antes de entrenar los modelos, se revisó y exploró la base de datos para asegurar su calidad y entender cómo se comportan los clientes.
 
-## 6.1 Auditoría y Calidad del Conjunto de Datos
-La revisión técnica de los 7043 registros confirmó una alta integridad estructural:
-- Anonimización: Se aplicó la función criptográfica SHA-256 a la identificación del cliente para proteger la privacidad de los usuarios desde el inicio.
-- Completitud e Imputación: La calidad es excelente. Solo se encontraron 11 valores nulos en los cargos totales. Al tratarse de clientes nuevos con cero meses de antigüedad, la decisión técnica fue imputarlos directamente con el valor cero.
-- Valores Atípicos: La evaluación mediante el método de Rango Intercuartil descartó la presencia de valores atípicos en la antigüedad y en los cargos mensuales y totales.
+## 6.1 Revisión y calidad de los datos
+La revisión de los 7043 registros confirmó que los datos están en muy buen estado:
+- Anonimización: Se aplicó un hash SHA-256 a la identificación de cada cliente para proteger la privacidad de los usuarios desde el principio.
+- Completitud e Imputación: Los datos vienen limpios. Solo encontramos 11 valores nulos en los cargos totales. Como corresponden a clientes nuevos con cero meses de antigüedad, simplemente se rellenaron con el valor cero.
+- Valores atípicos (Outliers): Al evaluar con el método de Rango Intercuartil (IQR), se comprobó que no hay valores atípicos en la antigüedad ni en los cargos mensuales y totales.
 - Duplicidad: No se detectaron registros duplicados.   
 
 ## 6.2 Análisis Descriptivo y Comportamiento del Cliente
 La exploración de los datos permitió identificar patrones claros en el perfil, el consumo y las tendencias de cancelación que servirán como base para los futuros modelos.
 
 ### Perfil Demográfico y Distribución de Servicios:
-La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y orientada a un público joven, ya que el 83,8% no pertenece al segmento de adultos mayores. El teléfono es el servicio básico indispensable, adoptado por el 90,3% de los usuarios. Comercialmente, el 55% de la cartera prefiere la flexibilidad de los contratos mensuales.
+La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y la mayoría es un público joven, ya que el 83,8% no entra en la categoría de adultos mayores (SeniorCitizen). El teléfono es el servicio más contratado, usado por el 90,3% de los usuarios. Por el lado de los contratos, el 55% de los clientes prefiere pagar mes a mes.
 
 ### Ciclo de Vida y Costos:
-- La antigüedad global promedia los 32,37 meses. Los clientes activos alcanzan los 37,57 meses, mientras que las deserciones ocurren tempranamente a los 17,98 meses en promedio.    
-- Quienes cancelan asumen tarifas mensuales más altas de $74,44 frente a los $61,27 de los activos. A largo plazo, los usuarios retenidos acumulan un gasto muy superior de $2549 frente a $1531.
+- La antigüedad promedio general es de 32,37 meses. Los clientes activos llegan a los 37,57 meses, mientras que las fugas ocurren rápido, a los 17,98 meses en promedio. 
+- Los clientes que cancelan pagan tarifas mensuales más altas ($74,44 frente a los $61,27 de los activos). Sin embargo, a largo plazo, los usuarios que se quedan acumulan un gasto total mucho mayor ($2549 frente a $1531).
 
 ### Factores de Fricción y Retención:
-A nivel global, el 26,5% de los usuarios decide cancelar el servicio. El análisis detectó las siguientes correlaciones clave para este abandono:   
-- Contratos Cortos: El formato mensual presenta un 42,7% de abandono. En contraste, los compromisos a uno o dos años casi no registran salidas.
-- Fricción en Pagos: La facturación electrónica duplica las cancelaciones frente a la tradicional, alcanzando un 33,5%. Asimismo, el pago por cheque electrónico es el riesgo principal con un 45,2% de abandonos.
-- Complementos: Añadir seguridad en línea o soporte técnico reduce las cancelaciones del 42% a un 15%. De igual forma, la protección de equipos las baja del 40% al 22%.
+En total, el 26,5% de los usuarios cancela su servicio. Al analizar los datos, encontramos los siguientes motivos principales detrás del abandono:
+- Contratos cortos: El plan mensual tiene un 42,7% de abandono. Por el contrario, los contratos con duración a uno o dos años casi no registran fugas.
+- Problemas con los pagos: Usar facturación electrónica duplica las cancelaciones frente a la boleta tradicional, llegando a un 33,5%. Además, pagar con cheque electrónico es el mayor factor de riesgo, con un 45,2% de abandonos.
+- Servicios extra: Que un cliente contrate seguridad en línea o soporte técnico hace que las cancelaciones caigan del 42% a un 15%. De la misma forma, agregar protección de equipos las baja del 40% al 22%.
 
 # 7. Implementación de modelos de aprendizaje supervisado
 ## 7.1 Clasificación
