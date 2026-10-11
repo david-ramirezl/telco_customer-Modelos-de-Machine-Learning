@@ -201,7 +201,7 @@ La curva ROC confirma esto con un AUC de 0.827, mostrando que clasifica bastante
 <p align="center">
   <img src="./resultados/clasificacion/plots/rocauc_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
   <br>
-  <em>Curva ROC - SVM</em>
+  <em>Curva ROC - Árbol de Decisión</em>
 </p>
 
 ### 7.1.3 Comparación de Desempeño
