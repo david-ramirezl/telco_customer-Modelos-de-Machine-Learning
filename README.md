@@ -273,3 +273,9 @@ Al proyectar las etiquetas generadas por el modelo sobre las variables en su esc
 - Cluster 2: Representa a la base consolidada de alto valor, caracterizada por una adopción integral del portafolio (entretenimiento, soporte y seguridad) y una automatización transaccional total, lo que maximiza tanto su ciclo de vida  como su retención. 
 
 Este desglose confirma que, más allá de las métricas obtenidas por el modelo, éste logró decodificar patrones conductuales que podrían explicar las posibles causas operativas detrás de la propensión al abandono.
+
+<p align="center">
+  <img src="./resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandonos por cluster" width="600"/>
+  <br>
+  <em>Porcentaje de abandonos por cluster</em>
+</p>
