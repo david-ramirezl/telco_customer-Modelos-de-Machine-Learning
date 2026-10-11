@@ -226,6 +226,55 @@ Con esto en mente, seleccionamos el Árbol de Decisión (DecisionTreeClassifier)
 Lo elegimos porque alcanzó un Recall de 0.824, el más alto de los tres algoritmos, lo que en la práctica reduce los Falsos Negativos a solo 66 fugas no detectadas. Es cierto que este enfoque genera más Falsos Positivos (339), pero el costo de equivocarnos y enviarle un descuento a un cliente que no se iba a ir es mínimo si lo comparamos con perder todos los ingresos futuros (LTV - Lifetime Value) de los 21 clientes extra que el árbol logra salvar frente al modelo SVM.
 
 En resumen, el Árbol de Decisión es el que mejor convierte los resultados matemáticos en una herramienta real para proteger la cartera de clientes, cumpliendo exactamente con lo que buscaba el proyecto.
+## 7.2 Modelo de Regresión
+### 7.2.1 Preparación para el modelado
+#### Criterios de selección de variables para el modelo
+Se selecciona la variable "tenure" (antigüedad en meses) como variable objetivo (y) debido a que el objetivo estratégico es estimar el ciclo de vida y la permanencia del cliente desde el momento de su adquisición, permitiendo calcular su valor de vida (Customer Lifetime Value - LTV) y diseñar estrategias tempranas de retención.
+
+
+Para la selección de las variables predictoras (X), se evaluó el coeficiente de correlación de Pearson respecto a la variable objetivo (tenure). Se establecieron como candidatas óptimas aquellas con un valor absoluto |r| >= 0.30, permitiendo filtrar únicamente las variables (cuantitativas y cualitativas codificadas) con una asociación de fuerza moderada a alta para optimizar el modelo.
+
+#### Partición de los datos
+En la etapa de preparación y partición de datos, conjunto original se dividió en un 80% para entrenamiento y un 20% para prueba. Al tratarse de un problema de regresión con una variable continua (tenure), se omitío el muestreo estratificado (stratify), ya que este es exclusivo de tareas de clasificación. Adicionalmente, se fijó una semilla de aleatoriedad (random_state=42) para garantizar que la partición sea completamente reproducible en futuras ejecuciones.
+
+#### Pipelines de limpieza y transformación
+Tras la selección de variables, se aplicó la transformación y limpieza de los datos según su naturaleza: codificación para las variables categóricas (nominales y binarias) y escalamiento para la cuantitativas, replica de forma directa el estándar de limpieza y preparación utilizado en la etapa de clasificación para garantizar la consistencia en todo el Pipeline.
+
+### 7.2.2 Entrenamiento de modelos
+### Regresión Lineal
+Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capacidad para modelar la relación directa entre las variables explicativas (X) y la permanencia del cliente (Y) mediante un enfoque claro e interpretable. Su implementación permitió establecer el comportamiento lineal inicial de los datos y sirvió como punto de partida para evaluar si algoritmos más avanzados basados en reglas podían capturar patrones complejos adicionales.
+
+<p align="center">
+  <img src="./resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
+  <br>
+  <em>Modelo de regresión lineal de los valores reales vs predichos por la antiguedad del cliente</em>
+</p>
+
+Posteriormente, evaluamos el desempeño del modelo mediante un gráfico de dispersión enfrentando los valores reales de tenure contra las predicciones. La cercanía de los puntos a la línea de identidad (y = x) permite verificar de forma visual e intuitiva la precisión de los ajustes y la magnitud de los erorres de estimación.
+
+#### Métricas de rendimiento
+El modelo de regresión lineal explica el 87.67% de la variabilidad en la permanencia del cliente (tenure) (R2 = 0.8767) a partir de los predictores seleccionados. En términos absolutos, el error promedio de las predicciones es de aproximadamente 6.8 meses respecto al valor real.
+
+### Árbol de decisión
+Se implementó un Árbol de Decisión (DecisionTreeRegressor) por su interpretabilidad mediante reglas de decisión claras, ideales para traducir los hallazgos en estrategias de negocio entendibles para cualquier audiencia. Su arquitectura segmenta el conjunto de datos en grupos homogéneos, permitiendo predecir la permanencia del cliente de forma más precisa ante patrones de comportamiento no lineales.
+
+Con el fin de asegurar la generalización del Árbol de Decisión y evitar el sobreajuste (overfitting), se restringió la estructura fijando la profundidad máxima en 4 niveles (max_depth = 4) y el tamaño mínimo de hoja en 10 observaciones (min_samples_leaf = 10). Esto genera un conjunto de reglas limpio e interpretable. Adicionalmente, se asigno una semilla de aleatoriedad (random_state = 42) para asegurar la reproducibilidad exacta del entrenamiento.
+
+
+#### Métricas de rendimiento:
+El Árbol de Decisión consolidó un rendimiento sobresaliente al explicar el 92.62% de la variablidad en la antigüedad del cliente (tenure) a partir de las variables de contrato, cobros y servicios. A nivel operacional, el modelo alcanza un elevado nivel de precisión con un Error Absoluto Medio (MAE) de 4.71 meses (aprox. 4 meses y 21 días), estableciendose como una herramienta confiable para predecir la permanencia y estimar el valor de la vida del cliente desde su adquisición.
+
+### 7.2.3 Comparación de Desempeño
+Para la selección del modelo definitivo, la toma de decisiones se respaldo primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numérico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
+
+La siguiente tabla resume los resultados que obtuvimos en los datos de prueba:
+
+| Modelo | R2 ( Coeficiente de determinación )| MAE ( Error Absoluto Medio ) |
+|---|:---:|:---:|
+| Regresión Lineal | 87,6% | 6,7 | 
+| Árbol de Decisión | 92,6% | 4,7 |
+
+En el contexto del negocio, el Árbol de Decisión es el modelo más confiable al registrar el MAE más bajo (4.71 meses frente a 6.79 de la Regresión Lineal). Esta reducción de más de dos meses en el error promedio garantiza estimaciones más precisas para la toma de decisiones comerciales.
 
 # 8. Implementación de modelos de aprendizaje no supervisado
 ## 8.1 Segmentación
