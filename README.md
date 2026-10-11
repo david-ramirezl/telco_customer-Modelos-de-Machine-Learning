@@ -246,7 +246,7 @@ Tras la selección de variables, se aplicó la transformación y limpieza de los
 
 ### 7.2.2 Entrenamiento de modelos
 ### Regresión Lineal
-Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capacidad para modelar la relación directa entre las variables explicativas (X) y la permanencia del cliente (Y) mediante un enfoque claro e interpretable. Su implementación permitio establecer el comportamiento lineal inicial de los datos y sirvio como punto de partida para evaluar si algoritmos más avanzados basados en reglas podían capturar patrones complejos adicionales.
+Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capacidad para modelar la relación directa entre las variables explicativas (X) y la permanencia del cliente (Y) mediante un enfoque claro e interpretable. Su implementación permitió establecer el comportamiento lineal inicial de los datos y sirvió como punto de partida para evaluar si algoritmos más avanzados basados en reglas podían capturar patrones complejos adicionales.
 
 <p align="center">
   <img src="./resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
@@ -269,7 +269,7 @@ Con el fin de asegurar la generalización del Árbol de Decisión y evitar el so
 El Árbol de Decisión consolidó un rendimiento sobresaliente al explicar el 92.62% de la variablidad en la antigüedad del cliente (tenure) a partir de las variables de contrato, cobros y servicios. A nivel operacional, el modelo alcanza un elevado nivel de precisión con un Error Absoluto Medio (MAE) de 4.71 meses (aprox. 4 meses y 21 días), estableciendose como una herramienta confiable para predecir la permanencia y estimar el valor de la vida del cliente desde su adquisición.
 
 ### 7.2.3 Comparación de Desempeño
-Para la selección del modelo definitivo, la toma de decisiones se respaldo primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numperico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
+Para la selección del modelo definitivo, la toma de decisiones se respaldo primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numérico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
 
 La siguiente tabla resume los resultados que obtuvimos en los datos de prueba:
 
