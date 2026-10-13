@@ -3,7 +3,7 @@
     - Equipo de Trabajo: Felipe Huincaman, David  Ramírez Luna y Octavio Chávez
     - Asignatura: Machine Learning
     - Docente: Profesora Jazna Meza Hidalgo
-    - Fecha de elaboración:
+    - Fecha de elaboración: 13 de Octubre, 2026
 
 # 1. Problema de negocio
 Para las empresas de telecomunicaciones, retener clientes es un desafío enorme. En un mercado donde los usuarios necesitan conectividad a diario, es muy fácil que se vayan a la competencia por un corte, una mala experiencia o una mejor oferta. Por esto, la tasa de abandono (churn) es uno de los mayores riesgos económicos del sector. Si consideramos que conseguir un cliente nuevo cuesta hasta cinco veces más que mantener a uno actual, no controlar la fuga se convierte en una pérdida directa de ingresos que golpea las ganancias de la empresa.
