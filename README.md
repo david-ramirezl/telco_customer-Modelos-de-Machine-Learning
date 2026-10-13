@@ -80,7 +80,7 @@ Antes de entrenar los modelos, se revisó y exploró la base de datos para asegu
 La revisión de los 7043 registros confirmó que los datos están en muy buen estado:
 - Anonimización: Se aplicó un hash SHA-256 a la identificación de cada cliente para proteger la privacidad de los usuarios desde el principio.
 - Completitud e Imputación: Los datos vienen limpios. Solo encontramos 11 valores nulos en los cargos totales. Como corresponden a clientes nuevos con cero meses de antiguedad, simplemente se rellenaron con el valor cero.
-- Valores atípicos (Outliers): Al evaluar con el método de Rango Intercuartil (IQR), se comprobó que no hay valores atípicos en la antiguedad ni en los cargos mensuales y totales.
+- Valores atípicos (Outliers): Al evaluar con el método de Rango Intercuartil (IQR), se comprobó que no hay valores atípicos en la antigüedad ni en los cargos mensuales y totales.
 - Duplicidad: No se detectaron registros duplicados.   
 
 ## 6.2 Análisis Descriptivo y Comportamiento del Cliente
@@ -90,7 +90,7 @@ La exploración de los datos permitió identificar patrones claros en el perfil,
 La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y la mayoría es un público joven, ya que el 83,8% no entra en la categoría de adultos mayores (SeniorCitizen). El teléfono es el servicio más contratado, usado por el 90,3% de los usuarios. Por el lado de los contratos, el 55% de los clientes prefiere pagar mes a mes.
 
 ### Ciclo de Vida y Costos:
-- La antiguedad promedio general es de 32,37 meses. Los clientes activos llegan a los 37,57 meses, mientras que las fugas ocurren rápido, a los 17,98 meses en promedio. 
+- La antigüedad promedio general es de 32,37 meses. Los clientes activos llegan a los 37,57 meses, mientras que las fugas ocurren rápido, a los 17,98 meses en promedio. 
 - Los clientes que cancelan pagan tarifas mensuales más altas ($74,44 frente a los $61,27 de los activos). Sin embargo, a largo plazo, los usuarios que se quedan acumulan un gasto total mucho mayor ($2549 frente a $1531).
 
 ### Factores de Fricción y Retención:
@@ -111,7 +111,7 @@ La selección de las variables predictoras se basó en una validación matemáti
   <em>Mapa de Calor de Correlación: V Cramer vs. Churn</em>
 </p>
 
-Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antiguedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
+Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antigüedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
 
 <p align="center">
   <img src="./resultados/clasificacion/plots/corr_pearson.png" alt="Matriz de Correlación" width="600"/>
@@ -159,7 +159,7 @@ La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena 
 <p align="center">
   <img src="./resultados/clasificacion/plots/rocauc_lr.png" alt="Curva ROC - Regresión Logística" width="600"/>
   <br>
-  <em>Curva ROC - Regresión Logísticaa</em>
+  <em>Curva ROC - Regresión Logística</em>
 </p>
 
 #### Modelo de Máquinas de Vectores de Soporte (SVM)
@@ -235,7 +235,7 @@ Se selecciona la variable "tenure" (antigüedad en meses) como variable objetivo
 Para la selección de las variables predictoras (X), se evaluó el coeficiente de correlación de Pearson respecto a la variable objetivo (tenure). Se establecieron como candidatas óptimas aquellas con un valor absoluto |r| >= 0.30, permitiendo filtrar únicamente las variables (cuantitativas y cualitativas codificadas) con una asociación de fuerza moderada a alta para optimizar el modelo.
 
 #### Partición de los datos
-En la etapa de preparación y partición de datos, conjunto original se dividió en un 80% para entrenamiento y un 20% para prueba. Al tratarse de un problema de regresión con una variable continua (tenure), se omitío el muestreo estratificado (stratify), ya que este es exclusivo de tareas de clasificación. Adicionalmente, se fijó una semilla de aleatoriedad (random_state=42) para garantizar que la partición sea completamente reproducible en futuras ejecuciones.
+En la etapa de preparación y partición de datos, conjunto original se dividió en un 80% para entrenamiento y un 20% para prueba. Al tratarse de un problema de regresión con una variable continua (tenure), se omitió el muestreo estratificado (stratify), ya que este es exclusivo de tareas de clasificación. Adicionalmente, se fijó una semilla de aleatoriedad (random_state=42) para garantizar que la partición sea completamente reproducible en futuras ejecuciones.
 
 #### Pipelines de limpieza y transformación
 Tras la selección de variables, se aplicó la transformación y limpieza de los datos según su naturaleza: codificación para las variables categóricas (nominales y binarias) y escalamiento para la cuantitativas, replica de forma directa el estándar de limpieza y preparación utilizado en la etapa de clasificación para garantizar la consistencia en todo el Pipeline.
@@ -247,7 +247,7 @@ Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capac
 <p align="center">
   <img src="./resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
   <br>
-  <em>Modelo de regresión lineal de los valores reales vs predichos por la antiguedad del cliente</em>
+  <em>Modelo de regresión lineal de los valores reales vs predichos por la antigüedad del cliente</em>
 </p>
 
 Posteriormente, evaluamos el desempeño del modelo mediante un gráfico de dispersión enfrentando los valores reales de tenure contra las predicciones. La cercanía de los puntos a la línea de identidad (y = x) permite verificar de forma visual e intuitiva la precisión de los ajustes y la magnitud de los erorres de estimación.
@@ -258,14 +258,14 @@ El modelo de regresión lineal explica el 87.67% de la variabilidad en la perman
 ### Árbol de decisión
 Se implementó un Árbol de Decisión (DecisionTreeRegressor) por su interpretabilidad mediante reglas de decisión claras, ideales para traducir los hallazgos en estrategias de negocio entendibles para cualquier audiencia. Su arquitectura segmenta el conjunto de datos en grupos homogéneos, permitiendo predecir la permanencia del cliente de forma más precisa ante patrones de comportamiento no lineales.
 
-Con el fin de asegurar la generalización del Árbol de Decisión y evitar el sobreajuste (overfitting), se restringió la estructura fijando la profundidad máxima en 4 niveles (max_depth = 4) y el tamaño mínimo de hoja en 10 observaciones (min_samples_leaf = 10). Esto genera un conjunto de reglas limpio e interpretable. Adicionalmente, se asigno una semilla de aleatoriedad (random_state = 42) para asegurar la reproducibilidad exacta del entrenamiento.
+Con el fin de asegurar la generalización del Árbol de Decisión y evitar el sobreajuste (overfitting), se restringió la estructura fijando la profundidad máxima en 4 niveles (max_depth = 4) y el tamaño mínimo de hoja en 10 observaciones (min_samples_leaf = 10). Esto genera un conjunto de reglas limpio e interpretable. Adicionalmente, se asignó una semilla de aleatoriedad (random_state = 42) para asegurar la reproducibilidad exacta del entrenamiento.
 
 
 #### Métricas de rendimiento:
-El Árbol de Decisión consolidó un rendimiento sobresaliente al explicar el 92.62% de la variablidad en la antigüedad del cliente (tenure) a partir de las variables de contrato, cobros y servicios. A nivel operacional, el modelo alcanza un elevado nivel de precisión con un Error Absoluto Medio (MAE) de 4.71 meses (aprox. 4 meses y 21 días), estableciendose como una herramienta confiable para predecir la permanencia y estimar el valor de la vida del cliente desde su adquisición.
+El Árbol de Decisión consolidó un rendimiento sobresaliente al explicar el 92.62% de la variabilidad en la antigüedad del cliente (tenure) a partir de las variables de contrato, cobros y servicios. A nivel operacional, el modelo alcanza un elevado nivel de precisión con un Error Absoluto Medio (MAE) de 4.71 meses (aprox. 4 meses y 21 días), estableciéndose como una herramienta confiable para predecir la permanencia y estimar el valor de la vida del cliente desde su adquisición.
 
 ### 7.2.3 Comparación de Desempeño
-Para la selección del modelo definitivo, la toma de decisiones se respaldo primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numérico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
+Para la selección del modelo definitivo, la toma de decisiones se respaldó primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numérico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
 
 La siguiente tabla resume los resultados que obtuvimos en los datos de prueba:
 
@@ -280,7 +280,7 @@ En el contexto del negocio, el Árbol de Decisión es el modelo más confiable a
 ## 8.1 Segmentación
 ### 8.1.1 Preparación para el modelado
 #### Criterios de selección de variables para el modelo
-Para este modelo se analizó y llego a la conclusion de que la exclusión del ID del cliente y de la variable de abandono garantiza que los segmentos se formen basándose en verdaderos hábitos de consumo. 
+Para este modelo se analizó y llegó a la conclusion de que la exclusión del ID del cliente y de la variable de abandono garantiza que los segmentos se formen basándose en verdaderos hábitos de consumo. 
 
 El ID se elimina porque es una variable que no describe el comportamiento del cliente y solo generaría distorsiones matemáticas en los cálculos del algoritmo. 
 
@@ -290,11 +290,11 @@ Al agrupar a los clientes exclusivamente por cómo usan el servicio y cruzar eso
 #### Pipelines de transformación
 Al igual que en los modelos de clasificación, para este modelo de segmentación se implementaron pipelines de limpieza y transformación que estandarizan el procesamiento de los datos. Mediante éste se aplicaron reglas automáticas según la naturaleza de cada variable: los datos faltantes se imputaron con el valor más frecuente, las variables nominales se trataron con One-Hot Encoding para evitar jerarquías falsas, y las variables binarias u ordinales conservaron su estructura lógica mediante codificación ordinal.
 ### 8.1.2 K-Means
-Se implementó el algoritmo K-Means con el propósito de descubrir agrupaciones basadas en las similitudes (por distancias y patrones) de los registros. Esto con el fin, de poder distinguir los distintos tipos de clientes en base a sus patrone de consumo. 
+Se implementó el algoritmo K-Means con el propósito de descubrir agrupaciones basadas en las similitudes (por distancias y patrones) de los registros. Esto con el fin, de poder distinguir los distintos tipos de clientes en base a sus patrones de consumo. 
 
 Para lograr esto, fue indispensable que el pipeline previo transformara toda la información en una matriz puramente numérica y escalada, dado que K-Means agrupa los perfiles calculando las distancias geométricas (euclidianas) entre ellos.
 
-Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validando matemáticamente la cohesión interna de los clusters formados (inercia). Cabe destacar, el uso del algoritmo Kneed para la elección de cantidad de clusters óptima, la cual dió como resultado 3.
+Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validando matemáticamente la cohesión interna de los clusters formados (inercia). Cabe destacar, el uso del algoritmo Kneed para la elección de cantidad de clusters óptima, la cual dio como resultado 3.
 
 <p align="center">
   <img src="./resultados/segmentacion/plots/K optimo e inercia.png" alt="Visualización gráfica de la inercia y k óptimo" width="600"/>
@@ -305,10 +305,10 @@ Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validand
 #### Métricas
 Para medir la efectividad a la hora de separar los registros en grupos, fue necesario disponer de métricas para analizar y poder concluir en base a estas el poder de busqueda de patrones y distancias del modelo.
 
-- Inercia (35726.50): Indica qué tan compactos son los segmentos. Aunque su valor absoluto depende de la escala geométrica de los datos, este valor demuestra que con k=3 el modelo logra una reducción media-baja de la varianza interna, de lo cual se puede inferir que si bien se logra un compactamiento de los clusteres, todavia existe una leve dispersión de los registros.
+- Inercia (35726.50): Indica qué tan compactos son los segmentos. Aunque su valor absoluto depende de la escala geométrica de los datos, este valor demuestra que con k=3 el modelo logra una reducción media-baja de la varianza interna, de lo cual se puede inferir que si bien se logra un compactamiento de los clústeres, todavia existe una leve dispersión de los registros.
 - Silhouette Score (0.2816): Mide qué tan cohesionado está un cliente dentro de su propio grupo frente a qué tan bien separado está de los clusters vecinos. 
 
-  Un puntaje de 0.28 es un resultado bajo, lo cual refleja una distancia entre clusters poco clara, infiriendo la existencia de solapamiento de los mismo. Pero bajo el contexto del problema de negocio, se puede considerar una separación lo suficientemente consistente para poder determinar grupos claros con media - baja probabilidad de error de ubicación de los registros, ya que al tratarse de variables que reflejan patrones de consumo humano, los valores pueden verse afectados por ruido ocasionado por la impredecibilidad del comportamiento humano. 
+  Un puntaje de 0.28 es un resultado bajo, lo cual refleja una distancia entre clusters poco clara, infiriendo la existencia de solapamiento de los mismos. Pero bajo el contexto del problema de negocio, se puede considerar una separación lo suficientemente consistente para poder determinar grupos claros con media - baja probabilidad de error de ubicación de los registros, ya que al tratarse de variables que reflejan patrones de consumo humano, los valores pueden verse afectados por ruido ocasionado por la impredecibilidad del comportamiento humano. 
 
   Siguiendo con el punto anterior, se confirma que existe una separación válida entre los tres grupos, demostrando que los perfiles encontrados responden en su mayoría a verdaderos patrones de consumo y no al azar.
 #### PCA
@@ -339,22 +339,22 @@ Este desglose confirma que, más allá de las métricas obtenidas por el modelo,
   <em>Porcentaje de abandonos por cluster</em>
 </p>
 
-## Mátriz de responsabilidades (RACI)
+## Matriz de responsabilidades (RACI)
 Esta herramienta de gestión de proyectos permite estructurar, clarificar y asignar los roles dentro de las distintas actividades de un proceso.
 
-se compone de cuatro roles principales:
+Se compone de cuatro roles principales:
 
 - **Responsable (R - Responsible)**: Quien ejecuta y realiza la tarea.
 - **Aprobador Final (A - Accountable)**: Quien aprueba formalmente el entregable y rinde cuentas del resultado final.
 - **Consultado (C - Consulted)**: Quien aporta información clave o asesoría técnica antes de ejecutar.
-- **Informado (I - informed)**: Quien recibe actualizaciones sobre el avance o estado final de la tarea.
+- **Informado (I - Informed)**: Quien recibe actualizaciones sobre el avance o estado final de la tarea.
 
 A continuación se presenta la asignación de roles y responsabilidades para cada fase del proyecto, siguiendo la metodología CRISP-DM:
 
 | Tareas del Proyecto | Felipe Huincaman | David Ramírez | Octavio Chávez |
 | :--- | :---: | :---: | :---: |
 | **Definir estructura de carpetas y crear repositorio:** | I | R | C |
-| **Compensión del Negocio:** Redactar la descripción del problema, objetivos y definir los KPIs estratégicos. | C | R | I |
+| **Comprensión del Negocio:** Redactar la descripción del problema, objetivos y definir los KPIs estratégicos. | C | R | I |
 | **Preparación y EDA:** Ejecutar la limpieza, transformación de datos e identificar variables relevantes. | R/A | R/A | R/A |
 | **Modelado No Supervisado**: Implementar técnica para descubrir patrones o segmentos relevantes en los datos. | R/A | C | I |
 | **Modelado Supervisado (Clasificación)**: Implementar modelos. | C | R/A | I |
