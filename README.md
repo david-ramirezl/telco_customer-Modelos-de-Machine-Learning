@@ -4,7 +4,17 @@
     - Asignatura: Machine Learning
     - Docente: Profesora Jazna Meza Hidalgo
     - Fecha de elaboración: 13 de Octubre, 2026
-
+# CAMBIOS POSIBLES:
+- ELIMINAR MODELOS DE CLASIFICACION (SOLO DEJAR ARBOL DE DECISION) Y REEMPLAZAR POR ENSAMBLES
+- FEATURE IMPORTANCE (MEJOR MODELO DE ENSAMBLE) Y RELACIONAR CON SEGMENTACION
+- OPTIMIZACION DE HIPERPARAMETROS Y COMPARAR MEJOR MODELO DE ENSAMBLE CON MEJOR MODELO ANTERIOR (OPTIMIZADOS)
+- MODIFICAR MATRIZ RACI
+- TRATAR ALERTAS
+- CARGAR DATA SET DE GITHUB
+- UNIFICAR NOTEBOOKS
+- JUSTIFICAR ELECCION DE ALGORITMOS
+- DIVISION PRESENTACION: GENERALIDADES DEL PROYECTO Y NEGOCIO (KPIS), REGRESIONES Y OPTIMIZACIONES, CLASIFICACIONES Y OPTIMIZACIONES, COMPARATIVAS DESEMPEÑOS ENSAMBLES Y MEJOR MODELO ANTERIOR, SEGMENTACION Y FEATURE IMPORTANCE, RECOMENDACIONES PARA EL NEGOCIO.
+  
 # 1. Problema de negocio
 Para las empresas de telecomunicaciones, retener clientes es un desafío enorme. En un mercado donde los usuarios necesitan conectividad a diario, es muy fácil que se vayan a la competencia por un corte, una mala experiencia o una mejor oferta. Por esto, la tasa de abandono (churn) es uno de los mayores riesgos económicos del sector. Si consideramos que conseguir un cliente nuevo cuesta hasta cinco veces más que mantener a uno actual, no controlar la fuga se convierte en una pérdida directa de ingresos que golpea las ganancias de la empresa.
 
