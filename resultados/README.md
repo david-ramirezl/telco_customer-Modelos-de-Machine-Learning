@@ -1,1 +1,0 @@
-# Métricas, visualizaciones y reportes.
