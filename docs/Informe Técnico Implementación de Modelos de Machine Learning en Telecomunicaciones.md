@@ -334,7 +334,7 @@ Al proyectar las etiquetas generadas por el modelo sobre las variables en su esc
 Este desglose confirma que, más allá de las métricas obtenidas por el modelo, éste logró decodificar patrones conductuales que podrían explicar las posibles causas operativas detrás de la propensión al abandono.
 
 <p align="center">
-  <img src="./resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandonos por cluster" width="600"/>
+  <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandonos por cluster" width="600"/>
   <br>
   <em>Porcentaje de abandonos por cluster</em>
 </p>
