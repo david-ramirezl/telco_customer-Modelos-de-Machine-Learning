@@ -319,7 +319,7 @@ Si bien existe una pérdida de información inherente al comprimir la complejida
 La proyección gráfica de estos componentes revela una estructura inherente con el análisis antes mencionado: se identifica un cluster claramente aislado, aunque con cierta dispersión interna, lo que sugiere un grupo con un patrón de consumo relativamente distinto al resto. Por otro lado, los dos clusters restantes presentan un solapamiento relativo, pero mantienen una compactación decente, confirmando que, a pesar de sus similitudes visuales en este plano reducido, el algoritmo original logró diferenciarlos de manera lo suficientemente eficiente.
 
 <p align="center">
-  <img src="../resultados/segmentacion/plots/PCA 2 componentes.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
+  <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
   <br>
   <em>PCA</em>
 </p>
