@@ -1,1 +1,10 @@
-notebooks/modelos_clasificacion.ipynb
+# Entornos virtuales
+.venv/
+env/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+
+# Archivos de Jupyter
+.ipynb_checkpoints/

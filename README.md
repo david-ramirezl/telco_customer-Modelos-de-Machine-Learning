@@ -37,30 +37,40 @@ En la parte de clasificación se estudian principalmente los modelos de ensamble
 
 - Bibliotecas de Python y versiones indicadas en `requirements.txt`.
 
-## Instalación
+## Instalación y Ejecución
 
-Clona el repositorio:
+1. Clona el repositorio:
 
 ```bash
 git clone https://github.com/david-ramirezl/telco_customer-Modelos-de-Machine-Learning.git
 cd telco_customer-Modelos-de-Machine-Learning
 ```
 
-Crea y activa un entorno virtual. En Windows PowerShell:
+2. Crea y activa un entorno virtual (recomendado):
+
+Se recomienda utilizar un entorno virtual para mantener las dependencias del proyecto separadas de otras instalaciones de Python. El uso de un entorno virtual es recomendado, pero no obligatorio. También es posible utilizar un entorno existente.
+
+
+En Windows PowerShell:
+
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 ```
 
+
 En macOS o Linux:
+
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 ```
 
-Instala las dependencias:
+3. Instala las dependencias:
+
+Con el entorno activado, ejecutar:
 
 ```bash
 python -m pip install --upgrade pip
