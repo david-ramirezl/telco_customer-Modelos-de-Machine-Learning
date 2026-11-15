@@ -353,14 +353,17 @@ A continuación se presenta la asignación de roles y responsabilidades para cad
 
 | Tareas del Proyecto | Felipe Huincaman | David Ramírez |
 | :--- | :---: | :---: |
-| **Definir estructura de carpetas y crear repositorio:** | I | R | C |
-| **Comprensión del Negocio:** Redactar la descripción del problema, objetivos y definir los KPIs estratégicos. | C | R | I |
-| **Preparación y EDA:** Ejecutar la limpieza, transformación de datos e identificar variables relevantes. | R/A | R/A | R/A |
-| **Modelado No Supervisado**: Implementar técnica para descubrir patrones o segmentos relevantes en los datos. | R/A | C | I |
-| **Modelado Supervisado (Clasificación)**: Implementar modelos. | C | R/A | I |
-| **Modelado Supervisado (Regresión)**: Implementar modelos. | I | C | R/A
-| **Evaluación:** Interpretar las métricas obtenidas y traducirlas a recomendaciones para el negocio. | R/A | R/A | R/A |
-| **Impacto Ético**: Evaluar el impacto ético de la solución y documentarlo. | C | I | R |
-| **Entregable 1**: Consolidar el informe técnico (.md) con la metodología CRISP-DM y hallazgos. | R | R/A | R
-| **Entregable 2**: Asegurar que los Notebooks .ipynb estén documentados, ordenados y sean completamente ejecutables. | R | R/C | R |
-| **Preparación Defensa**: Elaboración de presentación y estudio cruzado de los modelos. | R/A | R/A | R/A
+| **Definir estructura de carpetas y crear repositorio:** | I | R |
+| **Comprensión del Negocio:** Redactar la descripción del problema, objetivos y definir los KPIs estratégicos. | C | R |
+| **Preparación y EDA:** Ejecutar la limpieza, transformación de datos e identificar variables relevantes. | R/A | R/A |
+| **Modelado No Supervisado**: Implementar técnica para descubrir patrones o segmentos relevantes en los datos. | R/A | C |
+| **Modelado Supervisado (Clasificación)**: Implementar modelos. | C | R/A |
+| **Modelado Ensamble (Clasificación)**: Implementar modelos. | C | R/A |
+| **Modelado Supervisado (Regresión)**: Implementar modelos. | R/A | R/A |
+| **Evaluación:** Interpretar las métricas obtenidas y traducirlas a recomendaciones para el negocio. | R/A | R/A |
+| **Impacto Ético**: Evaluar el impacto ético de la solución y documentarlo. | R/A | R/A |
+| **Entregable 1**: Consolidar el informe técnico (.md) con la metodología CRISP-DM y hallazgos. | R | R/A |
+| **Entregable 2**: Asegurar que los Notebooks .ipynb estén documentados, ordenados y sean completamente ejecutables. | R | R/C |
+| **Preparación Defensa**: Elaboración de presentación y estudio cruzado de los modelos. | R/A | R/A |
+| **Optimización de hiperparámetros**: Implementar algoritmos de optimización para modelos. | C | R/A |
+| **Importancia de características**: Análisis de varia. | C | R/A |
