@@ -106,7 +106,7 @@ En total, el 26,5% de los usuarios cancela su servicio. Al analizar los datos, e
 La selección de las variables predictoras se basó en una validación matemática y otra visual. Para las variables categóricas, usamos la métrica V de Cramér, considerando que un valor sobre 0.3 es un buen indicador de que la característica realmente afecta la decisión de abandono del cliente. Estos niveles de asociación estadística se detallan en el siguiente gráfico:
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/vcramer.png" alt="Correlación: V Cramer vs. Churn" width="600"/>
+  <img src="../resultados/clasificacion/plots/vcramer.png" alt="Correlación: V Cramer vs. Churn" width="600"/>
   <br>
   <em>Mapa de Calor de Correlación: V Cramer vs. Churn</em>
 </p>
@@ -114,7 +114,7 @@ La selección de las variables predictoras se basó en una validación matemáti
 Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antigüedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/corr_pearson.png" alt="Matriz de Correlación" width="600"/>
+  <img src="../resultados/clasificacion/plots/corr_pearson.png" alt="Matriz de Correlación" width="600"/>
   <br>
   <em>Matriz de Correlación</em>
 </p>
@@ -147,7 +147,7 @@ En esta etapa probamos tres modelos de clasificación distintos. Para cada uno, 
 - Métricas de rendimiento: En los datos de prueba, logramos una Exactitud (Accuracy) del 72.2%. Al enfocarnos solo en los clientes que se van, obtuvimos una Precisión de 0.486, un Recall de 0.791 y un F1-Score de 0.602. El detalle de sus predicciones y su capacidad para discriminar (AUC) se ven en los siguientes gráficos:
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/cm_lr.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
+  <img src="../resultados/clasificacion/plots/cm_lr.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
   <br>
   <em>Matriz de Confusión - Regresión Logística</em>
 </p>
@@ -157,7 +157,7 @@ Como muestra la matriz de confusión, el modelo logró identificar correctamente
 La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena capacidad general para separar a los clientes que se quedan de los que se van.
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/rocauc_lr.png" alt="Curva ROC - Regresión Logística" width="600"/>
+  <img src="../resultados/clasificacion/plots/rocauc_lr.png" alt="Curva ROC - Regresión Logística" width="600"/>
   <br>
   <em>Curva ROC - Regresión Logística</em>
 </p>
@@ -168,7 +168,7 @@ La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena 
 - Métricas de rendimiento: Este modelo obtuvo la Exactitud más alta, con un 73.4%. Para la detección de fugas (clase 1), logró una Precisión de 0.499 y un Recall de 0.767, alcanzando un F1-Score de 0.605. Su rendimiento y el valor AUC se ven a continuación:
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/cm_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
+  <img src="../resultados/clasificacion/plots/cm_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
   <br>
   <em>Matriz de Confusión - SVM</em>
 </p>
@@ -178,7 +178,7 @@ La matriz de confusión indica que el modelo SVM identificó correctamente 287 f
 La curva ROC muestra un AUC de 0.813, confirmando que es bueno prediciendo en general, aunque un poco inferior a la Regresión Logística a la hora de separar las clases.
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/rocauc_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
+  <img src="../resultados/clasificacion/plots/rocauc_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
   <br>
   <em>Curva ROC - SVM</em>
 </p>
@@ -189,7 +189,7 @@ La curva ROC muestra un AUC de 0.813, confirmando que es bueno prediciendo en ge
 - Métricas de rendimiento: El árbol logró una Exactitud general del 71.3%. Al predecir las fugas, tuvo la Precisión más baja (0.476), pero destacó consiguiendo el Recall más alto de todos los modelos (0.824), con un F1-Score de 0.603. Sus gráficos y el AUC están aquí:
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/cm_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
+  <img src="../resultados/clasificacion/plots/cm_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
   <br>
   <em>Matriz de Confusión - Árbol de Decisión</em>
 </p>
@@ -199,7 +199,7 @@ Revisando la matriz de confusión, el Árbol de Decisión detectó correctamente
 La curva ROC confirma esto con un AUC de 0.827, mostrando que clasifica bastante bien y compite de cerca con los otros modelos que probamos.
 
 <p align="center">
-  <img src="./resultados/clasificacion/plots/rocauc_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
+  <img src="../resultados/clasificacion/plots/rocauc_dtc.png" alt="Matriz de Confusión - Árbol de Decisión" width="600"/>
   <br>
   <em>Curva ROC - Árbol de Decisión</em>
 </p>
@@ -245,7 +245,7 @@ Tras la selección de variables, se aplicó la transformación y limpieza de los
 Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capacidad para modelar la relación directa entre las variables explicativas (X) y la permanencia del cliente (Y) mediante un enfoque claro e interpretable. Su implementación permitió establecer el comportamiento lineal inicial de los datos y sirvió como punto de partida para evaluar si algoritmos más avanzados basados en reglas podían capturar patrones complejos adicionales.
 
 <p align="center">
-  <img src="./resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
+  <img src="../resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
   <br>
   <em>Modelo de regresión lineal de los valores reales vs predichos por la antigüedad del cliente</em>
 </p>
@@ -297,7 +297,7 @@ Para lograr esto, fue indispensable que el pipeline previo transformara toda la 
 Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validando matemáticamente la cohesión interna de los clusters formados (inercia). Cabe destacar, el uso del algoritmo Kneed para la elección de cantidad de clusters óptima, la cual dio como resultado 3.
 
 <p align="center">
-  <img src="./resultados/segmentacion/plots/K optimo e inercia.png" alt="Visualización gráfica de la inercia y k óptimo" width="600"/>
+  <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Visualización gráfica de la inercia y k óptimo" width="600"/>
   <br>
   <em>Inercia - K-Means</em>
 </p>
@@ -319,7 +319,7 @@ Si bien existe una pérdida de información inherente al comprimir la complejida
 La proyección gráfica de estos componentes revela una estructura inherente con el análisis antes mencionado: se identifica un cluster claramente aislado, aunque con cierta dispersión interna, lo que sugiere un grupo con un patrón de consumo relativamente distinto al resto. Por otro lado, los dos clusters restantes presentan un solapamiento relativo, pero mantienen una compactación decente, confirmando que, a pesar de sus similitudes visuales en este plano reducido, el algoritmo original logró diferenciarlos de manera lo suficientemente eficiente.
 
 <p align="center">
-  <img src="./resultados/segmentacion/plots/PCA 2 componentes.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
+  <img src="../resultados/segmentacion/plots/PCA 2 componentes.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
   <br>
   <em>PCA</em>
 </p>
