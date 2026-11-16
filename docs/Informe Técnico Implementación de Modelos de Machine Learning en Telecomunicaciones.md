@@ -53,7 +53,7 @@ Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, a
 1. Comprensión del Negocio: Se evaluó el impacto financiero del abandono de clientes en la empresa. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá utilizando los KPIs de retención y rentabilidad definidos previamente.
 2. Comprensión de los Datos: Se cargó un dataset de 7043 registros y 21 variables. La exploración inicial mostró un desbalance en la variable objetivo, con una tasa de abandono del 26,5%. Además, se observó que los clientes que abandonan tienen una permanencia media de 17,98 meses frente a los 37,57 meses de los usuarios activos, y pagan cargos mensuales más altos.
 3. Preparación de los Datos: El proceso de limpieza y transformación en Python incluyó:
-    - Anonimización: Se aplicó la función hash SHA-256 (cifrado irreversible) a los identificadores para proteger la privacidad de los usuarios cumpliendo con la normativa. 
+    - Seudonimización: Se aplicó SHA-256 a los identificadores de los clientes y se almacenaron los valores resultantes en customerID_Hash, reemplazando los identificadores originales en el conjunto procesado.
     - Tratamiento de Nulos: Se imputaron con cero los 11 valores nulos detectados en los cargos totales, ya que correspondían a clientes nuevos con cero meses de antiguedad.
     - Revisión de Calidad: Se verificó que no existían registros duplicados ni valores atípicos extremos en las variables numéricas utilizando el método del Rango Intercuartil (IQR). 
 4. Modelado: Con los datos procesados mediante pipelines de Scikit-Learn, el desarrollo se dividió en tres enfoques:
@@ -64,46 +64,110 @@ Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, a
 6. Despliegue: El proyecto se estructuró de forma reproducible, separando los directorios para datos, notebooks de experimentación y código fuente. El entregable final se compone de los notebooks de Jupyter documentados y este informe técnico.
 
 # **5. Descripción General y Calidad del Conjunto de Datos**
-El proyecto utiliza el dataset "Telco Customer Churn", que contiene el historial y estado de retención de los clientes de una empresa de telecomunicaciones. El archivo está compuesto por 7043 registros (un cliente por fila) y 21 características.
+## **Fuente de datos y estructura** 
+El conjunto de datos se carga desde un archivo CSV alojado en GitHub:
+
+https://raw.githubusercontent.com/david-ramirezl/data/refs/heads/main/Telco_Customer_Churn_Dataset.csv
+
+Durante la carga inicial se identificaron 7043 registros y 21 columnas. En la revisión de los tipos de datos se observó que `TotalCharges` estaba almacenada como texto, a pesar de contener valores numéricos, por lo que se convirtió a tipo numérico. También se transformó `SeniorCitizen`, originalmente representada mediante 0 y 1, en una variable categórica con los valores `No` y `Sí`. Las demás columnas de texto se convirtieron al tipo `object` para facilitar su posterior tratamiento.
 
 La información se agrupa en cuatro categorías principales:
 
-- Variable de abandono: Indica si el cliente se dio de baja o canceló su servicio durante el último mes. Está representada en la variable objetivo Churn.
-- Servicios suscritos: Detalla los productos contratados por cada cliente. Esto incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y streaming de TV y películas.
-- Información de la cuenta: Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
+- **Variable de abandono:** Indica si el cliente se dio de baja o canceló su servicio durante el último mes. Está representada en la variable objetivo Churn.
+- **Servicios suscritos:** Detalla los productos contratados por cada cliente. Esto incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y streaming de TV y películas.
+- **Información de la cuenta:** Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
 - Información demográfica: Características del perfil del cliente. Incluye su género, un indicador de si es adulto mayor (SeniorCitizen), y su situación familiar para saber si convive con pareja o tiene dependientes.
 
 # **6. Preparación y análisis exploratorio de los datos (EDA)**
 Antes de entrenar los modelos, se revisó y exploró la base de datos para asegurar su calidad y entender cómo se comportan los clientes.
 
 ## **6.1 Revisión y calidad de los datos**
-La revisión de los 7043 registros confirmó que los datos están en muy buen estado:
-- Anonimización: Se aplicó un hash SHA-256 a la identificación de cada cliente para proteger la privacidad de los usuarios desde el principio.
-- Completitud e Imputación: Los datos vienen limpios. Solo encontramos 11 valores nulos en los cargos totales. Como corresponden a clientes nuevos con cero meses de antiguedad, simplemente se rellenaron con el valor cero.
-- Valores atípicos (Outliers): Al evaluar con el método de Rango Intercuartil (IQR), se comprobó que no hay valores atípicos en la antigüedad ni en los cargos mensuales y totales.
-- Duplicidad: No se detectaron registros duplicados.   
+La revisión de los 7043 registros permitió identificar los siguientes aspectos relacionados con la calidad de los datos:
+
+- **Seudonimización:** Se aplicó la función hash SHA-256 al identificador de cada cliente, almacenando el resultado en `customerID_Hash` y evitando conservar el identificador original en el conjunto procesado.
+- **Completitud e imputación:** Se detectaron 11 valores nulos en `TotalCharges`. Todos correspondían a registros con `tenure = 0`, por lo que se reemplazaron por cero.
+- **Valores atípicos:** Mediante el método del Rango Intercuartil (IQR), no se detectaron valores atípicos en `tenure`, `MonthlyCharges` y `TotalCharges`.
+- **Duplicidad:** No se encontraron filas completamente duplicadas en el conjunto de datos.  
 
 ## **6.2 Análisis Descriptivo y Comportamiento del Cliente**
-La exploración de los datos permitió identificar patrones claros en el perfil, el consumo y las tendencias de cancelación que servirán como base para los futuros modelos.
 
-### **Perfil Demográfico y Distribución de Servicios:**
-La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y la mayoría es un público joven, ya que el 83,8% no entra en la categoría de adultos mayores (SeniorCitizen). El teléfono es el servicio más contratado, usado por el 90,3% de los usuarios. Por el lado de los contratos, el 55% de los clientes prefiere pagar mes a mes.
+El análisis exploratorio permitió identificar características de los clientes y diferencias entre quienes permanecen en la compañía y quienes abandonan el servicio.
 
-### **Ciclo de Vida y Costos:**
-- La antigüedad promedio general es de 32,37 meses. Los clientes activos llegan a los 37,57 meses, mientras que las fugas ocurren rápido, a los 17,98 meses en promedio. 
-- Los clientes que cancelan pagan tarifas mensuales más altas ($74,44 frente a los $61,27 de los activos). Sin embargo, a largo plazo, los usuarios que se quedan acumulan un gasto total mucho mayor ($2549 frente a $1531).
+### **Perfil Demográfico y Distribución de Servicios**
 
-### **Factores de Fricción y Retención:**
-En total, el 26,5% de los usuarios cancela su servicio. Al analizar los datos, encontramos los siguientes motivos principales detrás del abandono:
-- Contratos cortos: El plan mensual tiene un 42,7% de abandono. Por el contrario, los contratos con duración a uno o dos años casi no registran fugas.
-- Problemas con los pagos: Usar facturación electrónica duplica las cancelaciones frente a la boleta tradicional, llegando a un 33,5%. Además, pagar con cheque electrónico es el mayor factor de riesgo, con un 45,2% de abandonos.
-- Servicios extra: Que un cliente contrate seguridad en línea o soporte técnico hace que las cancelaciones caigan del 42% a un 15%. De la misma forma, agregar protección de equipos las baja del 40% al 22%.
+La distribución por género es equilibrada, con 3555 hombres (50,5%) y 3488 mujeres (49,5%). El 83,8% de los clientes no pertenece a la categoría de adultos mayores. Además, el 90,3% tiene contratado servicio telefónico y el 55% mantiene contratos mensuales.
+
+En cuanto al abandono, se registraron 5174 clientes que permanecen en la compañía (73,5%) y 1869 que abandonaron el servicio (26,5%).
+
+### **Distribución de las Variables Numéricas**
+
+Las variables numéricas presentan las siguientes estadísticas:
+
+| Variable | Media | Mediana | Desviación estándar | Mínimo | Máximo |
+|---|---:|---:|---:|---:|---:|
+| `tenure` | 32,37 | 29,00 | 24,56 | 0,00 | 72,00 |
+| `MonthlyCharges` | 64,76 | 70,35 | 30,09 | 18,25 | 118,75 |
+| `TotalCharges` | 2283,30 | 1397,48 | 2266,77 | 18,80 | 8684,80 |
+
+La antigüedad presenta una distribución con concentraciones de clientes nuevos y clientes con una permanencia prolongada. Los cargos totales muestran una asimetría positiva, con una mayor concentración de valores bajos y una cola hacia montos más altos.
+
+### **Ciclo de Vida y Costos según el Abandono**
+
+Al comparar los promedios de las variables numéricas según la variable `Churn`, se observan las siguientes diferencias:
+
+| Variable | Clientes activos | Clientes que abandonaron |
+|---|---:|---:|
+| Antigüedad (`tenure`) | 37,57 meses | 17,98 meses |
+| Cargos mensuales (`MonthlyCharges`) | $61,27 | $74,44 |
+| Cargos totales (`TotalCharges`) | $2555,34 | $1531,80 |
+
+Los clientes que abandonaron el servicio presentan una antigüedad promedio menor y cargos mensuales superiores. En cambio, quienes permanecen acumulan un mayor monto de facturación total, lo que se relaciona con su mayor tiempo de permanencia.
+
+En el análisis de correlación de Pearson también se identificó una relación positiva entre `tenure` y `TotalCharges` (0,826). Respecto al abandono, se obtuvo una correlación negativa con `tenure` (-0,352), mientras que `MonthlyCharges` presentó una relación positiva (0,193) y `TotalCharges` una relación negativa (-0,199).
+
+### **Factores Asociados al Abandono**
+
+El análisis de las variables categóricas permitió identificar diferencias en las tasas de abandono entre distintos grupos de clientes:
+
+- **Características personales:** No se observaron diferencias importantes entre hombres y mujeres. En cambio, los adultos mayores presentan una tasa de abandono del 41,7%, frente al 23,6% de quienes no pertenecen a esta categoría. También se observaron mayores tasas de abandono entre clientes sin pareja y sin dependientes.
+- **Tipo de conexión:** Los clientes con fibra óptica presentan una tasa de abandono del 41,9%, mientras que en quienes utilizan DSL es del 19,0%. Los clientes sin servicio de Internet registran un 7,4%.
+- **Seguridad y soporte:** Los clientes que no tienen contratados servicios de seguridad en línea o soporte técnico presentan tasas de abandono cercanas al 41,7%. Entre quienes sí los contratan, las tasas se encuentran aproximadamente entre 14,6% y 15,2%. El respaldo en línea y la protección de dispositivos también muestran diferencias favorables a los clientes que tienen estos servicios.
+- **Tipo de contrato:** Los contratos mensuales presentan un 42,7% de abandono, frente al 11,2% de los contratos anuales y el 2,8% de los contratos de dos años.
+- **Facturación y pagos:** Los clientes con facturación electrónica presentan una tasa de abandono del 33,5%, frente al 16,3% de quienes utilizan facturación tradicional. El cheque electrónico registra la tasa más alta entre los métodos de pago, con un 45,2%.
+
+Estos resultados muestran asociaciones entre determinadas características de los clientes y el abandono del servicio. Sin embargo, no permiten afirmar que una característica específica sea la causa directa de la cancelación.
 
 # **7. Implementación de modelos de aprendizaje supervisado**
+
+## **Criterios de selección de algoritmos**
+
+La selección de los algoritmos consideró el objetivo de cada tarea, las características de los datos y la posibilidad de comparar métodos con distintos enfoques.
+
+**Clasificación:** El objetivo es predecir si un cliente abandonará el servicio (`Churn`). Se seleccionaron algoritmos capaces de resolver problemas de clasificación binaria:
+
+- **Regresión Logística:** se utilizó como referencia por su enfoque lineal y facilidad de interpretación.
+- **SVM:** permite evaluar un método que separa las clases mediante una frontera de decisión.
+- **Árbol de Decisión:** se incluyó por su estructura basada en reglas, que facilita la interpretación de las predicciones.
+- **Random Forest:** combina varios árboles entrenados en paralelo para reducir la variabilidad de las predicciones.
+- **XGBoost:** construye árboles de forma secuencial, buscando corregir los errores de los anteriores.
+
+**Regresión:** El objetivo es estimar la antigüedad del cliente (`tenure`), una variable numérica expresada en meses. Se seleccionaron dos enfoques:
+
+- **Regresión Lineal:** permite representar relaciones lineales entre las variables predictoras y la antigüedad.
+- **Árbol de Decisión Regresor:** permite identificar relaciones no lineales mediante reglas y divisiones de los datos.
+
+**Segmentación:** El objetivo es agrupar clientes según sus características y patrones de consumo, sin utilizar una variable objetivo previamente definida.
+
+- **K-Means:** se seleccionó para formar grupos según las distancias entre los clientes y los centros de cada grupo.
+- **Selección de grupos:** se consideraron la inercia, mediante el método del codo, y el coeficiente Silhouette.
+- **Visualización:** se utilizó PCA para representar los grupos en dos dimensiones y facilitar su interpretación.
+
+Esta selección permite abordar el problema desde tres perspectivas: predecir el abandono, estimar la antigüedad de los clientes y agruparlos según sus características.
+
 ## **7.1 Clasificación**
 ### **7.1.1 Preparación para el modelado**
 #### **Criterios de selección de características**
-La selección de las variables predictoras se basó en una validación matemática y otra visual. Para las variables categóricas, usamos la métrica V de Cramér, considerando que un valor sobre 0.3 es un buen indicador de que la característica realmente afecta la decisión de abandono del cliente. Estos niveles de asociación estadística se detallan en el siguiente gráfico:
+La selección de las variables predictoras consideró su relación estadística con la variable objetivo. Para las variables categóricas se utilizó el coeficiente V de Cramér, que permite medir la fuerza de asociación entre dos variables. Los resultados se utilizaron como referencia para identificar las características con asociaciones más marcadas con el abandono, sin asumir una relación de causalidad.
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/vcramer.png" alt="Correlación: V Cramer vs. Churn" width="600"/>
@@ -111,7 +175,7 @@ La selección de las variables predictoras se basó en una validación matemáti
   <em>Mapa de Calor de Correlación: V Cramer vs. Churn</em>
 </p>
 
-Por el lado de las variables numéricas, la matriz de correlación de Pearson mostró relaciones lógicas, destacando la fuerte correlación positiva (0.825) entre la antigüedad y el cargo total acumulado del usuario. Esta dinámica queda en evidencia en la siguiente matriz:
+Para las variables numéricas se utilizó la correlación de Pearson. La relación positiva más alta se observó entre `tenure` y `TotalCharges`, con un coeficiente de 0,826. También se identificó una relación negativa entre `tenure` y `Churn` (-0,352), y una relación positiva entre `MonthlyCharges` y `Churn` (0,193). Estos resultados describen asociaciones lineales entre las variables, pero no permiten establecer relaciones de causa y efecto.
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/corr_pearson.png" alt="Matriz de Correlación" width="600"/>
@@ -136,15 +200,17 @@ Al mismo tiempo, este paso descartó columnas que no aportaban valor (como el g�
 La variable objetivo Churn se pasó a formato binario (1 y 0) para que los modelos la puedan procesar sin problemas. Luego, los datos se dividieron dejando un 80% para entrenar y un 20% para probar. Aquí aplicamos un muestreo estratificado (stratify=y) para asegurar que la tasa de abandono real del dataset (26.5%) se mantuviera igual en ambos grupos, evitando que el modelo aprenda de forma desbalanceada, y fijamos una semilla aleatoria (random_state=42) para poder replicar los resultados exactos en el futuro.
 
 #### **Pipelines de transformación**
-Para estandarizar el procesamiento, usamos un ColumnTransformer que aplica reglas específicas según el tipo de dato. A las variables categóricas nominales se les rellenaron los datos faltantes usando el valor más frecuente y se codificaron con OneHotEncoder, separando las categorías sin inventarles un orden numérico. Las variables binarias y las categóricas que sí tienen un orden lógico (como el tipo de contrato) se trabajaron con OrdinalEncoder para mantener esa estructura. Finalmente, todo esto se unió en un Pipeline final para cada modelo evaluado. Hacerlo así asegura que la creación de variables, la imputación y las transformaciones matemáticas se ejecuten en un solo bloque ordenado, evitando que se filtre información desde los datos de prueba hacia el entrenamiento.
+Para preparar los datos se utilizaron `ColumnTransformer` y `Pipeline`, aplicando transformaciones según el tipo de variable. Las variables categóricas nominales se codificaron mediante One-Hot Encoding, mientras que las binarias se representaron numéricamente con valores 0 y 1. Para la variable ordinal `Contract`, se conservó el orden de sus categorías: mensual, un año y dos años.
+
+Estas transformaciones se integraron en pipelines específicos para cada modelo, evitando realizar el preprocesamiento de forma global antes de la separación entre entrenamiento y prueba.
 
 ### **7.1.2 Entrenamiento de modelos**
 En esta etapa probamos tres modelos de clasificación distintos. Para cada uno, adaptamos el procesamiento previo de los datos según cómo funciona el algoritmo y evaluamos sus resultados, fijándonos principalmente en la clase 1 (clientes que abandonan el servicio).
 
 #### **Modelo de Regresión Logística**
-- Transformaciones específicas: Usamos el pipeline numérico base, que incluye el manejo de valores atípicos con Winsorizer y el escalamiento de los datos con MinMaxScaler. Esto es necesario porque la regresión logística es muy sensible a los valores extremos y a la diferencia de escalas entre las variables.
-- Configuración del modelo: Aplicamos el algoritmo LogisticRegression con un límite de 1000 iteraciones (max_iter=1000) para asegurar que el entrenamiento termine correctamente. Además, usamos class_weight='balanced' para que el modelo le preste más atención a la clase minoritaria.
-- Métricas de rendimiento: En los datos de prueba, logramos una Exactitud (Accuracy) del 72.2%. Al enfocarnos solo en los clientes que se van, obtuvimos una Precisión de 0.486, un Recall de 0.791 y un F1-Score de 0.602. El detalle de sus predicciones y su capacidad para discriminar (AUC) se ven en los siguientes gráficos:
+- **Transformaciones específicas:** Se utilizó un pipeline numérico con imputación por la media (`SimpleImputer`) y escalamiento mediante `MinMaxScaler`. No se incorporó Winsorizer, ya que el análisis previo no detectó valores atípicos según el criterio IQR.
+- **Configuración del modelo:** Se utilizó `LogisticRegression` con ponderación balanceada de clases (`class_weight='balanced'`) y semilla aleatoria 42.
+- **Métricas de rendimiento:** En el conjunto de prueba obtuvo un Accuracy de 72,0%. Para la clase de abandono alcanzó una Precisión de 0,484, un Recall de 0,791 y un F1-Score de 0,600. El detalle de sus predicciones y su capacidad para discriminar (AUC) se ven en los siguientes gráficos:
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/cm_lr.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -152,9 +218,9 @@ En esta etapa probamos tres modelos de clasificación distintos. Para cada uno, 
   <em>Matriz de Confusión - Regresión Logística</em>
 </p>
 
-Como muestra la matriz de confusión, el modelo logró identificar correctamente 296 fugas (Verdaderos Positivos), reduciendo el riesgo de Falsos Negativos a solo 78 clientes no detectados. El costo de esto fueron 313 Falsos Positivos, es decir, clientes que no se iban a ir pero el modelo los marcó en riesgo.
+La matriz de confusión muestra que el modelo identificó correctamente 296 abandonos (Verdaderos Positivos), mientras que 78 clientes que abandonaron no fueron detectados (Falsos Negativos). También clasificó incorrectamente a 316 clientes que permanecieron en la compañía como posibles abandonos (Falsos Positivos).
 
-La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena capacidad general para separar a los clientes que se quedan de los que se van.
+La curva ROC obtuvo un AUC de 0,830, lo que indica una buena capacidad para distinguir entre clientes que abandonan y clientes que permanecen en la compañía.
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/rocauc_lr.png" alt="Curva ROC - Regresión Logística" width="600"/>
@@ -163,9 +229,9 @@ La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena 
 </p>
 
 #### **Modelo de Máquinas de Vectores de Soporte (SVM)**
-- Transformaciones específicas: Igual que con la regresión logística, el pipeline incluyó el escalamiento numérico (MinMaxScaler). Este paso es obligatorio para SVM, ya que el algoritmo se basa en calcular distancias para separar las clases.
-- Configuración del modelo: Usamos SVC con un kernel radial (kernel='rbf') para poder encontrar relaciones no lineales en los datos. Activamos el cálculo de probabilidades (probability=True) para poder generar la curva ROC, y mantuvimos la configuración de clases balanceadas (class_weight='balanced').
-- Métricas de rendimiento: Este modelo obtuvo la Exactitud más alta, con un 73.4%. Para la detección de fugas (clase 1), logró una Precisión de 0.499 y un Recall de 0.767, alcanzando un F1-Score de 0.605. Su rendimiento y el valor AUC se ven a continuación:
+- **Transformaciones específicas:** Se utilizó `MinMaxScaler` para ajustar la escala de las variables numéricas, ya que SVM es sensible a las diferencias de magnitud entre ellas.
+- **Configuración del modelo:** Se utilizó `SVC` con kernel radial (`rbf`) y clases balanceadas. Para obtener probabilidades se incorporó `CalibratedClassifierCV`, utilizando calibración sigmoide y validación cruzada de cinco particiones (`cv=5`, `ensemble=False`).
+- **Métricas de rendimiento:** El modelo obtuvo el Accuracy más alto entre los modelos iniciales, con 76,2%. Para la clase de abandono alcanzó una Precisión de 0,539, un Recall de 0,703 y un F1-Score de 0,610. Su rendimiento y el valor AUC se ven a continuación:
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/cm_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -173,9 +239,9 @@ La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena 
   <em>Matriz de Confusión - SVM</em>
 </p>
 
-La matriz de confusión indica que el modelo SVM identificó correctamente 287 fugas (Verdaderos Positivos). Aunque su Exactitud general es mayor, este modelo es peor para la retención porque dejó escapar 87 Falsos Negativos (clientes que se fugan sin ser detectados), sumado a 288 Falsos Positivos.
+La matriz de confusión muestra que SVM identificó correctamente 263 clientes que abandonaron, pero dejó sin detectar 111 casos. También registró 225 Falsos Positivos. Aunque obtuvo la mayor Exactitud y Precisión entre los modelos iniciales, su Recall de 0,703 fue el más bajo, por lo que identificó una menor proporción de los abandonos reales.
 
-La curva ROC muestra un AUC de 0.813, confirmando que es bueno prediciendo en general, aunque un poco inferior a la Regresión Logística a la hora de separar las clases.
+El ROC-AUC obtenido fue de 0,814, el valor más bajo entre los tres modelos iniciales. Esto indica una menor capacidad de discriminación frente a Regresión Logística y Árbol de Decisión.
 
 <p align="center">
   <img src="../resultados/clasificacion/plots/rocauc_svm.png" alt="Matriz de Confusión - Regresión Logística" width="600"/>
@@ -245,7 +311,7 @@ La búsqueda utilizó F1-Score (`scoring='f1'`) para la clase positiva (Churn = 
 
 ### **Configuración general de las búsquedas:**
 
-Espacios de búsqueda para XGBoost:
+#### **Espacios de búsqueda para XGBoost:**
 
 | Hiperparámetro | RandomizedSearchCV | GridSearchCV |
 |---|---|---|
@@ -260,7 +326,7 @@ Espacios de búsqueda para XGBoost:
 </td>
 <td valign="top">
 
-### **Espacios de búsqueda para Random Forest:**
+#### **Espacios de búsqueda para Random Forest:**
 
 | Hiperparámetro | RandomizedSearchCV | GridSearchCV |
 |---|---|---|
@@ -277,7 +343,7 @@ Espacios de búsqueda para XGBoost:
 
 También se optimizó el Árbol de Decisión. Se evaluaron su profundidad máxima, el mínimo de registros para dividir un nodo, el tamaño mínimo de las hojas y el criterio de división.
 
-#### Resultados de la optimización de XGBoost
+#### **Resultados de la optimización de XGBoost**
 
 Se compararon las configuraciones de RandomizedSearchCV y GridSearchCV, tanto en validación cruzada como en el conjunto de prueba.
 
@@ -292,7 +358,7 @@ Los mejores hiperparámetros encontrados fueron:
 <tr>
 <td valign="top">
 
-### **RandomizedSearchCV:**
+#### **RandomizedSearchCV:**
 
 | Parámetro | Valor seleccionado |
 |---|---:|
@@ -306,7 +372,7 @@ Los mejores hiperparámetros encontrados fueron:
 </td>
 <td valign="top">
 
-### **GridSearchCV:**
+#### **GridSearchCV:**
 
 | Parámetro | Valor seleccionado |
 |---|---:|
@@ -503,7 +569,7 @@ Ambos métodos encontraron la misma configuración: profundidad máxima de 5 niv
 
 El modelo identificó 293 de los 374 abandonos y omitió 81. Obtuvo un Recall de 78,34% y registró 277 falsos positivos. Frente al árbol inicial, mejoró la Precisión y el F1-Score, pero redujo el Recall.
 
-#### **Evaluación de entrenamiento y capacidad de generalización**
+#### **Evaluación de entrenamiento**
 
 Se compararon los resultados de entrenamiento y prueba para revisar el comportamiento de los modelos optimizados.
 
@@ -580,23 +646,33 @@ La elección depende del costo de cada error. Si se busca reducir al máximo los
 
 En conclusión, **XGBoost optimizado con GridSearchCV es el principal candidato entre los modelos optimizados**, por su mayor Recall y menor cantidad de falsos negativos en ese grupo. Su elección frente al Árbol de Decisión base debe considerar el costo real de ambos tipos de error y el criterio definido para el negocio.
 
-## 7.2 Modelo de Regresión
-### 7.2.1 Preparación para el modelado
-#### Criterios de selección de variables para el modelo
-Se selecciona la variable "tenure" (antigüedad en meses) como variable objetivo (y) debido a que el objetivo estratégico es estimar el ciclo de vida y la permanencia del cliente desde el momento de su adquisición, permitiendo calcular su valor de vida (Customer Lifetime Value - LTV) y diseñar estrategias tempranas de retención.
+## **7.2 Modelo de Regresión**
+### **7.2.1 Preparación para el modelado**
+#### **Criterios de selección de variables para el modelo**
+Se seleccionó `tenure` como variable objetivo, ya que representa la antigüedad registrada de cada cliente en la compañía, expresada en meses. El modelo busca estimar este valor utilizando otras características del cliente, sus servicios contratados y su información de facturación.
 
+Se utilizó la correlación de Pearson como referencia para analizar la relación entre las variables y `tenure`. Sin embargo, la selección final también consideró el tipo de variable y su utilidad para el modelo. Se definieron las siguientes características predictoras:
 
-Para la selección de las variables predictoras (X), se evaluó el coeficiente de correlación de Pearson respecto a la variable objetivo (tenure). Se establecieron como candidatas óptimas aquellas con un valor absoluto |r| >= 0.30, permitiendo filtrar únicamente las variables (cuantitativas y cualitativas codificadas) con una asociación de fuerza moderada a alta para optimizar el modelo.
+| Tipo de variable	| Características seleccionadas |
+|---|---:|
+| Numérica	| MonthlyCharges |
+| Binarias	| Partner, Dependents |
+| Nominales	| InternetService, PaymentMethod, TechSupport, StreamingTV, StreamingMovies, DeviceProtection, OnlineSecurity, OnlineBackup |
+| Ordinal	| Contract |
 
-#### Partición de los datos
-En la etapa de preparación y partición de datos, conjunto original se dividió en un 80% para entrenamiento y un 20% para prueba. Al tratarse de un problema de regresión con una variable continua (tenure), se omitió el muestreo estratificado (stratify), ya que este es exclusivo de tareas de clasificación. Adicionalmente, se fijó una semilla de aleatoriedad (random_state=42) para garantizar que la partición sea completamente reproducible en futuras ejecuciones.
+Se excluyeron `customerID_Hash` y `Churn`, mientras que `tenure` se mantuvo como variable objetivo. `TotalCharges` no se incorporó al preprocesador, debido a su fuerte relación con la antigüedad y al riesgo de entregar al modelo información que permitiera estimarla de manera poco útil para el objetivo planteado.
 
-#### Pipelines de limpieza y transformación
-Tras la selección de variables, se aplicó la transformación y limpieza de los datos según su naturaleza: codificación para las variables categóricas (nominales y binarias) y escalamiento para la cuantitativas, replica de forma directa el estándar de limpieza y preparación utilizado en la etapa de clasificación para garantizar la consistencia en todo el Pipeline.
+#### **Partición de los datos**
+Los datos se dividieron en un 80% para entrenamiento (5634 registros) y un 20% para prueba (1409 registros). Se utilizó `random_state=42` para mantener la reproducibilidad. No se aplicó muestreo estratificado, ya que se trata de una tarea de regresión con una variable objetivo numérica.
 
-### 7.2.2 Entrenamiento de modelos
-### Regresión Lineal
-Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capacidad para modelar la relación directa entre las variables explicativas (X) y la permanencia del cliente (Y) mediante un enfoque claro e interpretable. Su implementación permitió establecer el comportamiento lineal inicial de los datos y sirvió como punto de partida para evaluar si algoritmos más avanzados basados en reglas podían capturar patrones complejos adicionales.
+#### **Pipelines de limpieza y transformación**
+Se construyeron pipelines específicos para cada modelo. Ambos aplican imputación por la media a las variables numéricas y por el valor más frecuente a las categóricas. Las variables nominales se codifican con One-Hot Encoding, mientras que las binarias y ordinales utilizan OrdinalEncoder, respetando el orden definido para `Contract`.
+
+La diferencia está en el escalamiento: la Regresión Lineal utiliza `MinMaxScaler` en la variable numérica, mientras que el Árbol de Decisión no lo necesita. Además, se configuró `remainder='drop'` para utilizar únicamente las variables seleccionadas.
+
+### **7.2.2 Entrenamiento de modelos**
+#### **Regresión Lineal**
+Se utilizó Regresión Lineal (`LinearRegression`) como método de referencia para estimar `tenure`. Este modelo permite representar relaciones lineales entre las variables predictoras y la antigüedad del cliente.
 
 <p align="center">
   <img src="../resultados/regresion/plots/regresion_lineal_tenure.png" alt="heatmap_pearson_tenure" width="600"/>
@@ -604,96 +680,174 @@ Se seleccionó el algoritmo de Regresión Lineal (LinearRegression) por su capac
   <em>Modelo de regresión lineal de los valores reales vs predichos por la antigüedad del cliente</em>
 </p>
 
-Posteriormente, evaluamos el desempeño del modelo mediante un gráfico de dispersión enfrentando los valores reales de tenure contra las predicciones. La cercanía de los puntos a la línea de identidad (y = x) permite verificar de forma visual e intuitiva la precisión de los ajustes y la magnitud de los erorres de estimación.
-
-#### Métricas de rendimiento
-El modelo de regresión lineal explica el 87.67% de la variabilidad en la permanencia del cliente (tenure) (R2 = 0.8767) a partir de los predictores seleccionados. En términos absolutos, el error promedio de las predicciones es de aproximadamente 6.8 meses respecto al valor real.
-
-### Árbol de decisión
-Se implementó un Árbol de Decisión (DecisionTreeRegressor) por su interpretabilidad mediante reglas de decisión claras, ideales para traducir los hallazgos en estrategias de negocio entendibles para cualquier audiencia. Su arquitectura segmenta el conjunto de datos en grupos homogéneos, permitiendo predecir la permanencia del cliente de forma más precisa ante patrones de comportamiento no lineales.
-
-Con el fin de asegurar la generalización del Árbol de Decisión y evitar el sobreajuste (overfitting), se restringió la estructura fijando la profundidad máxima en 4 niveles (max_depth = 4) y el tamaño mínimo de hoja en 10 observaciones (min_samples_leaf = 10). Esto genera un conjunto de reglas limpio e interpretable. Adicionalmente, se asignó una semilla de aleatoriedad (random_state = 42) para asegurar la reproducibilidad exacta del entrenamiento.
+El gráfico compara los valores reales de `tenure` con las predicciones del modelo. Los puntos más cercanos a la línea de identidad (y = x) representan estimaciones más próximas a los valores observados.
 
 
-#### Métricas de rendimiento:
-El Árbol de Decisión consolidó un rendimiento sobresaliente al explicar el 92.62% de la variabilidad en la antigüedad del cliente (tenure) a partir de las variables de contrato, cobros y servicios. A nivel operacional, el modelo alcanza un elevado nivel de precisión con un Error Absoluto Medio (MAE) de 4.71 meses (aprox. 4 meses y 21 días), estableciéndose como una herramienta confiable para predecir la permanencia y estimar el valor de la vida del cliente desde su adquisición.
+#### **Métricas de rendimiento**
+En el conjunto de prueba, la Regresión Lineal obtuvo un R² de 0,6454 y un MAE de 11,93 meses. Esto indica que explica aproximadamente el 64,5% de la variabilidad de `tenure`, con un error absoluto promedio cercano a 12 meses.
 
-### 7.2.3 Comparación de Desempeño
-Para la selección del modelo definitivo, la toma de decisiones se respaldó primordialmente en el **Error Absoluto Medio (MAE)** por ser la métrica más honesta y directa interpretación operativa. A diferencia del Coeficiente de determinación (R2), el MAE refleja la magnitud real del error en la misma unidad de medida (meses de permanencia) y presenta una mayor robustez ante valores extremos, al no penalizar cuadráticamente las desviaciones. Por el contrario, depender exclusivamente del R2 puede resultar engañoso, ya que un valor numérico elevado o cercano a 1.0 no garantiza precisión puntual, depende de la varianza del conjunto de datos y omite la escala del error físico. En consecuencia, el MAE se consolidó como el criterio determinante para garantizar predicciones confiables en el entorno de negocio.
-
-La siguiente tabla resume los resultados que obtuvimos en los datos de prueba:
-
-| Modelo | R2 ( Coeficiente de determinación )| MAE ( Error Absoluto Medio ) |
-|---|:---:|:---:|
-| Regresión Lineal | 87,6% | 6,7 | 
-| Árbol de Decisión | 92,6% | 4,7 |
-
-En el contexto del negocio, el Árbol de Decisión es el modelo más confiable al registrar el MAE más bajo (4.71 meses frente a 6.79 de la Regresión Lineal). Esta reducción de más de dos meses en el error promedio garantiza estimaciones más precisas para la toma de decisiones comerciales.
-
-# 8. Implementación de modelos de aprendizaje no supervisado
-## 8.1 Segmentación
-### 8.1.1 Preparación para el modelado
-#### Criterios de selección de variables para el modelo
-Para este modelo se analizó y llegó a la conclusion de que la exclusión del ID del cliente y de la variable de abandono garantiza que los segmentos se formen basándose en verdaderos hábitos de consumo. 
-
-El ID se elimina porque es una variable que no describe el comportamiento del cliente y solo generaría distorsiones matemáticas en los cálculos del algoritmo. 
-
-Por su parte, la variable de abandono se omite para obligar al modelo a agrupar a los usuarios de forma neutral. Si se incluyera desde el principio, el algoritmo simplemente dividiría el data set entre los que se fueron y los que se quedaron, sin revelar patrones nuevos. 
-
-Al agrupar a los clientes exclusivamente por cómo usan el servicio y cruzar esos grupos con el abandono al final del proceso, logramos identificar exactamente qué tipo de cliente es más propenso a irse y por qué.
-#### Pipelines de transformación
-Al igual que en los modelos de clasificación, para este modelo de segmentación se implementaron pipelines de limpieza y transformación que estandarizan el procesamiento de los datos. Mediante éste se aplicaron reglas automáticas según la naturaleza de cada variable: los datos faltantes se imputaron con el valor más frecuente, las variables nominales se trataron con One-Hot Encoding para evitar jerarquías falsas, y las variables binarias u ordinales conservaron su estructura lógica mediante codificación ordinal.
-### 8.1.2 K-Means
-Se implementó el algoritmo K-Means con el propósito de descubrir agrupaciones basadas en las similitudes (por distancias y patrones) de los registros. Esto con el fin, de poder distinguir los distintos tipos de clientes en base a sus patrones de consumo. 
-
-Para lograr esto, fue indispensable que el pipeline previo transformara toda la información en una matriz puramente numérica y escalada, dado que K-Means agrupa los perfiles calculando las distancias geométricas (euclidianas) entre ellos.
-
-Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validando matemáticamente la cohesión interna de los clusters formados (inercia). Cabe destacar, el uso del algoritmo Kneed para la elección de cantidad de clusters óptima, la cual dio como resultado 3.
+#### **Árbol de decisión para regresión**
+Se implementó `DecisionTreeRegressor` para estimar la antigüedad mediante reglas de decisión. Se estableció una profundidad máxima de 5 niveles (`max_depth=5`) y una semilla aleatoria de 42 para mantener la reproducibilidad. A diferencia de la Regresión Lineal, este modelo no requiere escalamiento numérico.
 
 <p align="center">
-  <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Visualización gráfica de la inercia y k óptimo" width="600"/>
+  <img src="../resultados/regresion/plots/arbol_decision_reg.png" alt="Árbol de Decisión para Regresión" width="800"/>
   <br>
-  <em>Inercia - K-Means</em>
+  <em>Estructura del Árbol de Decisión para estimar la antigüedad del cliente</em>
 </p>
 
-#### Métricas
-Para medir la efectividad a la hora de separar los registros en grupos, fue necesario disponer de métricas para analizar y poder concluir en base a estas el poder de busqueda de patrones y distancias del modelo.
+#### **Métricas de rendimiento:**
+En el conjunto de prueba, el Árbol de Decisión obtuvo un R² de 0,6198 y un MAE de 12,31 meses. Su resultado fue ligeramente inferior al de la Regresión Lineal en ambas métricas.
 
-- Inercia (35726.50): Indica qué tan compactos son los segmentos. Aunque su valor absoluto depende de la escala geométrica de los datos, este valor demuestra que con k=3 el modelo logra una reducción media-baja de la varianza interna, de lo cual se puede inferir que si bien se logra un compactamiento de los clústeres, todavia existe una leve dispersión de los registros.
-- Silhouette Score (0.2816): Mide qué tan cohesionado está un cliente dentro de su propio grupo frente a qué tan bien separado está de los clusters vecinos. 
+### **7.2.3 Optimización de hiperparámetros y comparación**
 
-  Un puntaje de 0.28 es un resultado bajo, lo cual refleja una distancia entre clusters poco clara, infiriendo la existencia de solapamiento de los mismos. Pero bajo el contexto del problema de negocio, se puede considerar una separación lo suficientemente consistente para poder determinar grupos claros con media - baja probabilidad de error de ubicación de los registros, ya que al tratarse de variables que reflejan patrones de consumo humano, los valores pueden verse afectados por ruido ocasionado por la impredecibilidad del comportamiento humano. 
+Para mejorar el rendimiento de los modelos se utilizaron `RandomizedSearchCV` y `GridSearchCV`, comparando distintas configuraciones mediante validación cruzada de 5 particiones. La evaluación de las búsquedas se realizó utilizando el error cuadrático medio de raíz (RMSE).
 
-  Siguiendo con el punto anterior, se confirma que existe una separación válida entre los tres grupos, demostrando que los perfiles encontrados responden en su mayoría a verdaderos patrones de consumo y no al azar.
-#### PCA
-Al reducir la dimensionalidad a dos componentes, el modelo logra capturar un 54.49% de la varianza total de los datos (32,31% en el primer componente y 22,18% en el segundo). 
+En Regresión Lineal se evaluó el parámetro `fit_intercept`, probando las opciones `True` y `False`. Para el Árbol de Decisión se evaluaron la profundidad máxima, el número mínimo de muestras para dividir un nodo, el tamaño mínimo de las hojas y el criterio de división.
 
-Si bien existe una pérdida de información inherente al comprimir la complejidad del dataset en un espacio bidimensional, retener más de la mitad de la varianza original es un nivel de representatividad robusto cuando se trata de variables conductuales como se mencionó en análisis de las métricas. 
+En el caso del Árbol de Decisión se probaron 20 configuraciones mediante RandomizedSearchCV y 32 combinaciones mediante GridSearchCV.
 
-La proyección gráfica de estos componentes revela una estructura inherente con el análisis antes mencionado: se identifica un cluster claramente aislado, aunque con cierta dispersión interna, lo que sugiere un grupo con un patrón de consumo relativamente distinto al resto. Por otro lado, los dos clusters restantes presentan un solapamiento relativo, pero mantienen una compactación decente, confirmando que, a pesar de sus similitudes visuales en este plano reducido, el algoritmo original logró diferenciarlos de manera lo suficientemente eficiente.
+**Resultados en el conjunto de prueba:**
+
+| Modelo | Método | Mejor RMSE CV | RMSE Test | MAE Test | R² Test |
+|---|---|---:|---:|---:|---:|
+| Regresión Lineal | RandomizedSearchCV | 15,2939 | 14,9414 | **11,9307** | **0,6454** |
+| Regresión Lineal | GridSearchCV | 15,2939 | 14,9414 | **11,9307** | **0,6454** |
+| Decision Tree Regressor | RandomizedSearchCV | 15,7770 | **15,2520** | **12,1390** | **0,6305** |
+| Decision Tree Regressor | GridSearchCV | 15,8251 | 15,4721 | 12,3125 | 0,6198 |
+
+Los dos métodos de búsqueda obtuvieron resultados idénticos para Regresión Lineal. En el Árbol de Decisión, RandomizedSearchCV consiguió mejores resultados que GridSearchCV, con un R² más alto y menores errores.
+
+**Comparación entre entrenamiento y prueba:**
+
+| Modelo | Método | R² Train | MAE Train |
+|---|---|---:|---:|
+| Regresión Lineal | Ambos métodos | 0,6112 | 12,0305 |
+| Decision Tree Regressor | RandomizedSearchCV | 0,6315 | 11,6049 |
+| Decision Tree Regressor | GridSearchCV | 0,6110 | 11,9984 |
+
+Las métricas de entrenamiento y prueba presentan diferencias relativamente pequeñas. En estos resultados no se observa una brecha amplia que indique un sobreajuste marcado.
+
+En conjunto, la Regresión Lineal obtuvo los mejores resultados numéricos, con menor RMSE y MAE y un mayor R². La optimización del Árbol de Decisión mediante RandomizedSearchCV permitió mejorar ligeramente sus resultados iniciales, aunque no superó al modelo lineal.
+
+### **7.2.4 Selección del modelo para el negocio**
+
+La Regresión Lineal obtuvo el mejor rendimiento numérico, con un MAE de 11,93 meses y un R² de 0,6454. Sin embargo, el Árbol de Decisión optimizado mediante RandomizedSearchCV alcanzó resultados cercanos, con un MAE de 12,14 meses y un R² de 0,6305.
+
+Aunque la Regresión Lineal presenta menores errores, se propone considerar provisionalmente el Árbol de Decisión optimizado por su facilidad de interpretación, ya que permite representar las estimaciones mediante reglas y puntos de corte sobre las características de los clientes. Su MAE supera al de la Regresión Lineal en aproximadamente 0,21 meses (unos 6 días).
+
+Por lo tanto, la elección del Árbol de Decisión responde principalmente a su interpretabilidad y no a que haya obtenido las mejores métricas globales. Su uso posterior debe considerar esta diferencia de rendimiento y el objetivo específico de la estimación.
+
+# **8. Implementación de Modelos de Aprendizaje No Supervisado**
+## **8.1 Segmentación**
+### **8.1.1 Preparación para el modelado**
+#### **Selección de variables segmentadoras**
+
+Para realizar la segmentación se seleccionaron 13 características relacionadas con la antigüedad, facturación, servicios contratados y situación contractual de los clientes. Se excluyeron el identificador del cliente y la variable `Churn`, para evitar que los grupos se formaran directamente según la condición de abandono.
+
+| Tipo de variable | Características seleccionadas                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| Numéricas        | `tenure`, `MonthlyCharges`, `TotalCharges`                                                              |
+| Binarias         | `Partner`, `Dependents`, `PaperlessBilling`                                                             |
+| Nominales        | `InternetService`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `TechSupport`, `PaymentMethod` |
+| Ordinal          | `Contract`                                                                                              |
+
+#### **Pipelines de transformación**
+
+Se aplicaron transformaciones según el tipo de variable: imputación por la media y escalamiento MinMax para las numéricas; codificación ordinal para las binarias y el contrato; y One-Hot Encoding para las nominales.
+
+Como resultado, se obtuvo una matriz de 7.043 registros y 26 columnas numéricas, con valores escalados al rango de 0 a 1.
+
+### **8.1.2 Modelo K-Means**
+
+Se utilizó K-Means para agrupar a los clientes según la similitud de sus características. Para determinar la cantidad de grupos se evaluaron valores de K entre 1 y 10 mediante el método del codo, y entre 2 y 10 mediante el coeficiente Silhouette.
+
+El método del codo sugirió utilizar **3 clústeres**, mientras que Silhouette obtuvo su mejor resultado con K = 2 (0,3113). Se seleccionó K = 3 utilizando el resultado del codo como criterio principal.
+
+**Selección del número de clústeres:**
+
+<p align="center"> 
+  <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Método del codo para seleccionar K" width="600"/>
+  <br>
+  <em>Figura: Selección de K mediante el método del codo</em>
+</p>
 
 <p align="center">
-  <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
+  <img src="../resultados/segmentacion/plots/Silhouette score.png" alt="Evaluación del número de clústeres mediante Silhouette" width="600"/>
   <br>
-  <em>PCA</em>
+  <em>Figura: Evaluación de K mediante Silhouette</em>
 </p>
 
-#### Perfilamiento y análisis para el problema de negocio
-Al proyectar las etiquetas generadas por el modelo sobre las variables en su escala natural y cruzarlas con la métrica de abandono (Churn), la segmentación demuestra su aporte en el área estratégica al revelar tres ecosistemas de consumo claramente diferenciados. 
+**Resultados del modelo definitivo:**
 
-- Cluster 0: Agrupa a usuarios tradicionales de bajo valor monetario, quienes limitan su consumo a telefonía básica sin adopción de banda ancha; su estabilidad recae en barreras contractuales clásicas, presentando un riesgo de fuga marginal.
-- Cluster 1: Usuarios volátiles con infraestructura de alto costo (fibra óptica) pero nula penetración de servicios, cuya permanencia es mínima debido a la fragilidad de los contratos mensuales. Éstos representan el perfil de mayor riesgo y al cual deben apuntar las estrategias de retención.
-- Cluster 2: Representa a la base consolidada de alto valor, caracterizada por una adopción integral del portafolio (entretenimiento, soporte y seguridad) y una automatización transaccional total, lo que maximiza tanto su ciclo de vida  como su retención. 
+| Indicador               | Resultado |
+| ----------------------- | --------: |
+| Número de clústeres (K) |         3 |
+| Inercia                 | 21.367,16 |
+| Silhouette Score        |    0,2598 |
 
-Este desglose confirma que, más allá de las métricas obtenidas por el modelo, éste logró decodificar patrones conductuales que podrían explicar las posibles causas operativas detrás de la propensión al abandono.
+El Silhouette Score de 0,2598 indica una separación limitada entre los grupos, con cierto solapamiento entre sus registros. Por lo tanto, los segmentos permiten identificar perfiles diferenciados, aunque no presentan una separación claramente definida.
+
+### **8.1.3 Reducción de dimensionalidad con PCA**
+
+Se utilizó PCA para representar los 26 atributos transformados en dos dimensiones y facilitar la visualización de los clústeres. Los dos componentes explican conjuntamente el **45,8 % de la variabilidad total**.
+
+- Componente principal 1: 29,2 %.
+- Componente principal 2: 16,5 %.
 
 <p align="center">
-  <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandonos por cluster" width="600"/>
+  <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Clusters visualizados mediante PCA" width="600"/>
   <br>
-  <em>Porcentaje de abandonos por cluster</em>
+  <em>Figura: Visualización de los clústeres mediante PCA</em>
 </p>
 
-## Matriz de responsabilidades (RACI)
+La proyección muestra un grupo relativamente separado, mientras que los otros dos presentan un solapamiento visible. Esta representación permite observar parte de la estructura de los datos, aunque no refleja toda la información utilizada por K-Means, que trabajó con las 26 columnas transformadas.
+
+### **8.1.4 Aplicación al problema de negocio**
+
+#### **Abandono por clúster**
+
+Después de asignar los grupos, se cruzaron sus etiquetas con la variable `Churn` para comparar las tasas de abandono.
+
+| Clúster | Clientes que permanecen | Clientes que abandonan |
+| ------- | ----------------------: | ---------------------: |
+| 0       |                  88,6 % |                 11,4 % |
+| 1       |                  52,9 % |             **47,1 %** |
+| 2       |                  92,6 % |                  7,4 % |
+
+<p align="center">
+  <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandono por clúster" width="600"/>
+  <br>
+  <em>Figura: Proporción de abandono por clúster</em>
+</p>
+
+El clúster 1 presenta la mayor tasa de abandono, con un 47,1 %. En cambio, los clústeres 0 y 2 muestran tasas considerablemente menores, de 11,4 % y 7,4 %, respectivamente.
+
+#### **Perfil de los segmentos**
+
+Para caracterizar los grupos se calcularon los promedios de las variables numéricas y las categorías más frecuentes de las variables categóricas.
+
+| Indicador            | Clúster 0 |  Clúster 1 | Clúster 2 |
+| -------------------- | --------: | ---------: | --------: |
+| Antigüedad (meses)   |     50,19 |      19,98 |     30,55 |
+| Cargos mensuales ($) |     80,79 |      73,90 |     21,08 |
+| Cargos totales ($)   |  4.227,14 |   1.609,78 |    662,60 |
+| Tasa de abandono     |    11,4 % | **47,1 %** |     7,4 % |
+
+Las categorías predominantes permiten complementar estos resultados:
+
+- **Clúster 0:** predominan clientes con pareja, contrato de dos años, conexión DSL, servicios adicionales contratados y pago mediante transferencia automática.
+- **Clúster 1:** predominan clientes sin pareja ni dependientes, con contrato mensual, fibra óptica, sin servicios adicionales de seguridad o soporte y pago mediante cheque electrónico.
+- **Clúster 2:** predominan clientes sin pareja ni dependientes, sin servicio de Internet, con contrato de dos años y pago mediante cheque enviado por correo.
+
+**Arquetipos y recomendaciones para el negocio**
+
+- **Clúster 0 – Cliente consolidado y multiservicio:** presenta la mayor antigüedad y facturación acumulada, junto con una baja tasa de abandono. Se recomienda mantener su satisfacción mediante beneficios de fidelización y ofertas acordes con sus servicios contratados.
+- **Clúster 1 – Cliente de fibra óptica con alto riesgo de abandono:** registra la menor antigüedad entre los grupos y una tasa de abandono de 47,1 %. Se propone priorizarlo en las campañas de retención, evaluando ofertas de contratos más largos, servicios de soporte y seguridad, e incentivos para adoptar métodos de pago automático.
+- **Clúster 2 – Cliente de telefonía básica y bajo gasto:** presenta los cargos mensuales más bajos y la menor tasa de abandono. Se recomienda mantener la calidad del servicio y evitar campañas costosas que no respondan a sus necesidades.
+
+Los resultados permiten identificar perfiles con distintos niveles de abandono y características de consumo. En particular, el clúster 1 representa el principal segmento de atención para las estrategias de retención. Estas asociaciones ayudan a orientar las decisiones comerciales, aunque no demuestran por sí solas las causas del abandono.
+
+# **Matriz de responsabilidades (RACI)**
 Esta herramienta de gestión de proyectos permite estructurar, clarificar y asignar los roles dentro de las distintas actividades de un proceso.
 
 Se compone de cuatro roles principales:
