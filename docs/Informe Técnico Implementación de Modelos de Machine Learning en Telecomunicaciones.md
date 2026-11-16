@@ -64,7 +64,8 @@ Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, a
 6. Despliegue: El proyecto se estructuró de forma reproducible, separando los directorios para datos, notebooks de experimentación y código fuente. El entregable final se compone de los notebooks de Jupyter documentados y este informe técnico.
 
 # **5. Descripción General y Calidad del Conjunto de Datos**
-**Fuente de datos y estructura:** El conjunto de datos se carga desde un archivo CSV alojado en GitHub:
+## **Fuente de datos y estructura** 
+El conjunto de datos se carga desde un archivo CSV alojado en GitHub:
 
 https://raw.githubusercontent.com/david-ramirezl/data/refs/heads/main/Telco_Customer_Churn_Dataset.csv
 
@@ -767,13 +768,13 @@ El método del codo sugirió utilizar **3 clústeres**, mientras que Silhouette 
 <p align="center"> 
   <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Método del codo para seleccionar K" width="600"/>
   <br>
-  <em>Figura: Selección de K mediante el método del codo\</em>
+  <em>Figura: Selección de K mediante el método del codo</em>
 </p>
 
 <p align="center">
   <img src="../resultados/segmentacion/plots/Silhouette score.png" alt="Evaluación del número de clústeres mediante Silhouette" width="600"/>
   <br>
-  <em>Figura: Evaluación de K mediante Silhouette\</em>
+  <em>Figura: Evaluación de K mediante Silhouette</em>
 </p>
 
 **Resultados del modelo definitivo:**
@@ -796,7 +797,7 @@ Se utilizó PCA para representar los 26 atributos transformados en dos dimension
 <p align="center">
   <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Clusters visualizados mediante PCA" width="600"/>
   <br>
-  <em>Figura: Visualización de los clústeres mediante PCA\</em>
+  <em>Figura: Visualización de los clústeres mediante PCA</em>
 </p>
 
 La proyección muestra un grupo relativamente separado, mientras que los otros dos presentan un solapamiento visible. Esta representación permite observar parte de la estructura de los datos, aunque no refleja toda la información utilizada por K-Means, que trabajó con las 26 columnas transformadas.
@@ -816,7 +817,7 @@ Después de asignar los grupos, se cruzaron sus etiquetas con la variable `Churn
 <p align="center">
   <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandono por clúster" width="600"/>
   <br>
-  <em>Figura: Proporción de abandono por clúster\</em>
+  <em>Figura: Proporción de abandono por clúster</em>
 </p>
 
 El clúster 1 presenta la mayor tasa de abandono, con un 47,1 %. En cambio, los clústeres 0 y 2 muestran tasas considerablemente menores, de 11,4 % y 7,4 %, respectivamente.
