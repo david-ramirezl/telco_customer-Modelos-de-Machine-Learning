@@ -874,4 +874,4 @@ A continuación se presenta la asignación de roles y responsabilidades para cad
 | **Entregable 2**: Asegurar que los Notebooks .ipynb estén documentados, ordenados y sean completamente ejecutables. | R | R/C |
 | **Preparación Defensa**: Elaboración de presentación y estudio cruzado de los modelos. | R/A | R/A |
 | **Optimización de hiperparámetros**: Implementar algoritmos de optimización para modelos. | R/A | C |
-| **Importancia de características**: Análisis de varia. | R/A | C |
+| **Importancia de características** | R/A | C |
