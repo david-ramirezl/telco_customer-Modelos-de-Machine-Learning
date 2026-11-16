@@ -1,22 +1,22 @@
-# Informe Técnico: Implementación de Modelos de Machine Learning en Telecomunicaciones
+# **Informe Técnico: Implementación de Modelos de Machine Learning en Telecomunicaciones**
 
     - Equipo de Trabajo: Felipe Huincaman, David  Ramírez Luna
     - Asignatura: Machine Learning
     - Docente: Profesora Jazna Meza Hidalgo
     - Fecha de elaboración: 17 de Noviembre, 2026
 
-# 1. Problema de negocio
+# **1. Problema de negocio**
 Para las empresas de telecomunicaciones, retener clientes es un desafío enorme. En un mercado donde los usuarios necesitan conectividad a diario, es muy fácil que se vayan a la competencia por un corte, una mala experiencia o una mejor oferta. Por esto, la tasa de abandono (churn) es uno de los mayores riesgos económicos del sector. Si consideramos que conseguir un cliente nuevo cuesta hasta cinco veces más que mantener a uno actual, no controlar la fuga se convierte en una pérdida directa de ingresos que golpea las ganancias de la empresa.
 
 Para reducir este problema, es necesario actuar antes de que el usuario decida irse. Desde el análisis de datos, el desafío consiste en responder a tres preguntas clave: ¿Cómo se agrupan nuestros clientes según sus hábitos de consumo y facturación?, ¿Cuáles de ellos están a punto de cancelar su servicio?, y ¿Cuánto tiempo extra estimamos que cada usuario se quedará con nosotros?
 
 Al entender los distintos perfiles mediante la segmentación, predecir con precisión quiénes se van a ir y calcular su tiempo de permanencia, la empresa puede gastar mejor su presupuesto. Esto le permite al equipo comercial enfocarse en los usuarios que generan más valor, armar campañas a la medida de cada grupo y mejorar el servicio antes de que aparezcan reclamos, haciendo que retener clientes sea la base para que la empresa siga creciendo.
 
-# 2. Objetivos del proyecto
-## Objetivo general del proyecto:
+# **2. Objetivos del proyecto**
+## **Objetivo general del proyecto:**
 Crear una estrategia basada en datos para reducir la pérdida de dinero por el abandono de clientes en la empresa de telecomunicaciones. Esto se apoya en agrupar a los usuarios según cómo se comportan y consumen, detectar a tiempo quiénes van a cancelar, y calcular cuánto tiempo se espera que se quede cada cliente. El fin de esto es armar campañas de fidelización a la medida y gastar mejor el presupuesto del equipo de retención.
 
-## Objetivos específicos de etapa de Implementación de Modelos de Machine Learning:
+## **Objetivos específicos de etapa de Implementación de Modelos de Machine Learning:**
 1. Comprensión de la base de clientes: Analizar el historial y las características de los usuarios para encontrar los factores y motivos reales que provocan la cancelación del servicio, entregando datos confiables para tomar decisiones.
 2. Segmentación del mercado: Identificar y definir perfiles de clientes que consumen y pagan de forma similar, para que el equipo de marketing pueda armar campañas de fidelización pensadas y adaptadas para cada grupo.
 3. Detección de fugas: Identificar con anticipación a los clientes que tienen una alta probabilidad de abandonar la compañía, entregando alertas tempranas para poder actuar antes de que el usuario cierre su cuenta.
@@ -24,30 +24,30 @@ Crear una estrategia basada en datos para reducir la pérdida de dinero por el a
 5. Validación de la solución: Asegurar que los modelos predictivos sean precisos y confiables, garantizando que las estrategias comerciales y la inversión en retención se basen en cálculos reales que reduzcan los gastos por falsas alarmas o fugas que no vimos venir.
 6. Responsabilidad ética: Revisar el impacto comercial y social del proyecto, asegurando que se respete la privacidad de los clientes, que sus datos se usen de forma transparente y que no haya sesgos ni discriminación al armar las campañas de fidelización.
 
-# 3. Definición de KPIs que resolverán el problema de negocio
+# **3. Definición de KPIs que resolverán el problema de negocio**
 Para asegurar que los modelos de Machine Learning generen resultados medibles en la empresa, el desempeño del proyecto se evaluará utilizando los siguientes Indicadores Clave de Desempeño (KPIs):
 
-## Tasa de Retención Predictiva
+## **Tasa de Retención Predictiva**
 Mide el porcentaje de clientes en riesgo de fuga que logran ser retenidos tras ser contactados por la empresa.
 - Se calcula dividiendo la cantidad de clientes que aceptaron la oferta de retención por el total de usuarios que el modelo clasificó como propensos a irse, expresando el resultado como un porcentaje.
 - Valida si el modelo de clasificación funciona en la práctica, comprobando si la detección anticipada se traduce en una reducción real de la pérdida de clientes.
 
-## Proyección de Ingresos Recuperados
+## **Proyección de Ingresos Recuperados**
 Cuantifica el impacto financiero de retener a un usuario en riesgo, calculando los ingresos que asegura su permanencia en la compañía.
 - Se obtiene multiplicando la cuota mensual del cliente por los meses que el modelo de regresión predice que se quedará (variable Tenure). Al sumar estos valores individuales, se obtiene el total de ingresos recuperados.
 - Conecta el modelo de regresión con los resultados financieros, permitiendo enfocar los esfuerzos comerciales en retener a los clientes que dejarán mayor rentabilidad a largo plazo.
 
-## Retorno de Inversión (ROI) de la Retención
+## **Retorno de Inversión (ROI) de la Retención**
 Evalúa la rentabilidad de las campañas de retención al dirigir las ofertas solo a los clientes marcados en riesgo real, comparando lo gastado en descuentos contra los ingresos recuperados.
 - Se calcula restando el costo total de la campaña a los ingresos futuros recuperados. Este beneficio neto se divide por el costo de la campaña para revelar el porcentaje de ganancia sobre la inversión.
 - Demuestra la eficiencia del algoritmo al reducir los Falsos Positivos. Al evitar entregar descuentos a clientes que no tenían intención de cancelar el servicio, se optimiza el presupuesto.
 
-## Índice de Fuga por Clúster
+## **Índice de Fuga por Clúster**
 Calcula la proporción de cancelaciones que ocurren dentro de cada segmento de clientes, agrupados previamente según sus patrones de consumo.
 - Se obtiene dividiendo la cantidad de clientes que abandonaron el servicio dentro de un segmento (Clúster) por el número total de usuarios en ese mismo grupo, identificando el porcentaje de fuga en ese nicho específico.
 - Valida el modelo de clustering y proporciona datos precisos para identificar si el abandono afecta a la base completa de manera uniforme, o si se concentra en un perfil particular de usuarios.
 
-# 4. Metodología utilizada (CRISP-DM)
+# **4. Metodología utilizada (CRISP-DM)**
 Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, asegurando un desarrollo ordenado y enfocado en resolver el problema del negocio.
 
 1. Comprensión del Negocio: Se evaluó el impacto financiero del abandono de clientes en la empresa. Para abordarlo, se definieron objetivos analíticos de clasificación, regresión y segmentación, cuyo éxito se medirá utilizando los KPIs de retención y rentabilidad definidos previamente.
@@ -63,7 +63,7 @@ Para estructurar y ejecutar este proyecto se adoptó la metodología CRISP-DM, a
 5. Evaluación: El desempeño de los modelos se evaluó primero mediante métricas matemáticas (como Exactitud, Precisión y Recall). Luego, esos resultados se conectaron con los KPIs de negocio para medir su utilidad real para la empresa. 
 6. Despliegue: El proyecto se estructuró de forma reproducible, separando los directorios para datos, notebooks de experimentación y código fuente. El entregable final se compone de los notebooks de Jupyter documentados y este informe técnico.
 
-# 5. Descripción General y Calidad del Conjunto de Datos
+# **5. Descripción General y Calidad del Conjunto de Datos**
 El proyecto utiliza el dataset "Telco Customer Churn", que contiene el historial y estado de retención de los clientes de una empresa de telecomunicaciones. El archivo está compuesto por 7043 registros (un cliente por fila) y 21 características.
 
 La información se agrupa en cuatro categorías principales:
@@ -73,36 +73,36 @@ La información se agrupa en cuatro categorías principales:
 - Información de la cuenta: Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
 - Información demográfica: Características del perfil del cliente. Incluye su género, un indicador de si es adulto mayor (SeniorCitizen), y su situación familiar para saber si convive con pareja o tiene dependientes.
 
-# 6. Preparación y análisis exploratorio de los datos (EDA)
+# **6. Preparación y análisis exploratorio de los datos (EDA)**
 Antes de entrenar los modelos, se revisó y exploró la base de datos para asegurar su calidad y entender cómo se comportan los clientes.
 
-## 6.1 Revisión y calidad de los datos
+## **6.1 Revisión y calidad de los datos**
 La revisión de los 7043 registros confirmó que los datos están en muy buen estado:
 - Anonimización: Se aplicó un hash SHA-256 a la identificación de cada cliente para proteger la privacidad de los usuarios desde el principio.
 - Completitud e Imputación: Los datos vienen limpios. Solo encontramos 11 valores nulos en los cargos totales. Como corresponden a clientes nuevos con cero meses de antiguedad, simplemente se rellenaron con el valor cero.
 - Valores atípicos (Outliers): Al evaluar con el método de Rango Intercuartil (IQR), se comprobó que no hay valores atípicos en la antigüedad ni en los cargos mensuales y totales.
 - Duplicidad: No se detectaron registros duplicados.   
 
-## 6.2 Análisis Descriptivo y Comportamiento del Cliente
+## **6.2 Análisis Descriptivo y Comportamiento del Cliente**
 La exploración de los datos permitió identificar patrones claros en el perfil, el consumo y las tendencias de cancelación que servirán como base para los futuros modelos.
 
-### Perfil Demográfico y Distribución de Servicios:
+### **Perfil Demográfico y Distribución de Servicios:**
 La base está equilibrada por género, con 3555 hombres y 3488 mujeres, y la mayoría es un público joven, ya que el 83,8% no entra en la categoría de adultos mayores (SeniorCitizen). El teléfono es el servicio más contratado, usado por el 90,3% de los usuarios. Por el lado de los contratos, el 55% de los clientes prefiere pagar mes a mes.
 
-### Ciclo de Vida y Costos:
+### **Ciclo de Vida y Costos:**
 - La antigüedad promedio general es de 32,37 meses. Los clientes activos llegan a los 37,57 meses, mientras que las fugas ocurren rápido, a los 17,98 meses en promedio. 
 - Los clientes que cancelan pagan tarifas mensuales más altas ($74,44 frente a los $61,27 de los activos). Sin embargo, a largo plazo, los usuarios que se quedan acumulan un gasto total mucho mayor ($2549 frente a $1531).
 
-### Factores de Fricción y Retención:
+### **Factores de Fricción y Retención:**
 En total, el 26,5% de los usuarios cancela su servicio. Al analizar los datos, encontramos los siguientes motivos principales detrás del abandono:
 - Contratos cortos: El plan mensual tiene un 42,7% de abandono. Por el contrario, los contratos con duración a uno o dos años casi no registran fugas.
 - Problemas con los pagos: Usar facturación electrónica duplica las cancelaciones frente a la boleta tradicional, llegando a un 33,5%. Además, pagar con cheque electrónico es el mayor factor de riesgo, con un 45,2% de abandonos.
 - Servicios extra: Que un cliente contrate seguridad en línea o soporte técnico hace que las cancelaciones caigan del 42% a un 15%. De la misma forma, agregar protección de equipos las baja del 40% al 22%.
 
-# 7. Implementación de modelos de aprendizaje supervisado
-## 7.1 Clasificación
-### 7.1.1 Preparación para el modelado
-#### Criterios de selección de características
+# **7. Implementación de modelos de aprendizaje supervisado**
+## **7.1 Clasificación**
+### **7.1.1 Preparación para el modelado**
+#### **Criterios de selección de características**
 La selección de las variables predictoras se basó en una validación matemática y otra visual. Para las variables categóricas, usamos la métrica V de Cramér, considerando que un valor sobre 0.3 es un buen indicador de que la característica realmente afecta la decisión de abandono del cliente. Estos niveles de asociación estadística se detallan en el siguiente gráfico:
 
 <p align="center">
@@ -121,7 +121,7 @@ Por el lado de las variables numéricas, la matriz de correlación de Pearson mo
 
 La limpieza final de los datos no se hizo solo con cortes estadísticos estrictos; al revisar los gráficos, decidimos dejar variables como la facturación electrónica (PaperlessBilling), ya que mostraban tendencias muy claras sobre la fuga de clientes, a pesar de que su correlación matemática fuera más baja.
 
-#### Ingeniería de características
+#### **Ingeniería de características**
 Para representar mejor el comportamiento del usuario, creamos un transformador personalizado (TelcoFeatureEngineer) que se integra directamente al flujo del modelo. Este código de Python generó cinco variables nuevas:
 
 - Total_Servicios_Extra: Suma de hasta seis servicios adicionales contratados, para medir qué tan "comprometido" está el cliente a la empresa.
@@ -132,16 +132,16 @@ Para representar mejor el comportamiento del usuario, creamos un transformador p
 
 Al mismo tiempo, este paso descartó columnas que no aportaban valor (como el género o el servicio telefónico) y eliminó las variables originales que ya estaban resumidas en las nuevas, dejando el dataset más limpio.
 
-#### Partición del conjunto de datos
+#### **Partición del conjunto de datos**
 La variable objetivo Churn se pasó a formato binario (1 y 0) para que los modelos la puedan procesar sin problemas. Luego, los datos se dividieron dejando un 80% para entrenar y un 20% para probar. Aquí aplicamos un muestreo estratificado (stratify=y) para asegurar que la tasa de abandono real del dataset (26.5%) se mantuviera igual en ambos grupos, evitando que el modelo aprenda de forma desbalanceada, y fijamos una semilla aleatoria (random_state=42) para poder replicar los resultados exactos en el futuro.
 
-#### Pipelines de transformación
+#### **Pipelines de transformación**
 Para estandarizar el procesamiento, usamos un ColumnTransformer que aplica reglas específicas según el tipo de dato. A las variables categóricas nominales se les rellenaron los datos faltantes usando el valor más frecuente y se codificaron con OneHotEncoder, separando las categorías sin inventarles un orden numérico. Las variables binarias y las categóricas que sí tienen un orden lógico (como el tipo de contrato) se trabajaron con OrdinalEncoder para mantener esa estructura. Finalmente, todo esto se unió en un Pipeline final para cada modelo evaluado. Hacerlo así asegura que la creación de variables, la imputación y las transformaciones matemáticas se ejecuten en un solo bloque ordenado, evitando que se filtre información desde los datos de prueba hacia el entrenamiento.
 
-### 7.1.2 Entrenamiento de modelos
+### **7.1.2 Entrenamiento de modelos**
 En esta etapa probamos tres modelos de clasificación distintos. Para cada uno, adaptamos el procesamiento previo de los datos según cómo funciona el algoritmo y evaluamos sus resultados, fijándonos principalmente en la clase 1 (clientes que abandonan el servicio).
 
-#### Modelo de Regresión Logística
+#### **Modelo de Regresión Logística**
 - Transformaciones específicas: Usamos el pipeline numérico base, que incluye el manejo de valores atípicos con Winsorizer y el escalamiento de los datos con MinMaxScaler. Esto es necesario porque la regresión logística es muy sensible a los valores extremos y a la diferencia de escalas entre las variables.
 - Configuración del modelo: Aplicamos el algoritmo LogisticRegression con un límite de 1000 iteraciones (max_iter=1000) para asegurar que el entrenamiento termine correctamente. Además, usamos class_weight='balanced' para que el modelo le preste más atención a la clase minoritaria.
 - Métricas de rendimiento: En los datos de prueba, logramos una Exactitud (Accuracy) del 72.2%. Al enfocarnos solo en los clientes que se van, obtuvimos una Precisión de 0.486, un Recall de 0.791 y un F1-Score de 0.602. El detalle de sus predicciones y su capacidad para discriminar (AUC) se ven en los siguientes gráficos:
@@ -162,7 +162,7 @@ La curva ROC respalda el rendimiento con un AUC de 0.831, demostrando una buena 
   <em>Curva ROC - Regresión Logística</em>
 </p>
 
-#### Modelo de Máquinas de Vectores de Soporte (SVM)
+#### **Modelo de Máquinas de Vectores de Soporte (SVM)**
 - Transformaciones específicas: Igual que con la regresión logística, el pipeline incluyó el escalamiento numérico (MinMaxScaler). Este paso es obligatorio para SVM, ya que el algoritmo se basa en calcular distancias para separar las clases.
 - Configuración del modelo: Usamos SVC con un kernel radial (kernel='rbf') para poder encontrar relaciones no lineales en los datos. Activamos el cálculo de probabilidades (probability=True) para poder generar la curva ROC, y mantuvimos la configuración de clases balanceadas (class_weight='balanced').
 - Métricas de rendimiento: Este modelo obtuvo la Exactitud más alta, con un 73.4%. Para la detección de fugas (clase 1), logró una Precisión de 0.499 y un Recall de 0.767, alcanzando un F1-Score de 0.605. Su rendimiento y el valor AUC se ven a continuación:
@@ -183,7 +183,7 @@ La curva ROC muestra un AUC de 0.813, confirmando que es bueno prediciendo en ge
   <em>Curva ROC - SVM</em>
 </p>
 
-#### Modelo de Árbol de Decisión (DecisionTreeClassifier)
+#### **Modelo de Árbol de Decisión (DecisionTreeClassifier)**
 - Transformaciones específicas: A diferencia de los otros modelos, para el árbol de decisión armamos un pipeline numérico aparte que solo rellena los valores faltantes (SimpleImputer). No hicimos escalamiento ni tratamos los valores atípicos, porque los modelos de árboles dividen los datos usando reglas lógicas y no les afecta la escala de las variables.
 - Configuración del modelo: Usamos DecisionTreeClassifier limitando su profundidad a 5 niveles (max_depth=5). Esta regla es clave para que el modelo no se sobreajuste (que no memorice los datos de entrenamiento). Además mantuvimos el peso balanceado para las clases.
 - Métricas de rendimiento: El árbol logró una Exactitud general del 71.3%. Al predecir las fugas, tuvo la Precisión más baja (0.476), pero destacó consiguiendo el Recall más alto de todos los modelos (0.824), con un F1-Score de 0.603. Sus gráficos y el AUC están aquí:
@@ -204,28 +204,382 @@ La curva ROC confirma esto con un AUC de 0.827, mostrando que clasifica bastante
   <em>Curva ROC - Árbol de Decisión</em>
 </p>
 
-### 7.1.3 Comparación de Desempeño
-Para evaluar qué tan buenos son los modelos para el negocio, guiarnos solo por la Exactitud (Accuracy) no sirve porque las clases están desbalanceadas. En la práctica, al negocio duele mucho más un Falso Negativo (un cliente que se va sin que nos demos cuenta y sin ofrecerle nada para retenerlo) que un Falso Positivo (darle un descuento o beneficio a alguien que igual se iba a quedar).
+### **7.1.3 Modelos de ensamble y optimización de hiperparámetros**
+Para mejorar la clasificación, se incorporaron dos modelos de ensamble: Random Forest y XGBoost. Ambos combinan árboles de decisión, pero usan estrategias distintas. Random Forest aplica *Bagging*, entrenando varios árboles y combinando sus predicciones. XGBoost utiliza *Boosting*, construyendo árboles de forma secuencial para corregir errores anteriores.
 
-La siguiente tabla resume los resultados que obtuvimos en los datos de prueba, enfocándonos en la clase objetivo (fuga):
-| Modelo | Exactitud | Precisión | Recall | F1-Score | Falsos Negativos | Falsos Positivos | AUC |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| Regresión Logística | 72.2% | 0.486 | 0.791 | 0.602 | 78 | 313 | 0.831 |
-| SVM (RBF) | 73.4% | 0.499 | 0.767 | 0.605 | 87 | 288 | 0.813 |
-| Árbol de Decisión | 71.3% | 0.476 | **0.824** | 0.603 | **66** | 339 | 0.827 |
+Primero se evaluaron ambos modelos con una configuración base y luego se buscaron mejores valores para sus hiperparámetros. También se optimizó el Árbol de Decisión para mantener un modelo individual de referencia.
 
-Los valores de Precisión, Recall y F1-Score corresponden específicamente a la predicción de la clase 1 (Churn = Yes).
+#### **Evaluación inicial de los modelos de ensamble**
+Los modelos base se configuraron con los siguientes parámetros:
 
-Al revisar los datos, vemos que SVM tiene la Exactitud (73.4%) y Precisión (0.499) más altas, lo que ayuda a tener menos Falsos Positivos (288). El problema es que se le escapan 87 fugas reales (Falsos Negativos). Por otro lado, el Árbol de Decisión tiene la Exactitud más baja (71.3%), pero es el mejor atrapando a los clientes en riesgo: baja los Falsos Negativos a su nivel mínimo (66), aunque a cambio dispara los Falsos Positivos (339). La Regresión Logística se queda en un punto medio muy equilibrado y consigue el AUC más alto (0.831).
+| Modelo | Configuración inicial |
+|---|---|
+| Random Forest | 100 árboles, profundidad máxima de 5 niveles y ponderación balanceada de clases. |
+| XGBoost | 100 estimadores, profundidad máxima de 5 niveles, tasa de aprendizaje de 0,1 y ponderación de clases de 2,768. |
 
-### 7.1.4 Recomendación de modelo
-Para elegir el modelo final, nos basamos en el objetivo principal del proyecto: detectar a tiempo a los clientes que están a punto de abandonar el servicio para lanzar campañas de retención. En este escenario, la métrica clave que debemos optimizar es el Recall (Exhaustividad).
+Ambos utilizaron las mismas particiones de entrenamiento y prueba que los modelos individuales, junto con sus respectivos pipelines de ingeniería de características y preprocesamiento.
 
-Con esto en mente, seleccionamos el Árbol de Decisión (DecisionTreeClassifier) como el modelo ganador.
+**Resultados iniciales en el conjunto de prueba:**
 
-Lo elegimos porque alcanzó un Recall de 0.824, el más alto de los tres algoritmos, lo que en la práctica reduce los Falsos Negativos a solo 66 fugas no detectadas. Es cierto que este enfoque genera más Falsos Positivos (339), pero el costo de equivocarnos y enviarle un descuento a un cliente que no se iba a ir es mínimo si lo comparamos con perder todos los ingresos futuros (LTV - Lifetime Value) de los 21 clientes extra que el árbol logra salvar frente al modelo SVM.
+| Modelo | Accuracy | Precisión (Churn) | Recall (Churn) | F1-Score (Churn) | ROC-AUC |
+|---|---:|---:|---:|---:|---:|
+| Random Forest base | 75,2% | 0,522 | 0,786 | 0,628 | 0,838 |
+| XGBoost base | 75,0% | 0,520 | 0,775 | 0,622 | 0,836 |
 
-En resumen, el Árbol de Decisión es el que mejor convierte los resultados matemáticos en una herramienta real para proteger la cartera de clientes, cumpliendo exactamente con lo que buscaba el proyecto.
+Los resultados iniciales fueron similares. Random Forest obtuvo valores ligeramente superiores y se utilizó como referencia para medir los cambios tras la optimización.
+
+#### **Metodología de optimización de hiperparámetros**
+
+Se utilizaron dos métodos de búsqueda de Scikit-Learn:
+
+- **RandomizedSearchCV:** prueba una cantidad definida de combinaciones elegidas al azar dentro del espacio de búsqueda, sin evaluar todas las posibilidades.
+- **GridSearchCV:** evalúa todas las combinaciones incluidas en una cuadrícula de parámetros.
+
+Ambos métodos utilizaron validación cruzada estratificada de 5 particiones (`StratifiedKFold`, `cv=5`). Así se mantuvo una proporción similar de clientes que permanecen y que abandonan en cada partición.
+
+La búsqueda utilizó F1-Score (`scoring='f1'`) para la clase positiva (Churn = 1). Esta métrica combina Precisión y Recall y permite evaluar el equilibrio entre detectar abandonos y reducir falsas alarmas.
+
+<table>
+<tr>
+<td valign="top">
+
+### **Configuración general de las búsquedas:**
+
+Espacios de búsqueda para XGBoost:
+
+| Hiperparámetro | RandomizedSearchCV | GridSearchCV |
+|---|---|---|
+| `n_estimators` | 100, 200, 300, 500 | 100, 200 |
+| `max_depth` | 3, 4, 5, 6 | 3, 5 |
+| `learning_rate` | 0,01; 0,03; 0,05; 0,1 | 0,05; 0,1 |
+| `subsample` | 0,7; 0,8; 1,0 | No incluido |
+| `colsample_bytree` | 0,7; 0,8; 1,0 | No incluido |
+| `scale_pos_weight` | 1,0; 1,66; 2,0; 2,76 | 1,66; 2,76 |
+| Número de Iteraciones| 25 | 16 |
+
+</td>
+<td valign="top">
+
+### **Espacios de búsqueda para Random Forest:**
+
+| Hiperparámetro | RandomizedSearchCV | GridSearchCV |
+|---|---|---|
+| `n_estimators` | 100, 200, 300, 500 | 100, 200 |
+| `max_depth` | 5, 8, 12, None | 5, 10, None |
+| `min_samples_split` | 2, 5, 10 | No incluido |
+| `min_samples_leaf` | 1, 2, 4 | 1, 4 |
+| `class_weight` | balanced, balanced_subsample, None | balanced, balanced_subsample |
+| Número de Iteraciones | 20 | 24 |
+
+</td>
+</tr>
+</table>
+
+También se optimizó el Árbol de Decisión. Se evaluaron su profundidad máxima, el mínimo de registros para dividir un nodo, el tamaño mínimo de las hojas y el criterio de división.
+
+#### Resultados de la optimización de XGBoost
+
+Se compararon las configuraciones de RandomizedSearchCV y GridSearchCV, tanto en validación cruzada como en el conjunto de prueba.
+
+| Método | Mejor F1 en CV | F1 Test | Recall Test | Precisión Test | ROC-AUC Test |
+|---|---:|---:|---:|---:|---:|
+| RandomizedSearchCV | 0,6326 | **0,6357** | 0,7513 | **0,5510** | **0,8398** |
+| GridSearchCV | 0,6297 | 0,6208 | **0,8075** | 0,5042 | 0,8381 |
+
+Los mejores hiperparámetros encontrados fueron:
+
+<table>
+<tr>
+<td valign="top">
+
+### **RandomizedSearchCV:**
+
+| Parámetro | Valor seleccionado |
+|---|---:|
+| `n_estimators` | 100 |
+| `max_depth` | 3 |
+| `learning_rate` | 0,05 |
+| `subsample` | 0,8 |
+| `colsample_bytree` | 0,8 |
+| `scale_pos_weight` | 2,0 |
+
+</td>
+<td valign="top">
+
+### **GridSearchCV:**
+
+| Parámetro | Valor seleccionado |
+|---|---:|
+| `n_estimators` | 100 |
+| `max_depth` | 3 |
+| `learning_rate` | 0,05 |
+| `scale_pos_weight` | 2,76 |
+
+</td>
+</tr>
+</table>
+
+RandomizedSearchCV obtuvo el mayor F1-Score, Precisión y ROC-AUC. GridSearchCV logró el Recall más alto (0,8075), por lo que identificó una mayor proporción de los clientes que abandonaron el servicio.
+
+**Evaluación de las matrices de confusión**
+
+La siguiente matriz corresponde a XGBoost optimizado mediante GridSearchCV:
+
+<table>
+<tr>
+<td valign="top">
+
+| Valores reales / Predicciones | No abandona | Sí abandona |
+|---|---:|---:|
+| No abandona | 738 | 297 |
+| Sí abandona | 72 | 302 |
+
+</td>
+<td valign="top">
+
+![*Figura: Matriz de confusión de XGBoost optimizado con GridSearchCV.*](../resultados/clasificacion/plots/cm_xgbopt_gridcv.png)
+
+</td>
+</tr>
+</table>
+
+El modelo identificó 302 de los 374 clientes que abandonaron y no detectó 72, lo que corresponde a un Recall de 80,75%. Además, clasificó erróneamente como posibles abandonos a 297 clientes que permanecieron.
+
+En comparación, la configuración de RandomizedSearchCV obtuvo la siguiente matriz:
+
+<table>
+<tr>
+<td valign="top">
+
+| Valores reales / Predicciones | No abandona | Sí abandona |
+|---|---:|---:|
+| No abandona | 806 | 229 |
+| Sí abandona | 93 | 281 |
+
+</td>
+<td valign="top">
+
+![*Figura: Matriz de confusión de XGBoost optimizado con RandomizedSearchCV.*](../resultados/clasificacion/plots/cm_xgbt_randomcv.png)
+
+</td>
+</tr>
+</table>
+
+Esta configuración detectó 281 abandonos y omitió 93. Su Recall fue menor (75,13%), pero registró menos falsas alarmas que GridSearchCV (229 frente a 297), por lo que obtuvo una Precisión mayor.
+
+**Evaluación de las curvas ROC**
+
+| Método | ROC-AUC |
+|---|---:|
+| RandomizedSearchCV | 0,8398 |
+| GridSearchCV | 0,8381 |
+| XGBoost base | 0,8360 |
+
+**Curvas ROC de XGBoost optimizado mediante RandomizedSearchCV y GridSearchCV**
+
+<p align="center">
+  <img src="../resultados/clasificacion/plots/roc_xbgopt_randomcv.png" width="309" />
+  <img src="../resultados/clasificacion/plots/roc_xgbopt_gridcv.png" width="300" />
+</p>
+
+Los valores de ROC-AUC son similares. RandomizedSearchCV obtuvo el resultado más alto, aunque la diferencia es pequeña. Por tanto, ambas configuraciones tienen una capacidad de discriminación parecida, pese a sus diferencias en Precisión y Recall.
+
+### **Resultados de la optimización de Random Forest**
+
+En Random Forest también se compararon ambos métodos de búsqueda.
+
+| Método | Mejor F1 en CV | F1 Test | Recall Test | Precisión Test | ROC-AUC Test |
+|---|---:|---:|---:|---:|---:|
+| RandomizedSearchCV | 0,6296 | **0,6334** | **0,7807** | 0,5328 | **0,8394** |
+| GridSearchCV | **0,6313** | 0,6323 | 0,7540 | **0,5444** | 0,8365 |
+
+RandomizedSearchCV obtuvo valores ligeramente superiores de F1-Score, Recall y ROC-AUC en prueba. GridSearchCV logró una Precisión mayor, pero identificó una proporción menor de abandonos.
+
+Los mejores hiperparámetros encontrados por cada método de búsqueda se presentan a continuación:
+
+| Hiperparámetro | RandomizedSearchCV | GridSearchCV |
+|---|---:|---:|
+| `n_estimators` | 500 | 200 |
+| `max_depth` | 8 | `None` |
+| `min_samples_split` | 2 | 2 (default)|
+| `min_samples_leaf` | 1 | 4 |
+| `class_weight` | `balanced` | `balanced` |
+
+RandomizedSearchCV seleccionó una configuración con mayor cantidad de árboles y una profundidad máxima de 8 niveles. GridSearchCV, en cambio, eligió 200 árboles sin establecer un límite explícito de profundidad y con un mínimo de 4 registros por hoja. En este último método, `min_samples_split` no formó parte de la búsqueda y conservó su valor predeterminado.
+
+**Evaluación de las matrices de confusión**
+
+La matriz de Random Forest optimizado mediante RandomizedSearchCV fue la siguiente:
+
+<table>
+<tr>
+<td valign="top">
+
+| Valores reales / Predicciones | No abandona | Sí abandona |
+|---|---:|---:|
+| No abandona | 779 | 256 |
+| Sí abandona | 82 | 292 |
+
+</td>
+<td valign="top">
+
+![*Figura: Matriz de confusión de Random Forest optimizado con RandomizedSearchCV.*](../resultados/clasificacion/plots/cm_rfopt_randomcv.png)
+
+</td>
+</tr>
+</table>
+
+El modelo identificó 292 de los 374 abandonos y omitió 82, con un Recall de 78,07%. También registró 256 falsos positivos: clientes que permanecieron, pero fueron clasificados como posibles abandonos.
+
+La configuración de GridSearchCV obtuvo los siguientes resultados:
+
+<table>
+<tr>
+<td valign="top">
+
+| Valores reales / Predicciones | No abandona | Sí abandona |
+|---|---:|---:|
+| No abandona | 799 | 236 |
+| Sí abandona | 92 | 282 |
+
+</td>
+<td valign="top">
+
+![*Figura: Matriz de confusión de Random Forest optimizado con GridSearchCV.*](../resultados/clasificacion/plots/cm_rfopt_gridcv.png)
+
+</td>
+</tr>
+</table>
+
+Esta configuración detectó 282 abandonos y omitió 92. Su Recall fue menor que el de RandomizedSearchCV (75,40%), pero redujo los falsos positivos a 236 y alcanzó una Precisión de 0,5444.
+
+**Evaluación de las curvas ROC**
+
+| Método | ROC-AUC |
+|---|---:|
+| RandomizedSearchCV | 0,8394 |
+| GridSearchCV | 0,8365 |
+| Random Forest base | 0,8380 |
+
+**Curvas ROC de Random Forest optimizado mediante RandomizedSearchCV y GridSearchCV.**
+
+<p align="center">
+  <img src="../resultados/clasificacion/plots/roc_rfopt_randomcv.png" width="325" />
+  <img src="../resultados/clasificacion/plots/roc_rfopt_gridcv.png" width="300" />
+</p>
+
+RandomizedSearchCV obtuvo el mayor ROC-AUC, aunque la diferencia es pequeña y no muestra una mejora importante frente al modelo base.
+
+#### **Optimización del Árbol de Decisión como modelo de referencia**
+
+También se optimizó el Árbol de Decisión para conservar una referencia individual.
+
+Ambos métodos encontraron la misma configuración: profundidad máxima de 5 niveles (`max_depth=5`) y criterio Gini (`criterion='gini'`).
+
+<table>
+<tr>
+<td valign="top">
+
+## **Resultados obtenidos DTC:**
+
+| Método | Mejor F1 en CV | F1 Test | Recall Test | Precisión Test | ROC-AUC Test |
+|---|---:|---:|---:|---:|---:|
+| RandomizedSearchCV | 0,6194 | 0,6208 | 0,7834 | 0,5140 | 0,8162 |
+| GridSearchCV | 0,6194 | 0,6208 | 0,7834 | 0,5140 | 0,8162 |
+
+</td>
+<td valign="top">
+
+## **Matriz de Confusión DTC:**
+
+| Valores reales / Predicciones | No abandona | Sí abandona |
+|---|---:|---:|
+| No abandona | 758 | 277 |
+| Sí abandona | 81 | 293 |
+
+</td>
+</tr>
+</table>
+
+El modelo identificó 293 de los 374 abandonos y omitió 81. Obtuvo un Recall de 78,34% y registró 277 falsos positivos. Frente al árbol inicial, mejoró la Precisión y el F1-Score, pero redujo el Recall.
+
+#### **Evaluación de entrenamiento y capacidad de generalización**
+
+Se compararon los resultados de entrenamiento y prueba para revisar el comportamiento de los modelos optimizados.
+
+En XGBoost, las métricas de entrenamiento y prueba fueron las siguientes:
+
+| Configuración | Conjunto | Accuracy | Precisión (Churn) | Recall (Churn) | F1-Score (Churn) |
+|---|---|---:|---:|---:|---:|
+| RandomizedSearchCV | Train | 0,78 | 0,57 | 0,75 | 0,65 |
+| RandomizedSearchCV | Test | - | 0,551 | 0,7513 | 0,6357 |
+| GridSearchCV | Train | 0,75 | 0,52 | 0,82 | 0,64 |
+| GridSearchCV | Test | - | 0,5042 | 0,8075 | 0,6208 |
+
+Los resultados de entrenamiento y prueba son cercanos, aunque el F1-Score y la Precisión disminuyen en prueba. La diferencia no es marcada.
+
+Para Random Forest, el notebook presenta rangos generales de entrenamiento: Accuracy entre 0,76 y 0,78; Recall entre 0,78 y 0,82; Precisión entre 0,53 y 0,57; y F1-Score entre 0,64 y 0,66. Son valores cercanos a los de prueba, aunque no se entrega el detalle por método de búsqueda.
+
+El Árbol de Decisión también presentó valores cercanos: F1-Score aproximado de 0,63 y Recall de 0,79 en entrenamiento, frente a 0,6208 y 0,7834 en prueba.
+
+Las diferencias entre entrenamiento y prueba no son amplias. De todos modos, esta comparación es una revisión inicial; la validación cruzada aporta una evaluación adicional durante la búsqueda de hiperparámetros.
+
+#### **Comparación de modelos base y optimizados**
+
+Para medir el efecto de la optimización, se compararon las configuraciones iniciales con las obtenidas mediante RandomizedSearchCV y GridSearchCV.
+
+| Modelo | Configuración | F1 Test | Recall Test | Precisión Test | ROC-AUC |
+|---|---|---:|---:|---:|---:|
+| Random Forest | Base | 0,628 | 0,786 | 0,522 | 0,8380 |
+| Random Forest | RandomizedSearchCV | 0,6334 | 0,7807 | 0,5328 | 0,8394 |
+| Random Forest | GridSearchCV | 0,6323 | 0,7540 | 0,5444 | 0,8365 |
+| XGBoost | Base | 0,622 | 0,775 | 0,520 | 0,8360 |
+| XGBoost | RandomizedSearchCV | **0,6357** | 0,7513 | **0,5510** | **0,8398** |
+| XGBoost | GridSearchCV | 0,6208 | **0,8075** | 0,5042 | 0,8381 |
+
+En Random Forest, RandomizedSearchCV mejoró moderadamente el F1-Score, la Precisión y el ROC-AUC, pero redujo ligeramente el Recall. GridSearchCV mejoró el F1-Score y la Precisión, aunque obtuvo menor Recall y ROC-AUC que el modelo base.
+
+En XGBoost, RandomizedSearchCV obtuvo el mayor F1-Score, Precisión y ROC-AUC, pero redujo el Recall frente al modelo base. GridSearchCV aumentó el Recall de 0,775 a 0,8075, aunque disminuyó la Precisión y el F1-Score.
+
+La optimización no mejoró todas las métricas al mismo tiempo. Cada configuración ofrece un equilibrio distinto entre detectar abandonos y reducir falsas alarmas.
+
+#### **Comparación global y selección del modelo para el negocio**
+
+Finalmente, se compararon los modelos individuales, los ensambles base y sus versiones optimizadas en el conjunto de prueba. Se consideraron Recall, Precisión, F1-Score, ROC-AUC, falsos negativos y falsos positivos.
+
+| Modelo | Configuración | F1 Test | Recall | Precisión | ROC-AUC | FN | FP |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Árbol de Decisión | Base | 0,603 | **0,824** | 0,476 | 0,827 | **66** | 339 |
+| XGBoost | GridSearchCV | 0,6208 | **0,8075** | 0,5042 | 0,8381 | 72 | 297 |
+| Regresión Logística | Base | 0,602 | 0,791 | 0,486 | 0,831 | 78 | 313 |
+| Random Forest | Base | 0,628 | 0,786 | 0,522 | 0,838 | 80 | 269 |
+| Árbol de Decisión | Optimizado | 0,6208 | 0,7834 | 0,5140 | 0,8162 | 81 | 277 |
+| Random Forest | RandomizedSearchCV | 0,6334 | 0,7807 | 0,5328 | 0,8394 | 82 | 256 |
+| XGBoost | Base | 0,622 | 0,775 | 0,520 | 0,836 | 84 | 268 |
+| SVM | Base | 0,605 | 0,767 | 0,499 | 0,813 | 87 | 288 |
+| Random Forest | GridSearchCV | 0,6323 | 0,7540 | 0,5444 | 0,8365 | 92 | 236 |
+| XGBoost | RandomizedSearchCV | **0,6357** | 0,7513 | **0,5510** | **0,8398** | 93 | **229** |
+
+*Nota: Las métricas de Precisión, Recall y F1-Score corresponden a la clase positiva (Churn = 1). Los resultados de RandomizedSearchCV y GridSearchCV corresponden a las mejores configuraciones de cada búsqueda. El Árbol de Decisión optimizado obtuvo resultados idénticos con ambos métodos.*
+
+La comparación muestra lo siguiente:
+
+- **Mayor detección de abandonos:** el Árbol de Decisión base conserva el Recall más alto, con 0,824 y 66 falsos negativos.
+- **Mejor Recall entre las configuraciones optimizadas:** XGBoost con GridSearchCV alcanza 0,8075 y registra 72 falsos negativos.
+- **Mayor equilibrio entre Precisión y Recall:** XGBoost con RandomizedSearchCV obtiene el F1-Score más alto (0,6357), además de la mayor Precisión (0,5510).
+- **Menor cantidad de falsas alarmas:** XGBoost con RandomizedSearchCV registra 229 falsos positivos, el menor valor entre las configuraciones comparadas.
+- **Mayor ROC-AUC:** XGBoost con RandomizedSearchCV alcanza 0,8398, aunque su diferencia respecto de Random Forest con RandomizedSearchCV (0,8394) es muy pequeña.
+
+**Selección de la alternativa para el negocio**
+
+Entre los modelos optimizados, XGBoost con GridSearchCV obtiene el mayor Recall (0,8075): identifica 302 de los 374 abandonos y omite 72. Es la alternativa optimizada más adecuada cuando se prioriza detectar más abandonos.
+
+El Árbol de Decisión base, sin embargo, alcanza un Recall de 0,824 y registra 66 falsos negativos. XGBoost GridSearchCV detecta seis abandonos menos, pero genera 42 falsas alarmas menos. También obtiene mayor Precisión, F1-Score y ROC-AUC.
+
+La elección depende del costo de cada error. Si se busca reducir al máximo los abandonos no detectados, el Árbol de Decisión base mantiene la ventaja. Si también se busca reducir contactos innecesarios y equilibrar las métricas, XGBoost GridSearchCV es una alternativa competitiva.
+
+En conclusión, **XGBoost optimizado con GridSearchCV es el principal candidato entre los modelos optimizados**, por su mayor Recall y menor cantidad de falsos negativos en ese grupo. Su elección frente al Árbol de Decisión base debe considerar el costo real de ambos tipos de error y el criterio definido para el negocio.
+
 ## 7.2 Modelo de Regresión
 ### 7.2.1 Preparación para el modelado
 #### Criterios de selección de variables para el modelo
