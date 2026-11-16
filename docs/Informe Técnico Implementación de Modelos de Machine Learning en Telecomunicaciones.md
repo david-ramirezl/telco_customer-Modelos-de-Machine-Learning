@@ -108,8 +108,6 @@ Las variables numéricas presentan las siguientes estadísticas:
 | `MonthlyCharges` | 64,76 | 70,35 | 30,09 | 18,25 | 118,75 |
 | `TotalCharges` | 2283,30 | 1397,48 | 2266,77 | 18,80 | 8684,80 |
 
-*Nota: `TotalCharges` presenta 7032 valores disponibles en esta etapa, debido a los 11 valores faltantes identificados después de su conversión a formato numérico.*
-
 La antigüedad presenta una distribución con concentraciones de clientes nuevos y clientes con una permanencia prolongada. Los cargos totales muestran una asimetría positiva, con una mayor concentración de valores bajos y una cola hacia montos más altos.
 
 ### **Ciclo de Vida y Costos según el Abandono**
@@ -126,7 +124,7 @@ Los clientes que abandonaron el servicio presentan una antigüedad promedio meno
 
 En el análisis de correlación de Pearson también se identificó una relación positiva entre `tenure` y `TotalCharges` (0,826). Respecto al abandono, se obtuvo una correlación negativa con `tenure` (-0,352), mientras que `MonthlyCharges` presentó una relación positiva (0,193) y `TotalCharges` una relación negativa (-0,199).
 
-### Factores Asociados al Abandono
+### **Factores Asociados al Abandono**
 
 El análisis de las variables categóricas permitió identificar diferencias en las tasas de abandono entre distintos grupos de clientes:
 
@@ -140,7 +138,7 @@ Estos resultados muestran asociaciones entre determinadas características de lo
 
 # **7. Implementación de modelos de aprendizaje supervisado**
 
-### Criterios de selección de algoritmos
+### **Criterios de selección de algoritmos**
 
 La selección de los algoritmos consideró el objetivo de cada tarea, las características de los datos y la posibilidad de comparar métodos con distintos enfoques.
 
@@ -344,7 +342,7 @@ Espacios de búsqueda para XGBoost:
 
 También se optimizó el Árbol de Decisión. Se evaluaron su profundidad máxima, el mínimo de registros para dividir un nodo, el tamaño mínimo de las hojas y el criterio de división.
 
-#### Resultados de la optimización de XGBoost
+#### **Resultados de la optimización de XGBoost**
 
 Se compararon las configuraciones de RandomizedSearchCV y GridSearchCV, tanto en validación cruzada como en el conjunto de prueba.
 
@@ -647,9 +645,9 @@ La elección depende del costo de cada error. Si se busca reducir al máximo los
 
 En conclusión, **XGBoost optimizado con GridSearchCV es el principal candidato entre los modelos optimizados**, por su mayor Recall y menor cantidad de falsos negativos en ese grupo. Su elección frente al Árbol de Decisión base debe considerar el costo real de ambos tipos de error y el criterio definido para el negocio.
 
-## 7.2 Modelo de Regresión
-### 7.2.1 Preparación para el modelado
-#### Criterios de selección de variables para el modelo
+## **7.2 Modelo de Regresión**
+### **7.2.1 Preparación para el modelado**
+#### **Criterios de selección de variables para el modelo**
 Se seleccionó `tenure` como variable objetivo, ya que representa la antigüedad registrada de cada cliente en la compañía, expresada en meses. El modelo busca estimar este valor utilizando otras características del cliente, sus servicios contratados y su información de facturación.
 
 Se utilizó la correlación de Pearson como referencia para analizar la relación entre las variables y `tenure`. Sin embargo, la selección final también consideró el tipo de variable y su utilidad para el modelo. Se definieron las siguientes características predictoras:
@@ -663,16 +661,16 @@ Se utilizó la correlación de Pearson como referencia para analizar la relació
 
 Se excluyeron `customerID_Hash` y `Churn`, mientras que `tenure` se mantuvo como variable objetivo. `TotalCharges` no se incorporó al preprocesador, debido a su fuerte relación con la antigüedad y al riesgo de entregar al modelo información que permitiera estimarla de manera poco útil para el objetivo planteado.
 
-#### Partición de los datos
+#### **Partición de los datos**
 Los datos se dividieron en un 80% para entrenamiento (5634 registros) y un 20% para prueba (1409 registros). Se utilizó `random_state=42` para mantener la reproducibilidad. No se aplicó muestreo estratificado, ya que se trata de una tarea de regresión con una variable objetivo numérica.
 
-#### Pipelines de limpieza y transformación
+#### **Pipelines de limpieza y transformación**
 Se construyeron pipelines específicos para cada modelo. Ambos aplican imputación por la media a las variables numéricas y por el valor más frecuente a las categóricas. Las variables nominales se codifican con One-Hot Encoding, mientras que las binarias y ordinales utilizan OrdinalEncoder, respetando el orden definido para `Contract`.
 
 La diferencia está en el escalamiento: la Regresión Lineal utiliza `MinMaxScaler` en la variable numérica, mientras que el Árbol de Decisión no lo necesita. Además, se configuró `remainder='drop'` para utilizar únicamente las variables seleccionadas.
 
-### 7.2.2 Entrenamiento de modelos
-### Regresión Lineal
+### **7.2.2 Entrenamiento de modelos**
+#### **Regresión Lineal**
 Se utilizó Regresión Lineal (`LinearRegression`) como método de referencia para estimar `tenure`. Este modelo permite representar relaciones lineales entre las variables predictoras y la antigüedad del cliente.
 
 <p align="center">
@@ -684,10 +682,10 @@ Se utilizó Regresión Lineal (`LinearRegression`) como método de referencia pa
 El gráfico compara los valores reales de `tenure` con las predicciones del modelo. Los puntos más cercanos a la línea de identidad (y = x) representan estimaciones más próximas a los valores observados.
 
 
-#### Métricas de rendimiento
+#### **Métricas de rendimiento**
 En el conjunto de prueba, la Regresión Lineal obtuvo un R² de 0,6454 y un MAE de 11,93 meses. Esto indica que explica aproximadamente el 64,5% de la variabilidad de `tenure`, con un error absoluto promedio cercano a 12 meses.
 
-### Árbol de decisión para regresión
+#### **Árbol de decisión para regresión**
 Se implementó `DecisionTreeRegressor` para estimar la antigüedad mediante reglas de decisión. Se estableció una profundidad máxima de 5 niveles (`max_depth=5`) y una semilla aleatoria de 42 para mantener la reproducibilidad. A diferencia de la Regresión Lineal, este modelo no requiere escalamiento numérico.
 
 <p align="center">
@@ -696,10 +694,10 @@ Se implementó `DecisionTreeRegressor` para estimar la antigüedad mediante regl
   <em>Estructura del Árbol de Decisión para estimar la antigüedad del cliente</em>
 </p>
 
-#### Métricas de rendimiento:
+#### **Métricas de rendimiento:**
 En el conjunto de prueba, el Árbol de Decisión obtuvo un R² de 0,6198 y un MAE de 12,31 meses. Su resultado fue ligeramente inferior al de la Regresión Lineal en ambas métricas.
 
-### 7.2.3 Optimización de hiperparámetros y comparación
+### **7.2.3 Optimización de hiperparámetros y comparación**
 
 Para mejorar el rendimiento de los modelos se utilizaron `RandomizedSearchCV` y `GridSearchCV`, comparando distintas configuraciones mediante validación cruzada de 5 particiones. La evaluación de las búsquedas se realizó utilizando el error cuadrático medio de raíz (RMSE).
 
@@ -730,7 +728,7 @@ Las métricas de entrenamiento y prueba presentan diferencias relativamente pequ
 
 En conjunto, la Regresión Lineal obtuvo los mejores resultados numéricos, con menor RMSE y MAE y un mayor R². La optimización del Árbol de Decisión mediante RandomizedSearchCV permitió mejorar ligeramente sus resultados iniciales, aunque no superó al modelo lineal.
 
-### 7.2.4 Selección del modelo para el negocio
+### **7.2.4 Selección del modelo para el negocio**
 
 La Regresión Lineal obtuvo el mejor rendimiento numérico, con un MAE de 11,93 meses y un R² de 0,6454. Sin embargo, el Árbol de Decisión optimizado mediante RandomizedSearchCV alcanzó resultados cercanos, con un MAE de 12,14 meses y un R² de 0,6305.
 
@@ -738,70 +736,117 @@ Aunque la Regresión Lineal presenta menores errores, se propone considerar prov
 
 Por lo tanto, la elección del Árbol de Decisión responde principalmente a su interpretabilidad y no a que haya obtenido las mejores métricas globales. Su uso posterior debe considerar esta diferencia de rendimiento y el objetivo específico de la estimación.
 
-# 8. Implementación de modelos de aprendizaje no supervisado
-## 8.1 Segmentación
-### 8.1.1 Preparación para el modelado
-#### Criterios de selección de variables para el modelo
-Para este modelo se analizó y llegó a la conclusion de que la exclusión del ID del cliente y de la variable de abandono garantiza que los segmentos se formen basándose en verdaderos hábitos de consumo. 
+# **8. Implementación de Modelos de Aprendizaje No Supervisado**
+## **8.1 Segmentación**
+### **8.1.1 Preparación para el modelado**
+#### **Selección de variables segmentadoras**
 
-El ID se elimina porque es una variable que no describe el comportamiento del cliente y solo generaría distorsiones matemáticas en los cálculos del algoritmo. 
+Para realizar la segmentación se seleccionaron 13 características relacionadas con la antigüedad, facturación, servicios contratados y situación contractual de los clientes. Se excluyeron el identificador del cliente y la variable `Churn`, para evitar que los grupos se formaran directamente según la condición de abandono.
 
-Por su parte, la variable de abandono se omite para obligar al modelo a agrupar a los usuarios de forma neutral. Si se incluyera desde el principio, el algoritmo simplemente dividiría el data set entre los que se fueron y los que se quedaron, sin revelar patrones nuevos. 
+| Tipo de variable | Características seleccionadas                                                                           |
+| ---------------- | ------------------------------------------------------------------------------------------------------- |
+| Numéricas        | `tenure`, `MonthlyCharges`, `TotalCharges`                                                              |
+| Binarias         | `Partner`, `Dependents`, `PaperlessBilling`                                                             |
+| Nominales        | `InternetService`, `OnlineSecurity`, `OnlineBackup`, `DeviceProtection`, `TechSupport`, `PaymentMethod` |
+| Ordinal          | `Contract`                                                                                              |
 
-Al agrupar a los clientes exclusivamente por cómo usan el servicio y cruzar esos grupos con el abandono al final del proceso, logramos identificar exactamente qué tipo de cliente es más propenso a irse y por qué.
-#### Pipelines de transformación
-Al igual que en los modelos de clasificación, para este modelo de segmentación se implementaron pipelines de limpieza y transformación que estandarizan el procesamiento de los datos. Mediante éste se aplicaron reglas automáticas según la naturaleza de cada variable: los datos faltantes se imputaron con el valor más frecuente, las variables nominales se trataron con One-Hot Encoding para evitar jerarquías falsas, y las variables binarias u ordinales conservaron su estructura lógica mediante codificación ordinal.
-### 8.1.2 K-Means
-Se implementó el algoritmo K-Means con el propósito de descubrir agrupaciones basadas en las similitudes (por distancias y patrones) de los registros. Esto con el fin, de poder distinguir los distintos tipos de clientes en base a sus patrones de consumo. 
+#### **Pipelines de transformación**
 
-Para lograr esto, fue indispensable que el pipeline previo transformara toda la información en una matriz puramente numérica y escalada, dado que K-Means agrupa los perfiles calculando las distancias geométricas (euclidianas) entre ellos.
+Se aplicaron transformaciones según el tipo de variable: imputación por la media y escalamiento MinMax para las numéricas; codificación ordinal para las binarias y el contrato; y One-Hot Encoding para las nominales.
 
-Para definir la cantidad ideal de grupos, el modelo se iteró y evaluó validando matemáticamente la cohesión interna de los clusters formados (inercia). Cabe destacar, el uso del algoritmo Kneed para la elección de cantidad de clusters óptima, la cual dio como resultado 3.
+Como resultado, se obtuvo una matriz de 7.043 registros y 26 columnas numéricas, con valores escalados al rango de 0 a 1.
 
-<p align="center">
-  <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Visualización gráfica de la inercia y k óptimo" width="600"/>
+### **8.1.2 Modelo K-Means**
+
+Se utilizó K-Means para agrupar a los clientes según la similitud de sus características. Para determinar la cantidad de grupos se evaluaron valores de K entre 1 y 10 mediante el método del codo, y entre 2 y 10 mediante el coeficiente Silhouette.
+
+El método del codo sugirió utilizar **3 clústeres**, mientras que Silhouette obtuvo su mejor resultado con K = 2 (0,3113). Se seleccionó K = 3 utilizando el resultado del codo como criterio principal.
+
+**Selección del número de clústeres:**
+
+<p align="center"> 
+  <img src="../resultados/segmentacion/plots/K optimo e inercia.png" alt="Método del codo para seleccionar K" width="600"/>
   <br>
-  <em>Inercia - K-Means</em>
+  <em>Figura: Selección de K mediante el método del codo\</em>
 </p>
 
-#### Métricas
-Para medir la efectividad a la hora de separar los registros en grupos, fue necesario disponer de métricas para analizar y poder concluir en base a estas el poder de busqueda de patrones y distancias del modelo.
-
-- Inercia (35726.50): Indica qué tan compactos son los segmentos. Aunque su valor absoluto depende de la escala geométrica de los datos, este valor demuestra que con k=3 el modelo logra una reducción media-baja de la varianza interna, de lo cual se puede inferir que si bien se logra un compactamiento de los clústeres, todavia existe una leve dispersión de los registros.
-- Silhouette Score (0.2816): Mide qué tan cohesionado está un cliente dentro de su propio grupo frente a qué tan bien separado está de los clusters vecinos. 
-
-  Un puntaje de 0.28 es un resultado bajo, lo cual refleja una distancia entre clusters poco clara, infiriendo la existencia de solapamiento de los mismos. Pero bajo el contexto del problema de negocio, se puede considerar una separación lo suficientemente consistente para poder determinar grupos claros con media - baja probabilidad de error de ubicación de los registros, ya que al tratarse de variables que reflejan patrones de consumo humano, los valores pueden verse afectados por ruido ocasionado por la impredecibilidad del comportamiento humano. 
-
-  Siguiendo con el punto anterior, se confirma que existe una separación válida entre los tres grupos, demostrando que los perfiles encontrados responden en su mayoría a verdaderos patrones de consumo y no al azar.
-#### PCA
-Al reducir la dimensionalidad a dos componentes, el modelo logra capturar un 54.49% de la varianza total de los datos (32,31% en el primer componente y 22,18% en el segundo). 
-
-Si bien existe una pérdida de información inherente al comprimir la complejidad del dataset en un espacio bidimensional, retener más de la mitad de la varianza original es un nivel de representatividad robusto cuando se trata de variables conductuales como se mencionó en análisis de las métricas. 
-
-La proyección gráfica de estos componentes revela una estructura inherente con el análisis antes mencionado: se identifica un cluster claramente aislado, aunque con cierta dispersión interna, lo que sugiere un grupo con un patrón de consumo relativamente distinto al resto. Por otro lado, los dos clusters restantes presentan un solapamiento relativo, pero mantienen una compactación decente, confirmando que, a pesar de sus similitudes visuales en este plano reducido, el algoritmo original logró diferenciarlos de manera lo suficientemente eficiente.
-
 <p align="center">
-  <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Visualización gráfica de la distribución de clusters con PCA" width="600"/>
+  <img src="../resultados/segmentacion/plots/Silhouette score.png" alt="Evaluación del número de clústeres mediante Silhouette" width="600"/>
   <br>
-  <em>PCA</em>
+  <em>Figura: Evaluación de K mediante Silhouette\</em>
 </p>
 
-#### Perfilamiento y análisis para el problema de negocio
-Al proyectar las etiquetas generadas por el modelo sobre las variables en su escala natural y cruzarlas con la métrica de abandono (Churn), la segmentación demuestra su aporte en el área estratégica al revelar tres ecosistemas de consumo claramente diferenciados. 
+**Resultados del modelo definitivo:**
 
-- Cluster 0: Agrupa a usuarios tradicionales de bajo valor monetario, quienes limitan su consumo a telefonía básica sin adopción de banda ancha; su estabilidad recae en barreras contractuales clásicas, presentando un riesgo de fuga marginal.
-- Cluster 1: Usuarios volátiles con infraestructura de alto costo (fibra óptica) pero nula penetración de servicios, cuya permanencia es mínima debido a la fragilidad de los contratos mensuales. Éstos representan el perfil de mayor riesgo y al cual deben apuntar las estrategias de retención.
-- Cluster 2: Representa a la base consolidada de alto valor, caracterizada por una adopción integral del portafolio (entretenimiento, soporte y seguridad) y una automatización transaccional total, lo que maximiza tanto su ciclo de vida  como su retención. 
+| Indicador               | Resultado |
+| ----------------------- | --------: |
+| Número de clústeres (K) |         3 |
+| Inercia                 | 21.367,16 |
+| Silhouette Score        |    0,2598 |
 
-Este desglose confirma que, más allá de las métricas obtenidas por el modelo, éste logró decodificar patrones conductuales que podrían explicar las posibles causas operativas detrás de la propensión al abandono.
+El Silhouette Score de 0,2598 indica una separación limitada entre los grupos, con cierto solapamiento entre sus registros. Por lo tanto, los segmentos permiten identificar perfiles diferenciados, aunque no presentan una separación claramente definida.
+
+### **8.1.3 Reducción de dimensionalidad con PCA**
+
+Se utilizó PCA para representar los 26 atributos transformados en dos dimensiones y facilitar la visualización de los clústeres. Los dos componentes explican conjuntamente el **45,8 % de la variabilidad total**.
+
+- Componente principal 1: 29,2 %.
+- Componente principal 2: 16,5 %.
 
 <p align="center">
-  <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandonos por cluster" width="600"/>
+  <img src="../resultados/segmentacion/plots/Clusters visualizados con PCA 2.png" alt="Clusters visualizados mediante PCA" width="600"/>
   <br>
-  <em>Porcentaje de abandonos por cluster</em>
+  <em>Figura: Visualización de los clústeres mediante PCA\</em>
 </p>
 
-## Matriz de responsabilidades (RACI)
+La proyección muestra un grupo relativamente separado, mientras que los otros dos presentan un solapamiento visible. Esta representación permite observar parte de la estructura de los datos, aunque no refleja toda la información utilizada por K-Means, que trabajó con las 26 columnas transformadas.
+
+### **8.1.4 Aplicación al problema de negocio**
+
+#### **Abandono por clúster**
+
+Después de asignar los grupos, se cruzaron sus etiquetas con la variable `Churn` para comparar las tasas de abandono.
+
+| Clúster | Clientes que permanecen | Clientes que abandonan |
+| ------- | ----------------------: | ---------------------: |
+| 0       |                  88,6 % |                 11,4 % |
+| 1       |                  52,9 % |             **47,1 %** |
+| 2       |                  92,6 % |                  7,4 % |
+
+<p align="center">
+  <img src="../resultados/segmentacion/plots/porcentaje de abandono por cluster.png" alt="Porcentaje de abandono por clúster" width="600"/>
+  <br>
+  <em>Figura: Proporción de abandono por clúster\</em>
+</p>
+
+El clúster 1 presenta la mayor tasa de abandono, con un 47,1 %. En cambio, los clústeres 0 y 2 muestran tasas considerablemente menores, de 11,4 % y 7,4 %, respectivamente.
+
+#### **Perfil de los segmentos**
+
+Para caracterizar los grupos se calcularon los promedios de las variables numéricas y las categorías más frecuentes de las variables categóricas.
+
+| Indicador            | Clúster 0 |  Clúster 1 | Clúster 2 |
+| -------------------- | --------: | ---------: | --------: |
+| Antigüedad (meses)   |     50,19 |      19,98 |     30,55 |
+| Cargos mensuales ($) |     80,79 |      73,90 |     21,08 |
+| Cargos totales ($)   |  4.227,14 |   1.609,78 |    662,60 |
+| Tasa de abandono     |    11,4 % | **47,1 %** |     7,4 % |
+
+Las categorías predominantes permiten complementar estos resultados:
+
+- **Clúster 0:** predominan clientes con pareja, contrato de dos años, conexión DSL, servicios adicionales contratados y pago mediante transferencia automática.
+- **Clúster 1:** predominan clientes sin pareja ni dependientes, con contrato mensual, fibra óptica, sin servicios adicionales de seguridad o soporte y pago mediante cheque electrónico.
+- **Clúster 2:** predominan clientes sin pareja ni dependientes, sin servicio de Internet, con contrato de dos años y pago mediante cheque enviado por correo.
+
+**Arquetipos y recomendaciones para el negocio**
+
+- **Clúster 0 – Cliente consolidado y multiservicio:** presenta la mayor antigüedad y facturación acumulada, junto con una baja tasa de abandono. Se recomienda mantener su satisfacción mediante beneficios de fidelización y ofertas acordes con sus servicios contratados.
+- **Clúster 1 – Cliente de fibra óptica con alto riesgo de abandono:** registra la menor antigüedad entre los grupos y una tasa de abandono de 47,1 %. Se propone priorizarlo en las campañas de retención, evaluando ofertas de contratos más largos, servicios de soporte y seguridad, e incentivos para adoptar métodos de pago automático.
+- **Clúster 2 – Cliente de telefonía básica y bajo gasto:** presenta los cargos mensuales más bajos y la menor tasa de abandono. Se recomienda mantener la calidad del servicio y evitar campañas costosas que no respondan a sus necesidades.
+
+Los resultados permiten identificar perfiles con distintos niveles de abandono y características de consumo. En particular, el clúster 1 representa el principal segmento de atención para las estrategias de retención. Estas asociaciones ayudan a orientar las decisiones comerciales, aunque no demuestran por sí solas las causas del abandono.
+
+# **Matriz de responsabilidades (RACI)**
 Esta herramienta de gestión de proyectos permite estructurar, clarificar y asignar los roles dentro de las distintas actividades de un proceso.
 
 Se compone de cuatro roles principales:
