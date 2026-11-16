@@ -73,9 +73,9 @@ Durante la carga inicial se identificaron 7043 registros y 21 columnas. En la re
 
 La información se agrupa en cuatro categorías principales:
 
-- Variable de abandono: Indica si el cliente se dio de baja o canceló su servicio durante el último mes. Está representada en la variable objetivo Churn.
-- Servicios suscritos: Detalla los productos contratados por cada cliente. Esto incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y streaming de TV y películas.
-- Información de la cuenta: Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
+- **Variable de abandono:** Indica si el cliente se dio de baja o canceló su servicio durante el último mes. Está representada en la variable objetivo Churn.
+- **Servicios suscritos:** Detalla los productos contratados por cada cliente. Esto incluye servicio telefónico, múltiples líneas, tipo de internet, seguridad en línea, respaldo en la nube, protección de dispositivos, soporte técnico y streaming de TV y películas.
+- **Información de la cuenta:** Atributos sobre el contrato y el historial de facturación del cliente, tales como la cantidad de meses que lleva en la compañía (tenure), el tipo de contrato, el método de pago, el uso de facturación electrónica, los cargos mensuales y los cargos totales acumulados.
 - Información demográfica: Características del perfil del cliente. Incluye su género, un indicador de si es adulto mayor (SeniorCitizen), y su situación familiar para saber si convive con pareja o tiene dependientes.
 
 # **6. Preparación y análisis exploratorio de los datos (EDA)**
@@ -139,7 +139,7 @@ Estos resultados muestran asociaciones entre determinadas características de lo
 
 # **7. Implementación de modelos de aprendizaje supervisado**
 
-### **Criterios de selección de algoritmos**
+## **Criterios de selección de algoritmos**
 
 La selección de los algoritmos consideró el objetivo de cada tarea, las características de los datos y la posibilidad de comparar métodos con distintos enfoques.
 
@@ -311,7 +311,7 @@ La búsqueda utilizó F1-Score (`scoring='f1'`) para la clase positiva (Churn = 
 
 ### **Configuración general de las búsquedas:**
 
-Espacios de búsqueda para XGBoost:
+#### **Espacios de búsqueda para XGBoost:**
 
 | Hiperparámetro | RandomizedSearchCV | GridSearchCV |
 |---|---|---|
@@ -326,7 +326,7 @@ Espacios de búsqueda para XGBoost:
 </td>
 <td valign="top">
 
-### **Espacios de búsqueda para Random Forest:**
+#### **Espacios de búsqueda para Random Forest:**
 
 | Hiperparámetro | RandomizedSearchCV | GridSearchCV |
 |---|---|---|
@@ -358,7 +358,7 @@ Los mejores hiperparámetros encontrados fueron:
 <tr>
 <td valign="top">
 
-### **RandomizedSearchCV:**
+#### **RandomizedSearchCV:**
 
 | Parámetro | Valor seleccionado |
 |---|---:|
@@ -372,7 +372,7 @@ Los mejores hiperparámetros encontrados fueron:
 </td>
 <td valign="top">
 
-### **GridSearchCV:**
+#### **GridSearchCV:**
 
 | Parámetro | Valor seleccionado |
 |---|---:|
@@ -569,7 +569,7 @@ Ambos métodos encontraron la misma configuración: profundidad máxima de 5 niv
 
 El modelo identificó 293 de los 374 abandonos y omitió 81. Obtuvo un Recall de 78,34% y registró 277 falsos positivos. Frente al árbol inicial, mejoró la Precisión y el F1-Score, pero redujo el Recall.
 
-#### **Evaluación de entrenamiento y capacidad de generalización**
+#### **Evaluación de entrenamiento**
 
 Se compararon los resultados de entrenamiento y prueba para revisar el comportamiento de los modelos optimizados.
 
