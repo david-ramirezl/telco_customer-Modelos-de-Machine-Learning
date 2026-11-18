@@ -584,11 +584,9 @@ En XGBoost, las métricas de entrenamiento y prueba fueron las siguientes:
 
 Los resultados de entrenamiento y prueba son cercanos, aunque el F1-Score y la Precisión disminuyen en prueba. La diferencia no es marcada.
 
-Para Random Forest, el notebook presenta rangos generales de entrenamiento: Accuracy entre 0,76 y 0,78; Recall entre 0,78 y 0,82; Precisión entre 0,53 y 0,57; y F1-Score entre 0,64 y 0,66. Son valores cercanos a los de prueba, aunque no se entrega el detalle por método de búsqueda.
+Para Random Forest, el notebook presenta rangos generales de entrenamiento: Accuracy entre 0,76 y 0,78; Recall entre 0,85 y 0,93; Precisión entre 0,58 y 0,66; y F1-Score entre 0,70 y 0,77; valores cercanos a los de prueba.
 
-El Árbol de Decisión también presentó valores cercanos: F1-Score aproximado de 0,63 y Recall de 0,79 en entrenamiento, frente a 0,6208 y 0,7834 en prueba.
-
-Las diferencias entre entrenamiento y prueba no son amplias. De todos modos, esta comparación es una revisión inicial; la validación cruzada aporta una evaluación adicional durante la búsqueda de hiperparámetros.
+El Árbol de Decisión también presentó valores cercanos: F1-Score aproximado de 0,63 y Recall de 0,79 en entrenamiento, frente a 0,6208 y 0,7834 en prueba.Las diferencias entre entrenamiento y prueba no son amplias, por lo tanto no se encuentra evidencia suficiente para afirmar overfitting.
 
 #### **Comparación de modelos base y optimizados**
 
